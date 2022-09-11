@@ -1,9 +1,9 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.ExampleCreateRequest;
-import com.kenzie.appserver.service.ExampleService;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.controller.model.DrinkCreateRequest;
+import com.kenzie.appserver.service.DrinkService;
+import com.kenzie.appserver.service.model.Drink;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,12 +21,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @IntegrationTest
-class ExampleControllerTest {
+class DrinkControllerTest {
     @Autowired
     private MockMvc mvc;
 
     @Autowired
-    ExampleService exampleService;
+    DrinkService drinkService;
 
     private final MockNeat mockNeat = MockNeat.threadLocal();
 
@@ -37,8 +37,8 @@ class ExampleControllerTest {
 
         String name = mockNeat.strings().valStr();
 
-        Example persistedExample = exampleService.addNewExample(name);
-        mvc.perform(get("/example/{id}", persistedExample.getId())
+        Drink persistedDrink = drinkService.addNewExample(name);
+        mvc.perform(get("/example/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
                         .isString())
@@ -51,15 +51,15 @@ class ExampleControllerTest {
     public void createExample_CreateSuccessful() throws Exception {
         String name = mockNeat.strings().valStr();
 
-        ExampleCreateRequest exampleCreateRequest = new ExampleCreateRequest();
-        exampleCreateRequest.setName(name);
+        DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
+        drinkCreateRequest.setName(name);
 
         mapper.registerModule(new JavaTimeModule());
 
         mvc.perform(post("/example")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(exampleCreateRequest)))
+                        .content(mapper.writeValueAsString(drinkCreateRequest)))
                 .andExpect(jsonPath("id")
                         .exists())
                 .andExpect(jsonPath("name")

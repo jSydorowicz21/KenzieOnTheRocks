@@ -1,8 +1,8 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.repositories.ExampleRepository;
-import com.kenzie.appserver.repositories.model.ExampleRecord;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.repositories.DrinkRepository;
+import com.kenzie.appserver.repositories.model.DrinkRecord;
+import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,16 +14,16 @@ import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ExampleServiceTest {
-    private ExampleRepository exampleRepository;
-    private ExampleService exampleService;
+public class DrinkServiceTest {
+    private DrinkRepository drinkRepository;
+    private DrinkService drinkService;
     private LambdaServiceClient lambdaServiceClient;
 
     @BeforeEach
     void setup() {
-        exampleRepository = mock(ExampleRepository.class);
+        drinkRepository = mock(DrinkRepository.class);
         lambdaServiceClient = mock(LambdaServiceClient.class);
-        exampleService = new ExampleService(exampleRepository, lambdaServiceClient);
+        drinkService = new DrinkService(drinkRepository, lambdaServiceClient);
     }
     /** ------------------------------------------------------------------------
      *  exampleService.findById
@@ -34,18 +34,18 @@ public class ExampleServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        ExampleRecord record = new ExampleRecord();
+        DrinkRecord record = new DrinkRecord();
         record.setId(id);
         record.setName("concertname");
 
         // WHEN
-        when(exampleRepository.findById(id)).thenReturn(Optional.of(record));
-        Example example = exampleService.findById(id);
+        when(drinkRepository.findById(id)).thenReturn(Optional.of(record));
+        Drink drink = drinkService.findById(id);
 
         // THEN
-        Assertions.assertNotNull(example, "The object is returned");
-        Assertions.assertEquals(record.getId(), example.getId(), "The id matches");
-        Assertions.assertEquals(record.getName(), example.getName(), "The name matches");
+        Assertions.assertNotNull(drink, "The object is returned");
+        Assertions.assertEquals(record.getId(), drink.getId(), "The id matches");
+        Assertions.assertEquals(record.getName(), drink.getName(), "The name matches");
     }
 
     @Test
@@ -53,13 +53,13 @@ public class ExampleServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        when(exampleRepository.findById(id)).thenReturn(Optional.empty());
+        when(drinkRepository.findById(id)).thenReturn(Optional.empty());
 
         // WHEN
-        Example example = exampleService.findById(id);
+        Drink drink = drinkService.findById(id);
 
         // THEN
-        Assertions.assertNull(example, "The example is null when not found");
+        Assertions.assertNull(drink, "The example is null when not found");
     }
 
 }
