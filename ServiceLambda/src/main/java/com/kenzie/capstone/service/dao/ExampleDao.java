@@ -1,7 +1,7 @@
 package com.kenzie.capstone.service.dao;
 
 import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.model.DrinkRecord;
+import com.kenzie.capstone.service.model.ExampleRecord;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
@@ -12,14 +12,14 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
-public class DrinkDao {
+public class ExampleDao {
     private DynamoDBMapper mapper;
 
     /**
      * Allows access to and manipulation of Match objects from the data store.
      * @param mapper Access to DynamoDB
      */
-    public DrinkDao(DynamoDBMapper mapper) {
+    public ExampleDao(DynamoDBMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -37,24 +37,24 @@ public class DrinkDao {
         return exampleData;
     }
 
-    public List<DrinkRecord> getExampleData(String id) {
-        DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(id);
+    public List<ExampleRecord> getExampleData(String id) {
+        ExampleRecord exampleRecord = new ExampleRecord();
+        exampleRecord.setId(id);
 
-        DynamoDBQueryExpression<DrinkRecord> queryExpression = new DynamoDBQueryExpression<DrinkRecord>()
-                .withHashKeyValues(drinkRecord)
+        DynamoDBQueryExpression<ExampleRecord> queryExpression = new DynamoDBQueryExpression<ExampleRecord>()
+                .withHashKeyValues(exampleRecord)
                 .withConsistentRead(false);
 
-        return mapper.query(DrinkRecord.class, queryExpression);
+        return mapper.query(ExampleRecord.class, queryExpression);
     }
 
-    public DrinkRecord setExampleData(String id, String data) {
-        DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(id);
-        drinkRecord.setData(data);
+    public ExampleRecord setExampleData(String id, String data) {
+        ExampleRecord exampleRecord = new ExampleRecord();
+        exampleRecord.setId(id);
+        exampleRecord.setData(data);
 
         try {
-            mapper.save(drinkRecord, new DynamoDBSaveExpression()
+            mapper.save(exampleRecord, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
                             "id",
                             new ExpectedAttributeValue().withExists(false)
@@ -63,6 +63,6 @@ public class DrinkDao {
             throw new IllegalArgumentException("id already exists");
         }
 
-        return drinkRecord;
+        return exampleRecord;
     }
 }

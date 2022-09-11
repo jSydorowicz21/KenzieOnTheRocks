@@ -1,8 +1,8 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.dao.DrinkDao;
+import com.kenzie.capstone.service.dao.ExampleDao;
 import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.model.DrinkRecord;
+import com.kenzie.capstone.service.model.ExampleRecord;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,13 +24,13 @@ class LambdaServiceTest {
      *  expenseService.getExpenseById
      *  ------------------------------------------------------------------------ **/
 
-    private DrinkDao drinkDao;
+    private ExampleDao exampleDao;
     private LambdaService lambdaService;
 
     @BeforeAll
     void setup() {
-        this.drinkDao = mock(DrinkDao.class);
-        this.lambdaService = new LambdaService(drinkDao);
+        this.exampleDao = mock(ExampleDao.class);
+        this.lambdaService = new LambdaService(exampleDao);
     }
 
     @Test
@@ -45,7 +45,7 @@ class LambdaServiceTest {
         ExampleData response = this.lambdaService.setExampleData(data);
 
         // THEN
-        verify(drinkDao, times(1)).setExampleData(idCaptor.capture(), dataCaptor.capture());
+        verify(exampleDao, times(1)).setExampleData(idCaptor.capture(), dataCaptor.capture());
 
         assertNotNull(idCaptor.getValue(), "An ID is generated");
         assertEquals(data, dataCaptor.getValue(), "The data is saved");
@@ -62,18 +62,18 @@ class LambdaServiceTest {
         // GIVEN
         String id = "fakeid";
         String data = "somedata";
-        DrinkRecord record = new DrinkRecord();
+        ExampleRecord record = new ExampleRecord();
         record.setId(id);
         record.setData(data);
 
 
-        when(drinkDao.getExampleData(id)).thenReturn(Arrays.asList(record));
+        when(exampleDao.getExampleData(id)).thenReturn(Arrays.asList(record));
 
         // WHEN
         ExampleData response = this.lambdaService.getExampleData(id);
 
         // THEN
-        verify(drinkDao, times(1)).getExampleData(idCaptor.capture());
+        verify(exampleDao, times(1)).getExampleData(idCaptor.capture());
 
         assertEquals(id, idCaptor.getValue(), "The correct id is used");
 
