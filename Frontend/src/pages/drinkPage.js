@@ -1,11 +1,11 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
-import ExampleClient from "../api/exampleClient";
+import DrinkClient from "../api/drinkClient";
 
 /**
  * Logic needed for the view playlist page of the website.
  */
-class ExamplePage extends BaseClass {
+class DrinkPage extends BaseClass {
 
     constructor() {
         super();
@@ -19,7 +19,7 @@ class ExamplePage extends BaseClass {
     async mount() {
         document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
         document.getElementById('create-form').addEventListener('submit', this.onCreate);
-        this.client = new ExampleClient();
+        this.client = new DrinkClient();
 
         this.dataStore.addChangeListener(this.renderExample)
     }
@@ -81,8 +81,8 @@ class ExamplePage extends BaseClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const examplePage = new ExamplePage();
-    examplePage.mount();
+    const drinkPage = new DrinkPage();
+    drinkPage.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);
