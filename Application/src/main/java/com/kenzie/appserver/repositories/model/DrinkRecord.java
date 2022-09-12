@@ -26,16 +26,15 @@ public class DrinkRecord {
     }
 
     @DynamoDBAttribute(attributeName = "Ingredients")
+    public List<String> getIngredients() {
+        return ingredients;
+    }
     public void setId(String id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<String> getIngredients() {
-        return ingredients;
     }
 
     public void setIngredients(List<String> ingredients){
