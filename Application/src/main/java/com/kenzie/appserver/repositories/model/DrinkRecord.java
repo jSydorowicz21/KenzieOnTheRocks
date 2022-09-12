@@ -25,7 +25,6 @@ public class DrinkRecord {
         return name;
     }
 
-    @DynamoDBAttribute(attributeName = "Ingredients")
     public void setId(String id) {
         this.id = id;
     }
@@ -34,6 +33,7 @@ public class DrinkRecord {
         this.name = name;
     }
 
+    @DynamoDBAttribute(attributeName = "Ingredients")
     public List<String> getIngredients() {
         return ingredients;
     }
