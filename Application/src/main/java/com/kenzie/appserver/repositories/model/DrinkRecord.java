@@ -2,32 +2,44 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.List;
 import java.util.Objects;
 
-@DynamoDBTable(tableName = "Example")
+@DynamoDBTable(tableName = "Drinks")
 public class DrinkRecord {
 
     private String id;
     private String name;
+    private List<String> ingredients;
 
     @DynamoDBHashKey(attributeName = "Id")
     public String getId() {
         return id;
     }
 
-    @DynamoDBAttribute(attributeName = "Name")
+    @DynamoDBRangeKey(attributeName = "Name")
     public String getName() {
         return name;
     }
 
+    @DynamoDBAttribute(attributeName = "Ingredients")
     public void setId(String id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients){
+        this.ingredients = ingredients;
     }
 
     @Override
