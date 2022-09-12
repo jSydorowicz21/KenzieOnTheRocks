@@ -9,7 +9,7 @@ import axios from 'axios'
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Mix-ins
  * https://javascript.info/mixins
  */
-export default class DrinkClient extends BaseClass {
+export default class ExampleClient extends BaseClass {
 
     constructor(props = {}){
         super();

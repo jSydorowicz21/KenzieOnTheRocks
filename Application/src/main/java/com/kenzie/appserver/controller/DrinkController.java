@@ -33,12 +33,13 @@ public class DrinkController {
     }
 
     @PostMapping
-    public ResponseEntity<DrinkResponse> addNewExample(@RequestBody DrinkCreateRequest drinkCreateRequest) {
+    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody DrinkCreateRequest drinkCreateRequest) {
         Drink drink = drinkService.addNewExample(drinkCreateRequest.getName());
 
         DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
         drinkResponse.setName(drink.getName());
+        drinkResponse.setIngredients(drink.getIngredients());
 
         return ResponseEntity.ok(drinkResponse);
     }

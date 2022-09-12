@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "LambdaExample")
-public class DrinkRecord {
+public class ExampleRecord {
 
     private String id;
     private String data;
@@ -38,7 +38,7 @@ public class DrinkRecord {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        DrinkRecord that = (DrinkRecord) o;
+        ExampleRecord that = (ExampleRecord) o;
         return Objects.equals(id, that.id) && Objects.equals(data, that.data);
     }
 
