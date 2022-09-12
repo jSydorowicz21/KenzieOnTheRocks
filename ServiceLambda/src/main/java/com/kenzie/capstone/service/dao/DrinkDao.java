@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service.dao;
 
-import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.DrinkData;
 import com.kenzie.capstone.service.model.DrinkRecord;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -23,9 +23,9 @@ public class DrinkDao {
         this.mapper = mapper;
     }
 
-    public ExampleData storeExampleData(ExampleData exampleData) {
+    public DrinkData storeExampleData(DrinkData drinkData) {
         try {
-            mapper.save(exampleData, new DynamoDBSaveExpression()
+            mapper.save(drinkData, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
                             "id",
                             new ExpectedAttributeValue().withExists(false)
@@ -34,7 +34,7 @@ public class DrinkDao {
             throw new IllegalArgumentException("id has already been used");
         }
 
-        return exampleData;
+        return drinkData;
     }
 
     public List<DrinkRecord> getExampleData(String id) {

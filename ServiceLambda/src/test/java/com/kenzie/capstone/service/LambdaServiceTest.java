@@ -1,7 +1,7 @@
 package com.kenzie.capstone.service;
 
 import com.kenzie.capstone.service.dao.DrinkDao;
-import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.DrinkData;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ class LambdaServiceTest {
         String data = "somedata";
 
         // WHEN
-        ExampleData response = this.lambdaService.setExampleData(data);
+        DrinkData response = this.lambdaService.setExampleData(data);
 
         // THEN
         verify(drinkDao, times(1)).setExampleData(idCaptor.capture(), dataCaptor.capture());
@@ -70,7 +70,7 @@ class LambdaServiceTest {
         when(drinkDao.getExampleData(id)).thenReturn(Arrays.asList(record));
 
         // WHEN
-        ExampleData response = this.lambdaService.getExampleData(id);
+        DrinkData response = this.lambdaService.getExampleData(id);
 
         // THEN
         verify(drinkDao, times(1)).getExampleData(idCaptor.capture());

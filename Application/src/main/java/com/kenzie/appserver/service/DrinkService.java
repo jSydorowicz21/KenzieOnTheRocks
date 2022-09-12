@@ -5,7 +5,7 @@ import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.service.model.Drink;
 
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.DrinkData;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +21,7 @@ public class DrinkService {
     public Drink findById(String id) {
 
         // Example getting data from the lambda
-        ExampleData dataFromLambda = lambdaServiceClient.getExampleData(id);
+        DrinkData dataFromLambda = lambdaServiceClient.getExampleData(id);
 
         // Example getting data from the local repository
         Drink dataFromDynamo = drinkRepository
@@ -34,7 +34,7 @@ public class DrinkService {
 
     public Drink addNewExample(String name) {
         // Example sending data to the lambda
-        ExampleData dataFromLambda = lambdaServiceClient.setExampleData(name);
+        DrinkData dataFromLambda = lambdaServiceClient.setExampleData(name);
 
         // Example sending data to the local repository
         DrinkRecord drinkRecord = new DrinkRecord();

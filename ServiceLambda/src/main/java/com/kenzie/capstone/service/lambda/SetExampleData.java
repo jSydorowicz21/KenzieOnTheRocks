@@ -2,7 +2,7 @@ package com.kenzie.capstone.service.lambda;
 
 import com.kenzie.capstone.service.LambdaService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.DrinkData;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -45,8 +45,8 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         }
 
         try {
-            ExampleData exampleData = lambdaService.setExampleData(data);
-            String output = gson.toJson(exampleData);
+            DrinkData drinkData = lambdaService.setExampleData(data);
+            String output = gson.toJson(drinkData);
 
             return response
                     .withStatusCode(200)

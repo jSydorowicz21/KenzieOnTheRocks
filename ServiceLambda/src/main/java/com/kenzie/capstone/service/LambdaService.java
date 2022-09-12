@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.model.DrinkData;
 import com.kenzie.capstone.service.dao.DrinkDao;
 import com.kenzie.capstone.service.model.DrinkRecord;
 
@@ -18,17 +18,17 @@ public class LambdaService {
         this.drinkDao = drinkDao;
     }
 
-    public ExampleData getExampleData(String id) {
+    public DrinkData getExampleData(String id) {
         List<DrinkRecord> records = drinkDao.getExampleData(id);
         if (records.size() > 0) {
-            return new ExampleData(records.get(0).getId(), records.get(0).getData());
+            return new DrinkData(records.get(0).getId(), records.get(0).getData());
         }
         return null;
     }
 
-    public ExampleData setExampleData(String data) {
+    public DrinkData setExampleData(String data) {
         String id = UUID.randomUUID().toString();
         DrinkRecord record = drinkDao.setExampleData(id, data);
-        return new ExampleData(id, data);
+        return new DrinkData(id, data);
     }
 }
