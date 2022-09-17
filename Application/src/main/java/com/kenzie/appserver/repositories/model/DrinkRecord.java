@@ -15,6 +15,13 @@ public class DrinkRecord {
     private String name;
     private List<String> ingredients;
 
+    public DrinkRecord(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+
+
     @DynamoDBHashKey(attributeName = "Id")
     public String getId() {
         return id;

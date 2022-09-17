@@ -7,7 +7,9 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public class DrinkCreateRequest {
-
+    @NotEmpty
+    @JsonProperty("Id")
+    public String getId;
     @NotEmpty
     @JsonProperty("name")
     private String name;
@@ -15,6 +17,14 @@ public class DrinkCreateRequest {
     @NotEmpty
     @JsonProperty("ingredients")
     private List<String> ingredients;
+
+    public String getGetId() {
+        return getId;
+    }
+
+    public void setGetId(String getId) {
+        this.getId = getId;
+    }
 
     public String getName() {
         return name;
