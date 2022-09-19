@@ -54,11 +54,11 @@ public class DrinkService {
 //        return drink;
 //    }
 
-    public List<Drink> getAllDrinks(String id) {
+    public List<Drink> getAllDrinks() {
         List<Drink> drinks = new ArrayList<>();
         Iterable<DrinkRecord> drinkIterator = drinkRepository.findAll();
         for (DrinkRecord record : drinkIterator) {
-            if (record != null && record.getId().equals(id)) {
+            if (record != null) {
                 drinks.add(convertRecordToDrink(record));
             }
         }
@@ -90,7 +90,7 @@ public class DrinkService {
 
 
 
-    public void delete( Drink drink){
+    public void delete(Drink drink){
         try{
             drinkRepository.delete(createRecordFromDrink(drink));
 
@@ -98,11 +98,9 @@ public class DrinkService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no matching drink");
         }
-
-
     }
     private DrinkRecord createRecordFromRequest(DrinkCreateRequest request) {
-        DrinkRecord record = new DrinkRecord(request.getName(), request.getId);
+        DrinkRecord record = new DrinkRecord(request.getName(), request.getId());
         record.setId(UUID.randomUUID().toString());
         record.setName(record.getName());
         return record;

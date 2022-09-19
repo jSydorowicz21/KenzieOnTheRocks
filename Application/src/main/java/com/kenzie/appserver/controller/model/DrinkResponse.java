@@ -3,6 +3,7 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,6 +17,17 @@ public class DrinkResponse {
 
     @JsonProperty("ingredients")
     private List<String> ingredients;
+
+    @NotEmpty
+    @JsonProperty("userId")
+    private String userId;
+
+    public String getUserId(){
+        return userId;
+    }
+    public void setUserId(String userId){
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;
