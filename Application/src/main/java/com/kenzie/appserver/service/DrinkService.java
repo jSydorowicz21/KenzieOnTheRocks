@@ -81,12 +81,15 @@ public class DrinkService {
 
 
 
-//    public Drink updateDrink(String id, String name) {
+    public Drink updateDrink(String id, String name) {
 //        drinkRepository.findById(id).get();
-//
-//
-//
-//    }
+
+        // Temporary placeholder to be able to build.
+        return new Drink();
+
+
+
+    }
 
 
 

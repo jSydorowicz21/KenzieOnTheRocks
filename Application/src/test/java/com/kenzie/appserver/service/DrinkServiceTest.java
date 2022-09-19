@@ -34,9 +34,8 @@ public class DrinkServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        DrinkRecord record = new DrinkRecord();
-        record.setId(id);
-        record.setName("concertname");
+        DrinkRecord record = new DrinkRecord(id, "drinkName");
+
 
         // WHEN
         when(drinkRepository.findById(id)).thenReturn(Optional.of(record));
