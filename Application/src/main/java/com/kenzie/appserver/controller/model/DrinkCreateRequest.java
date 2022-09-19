@@ -9,7 +9,8 @@ import java.util.List;
 public class DrinkCreateRequest {
     @NotEmpty
     @JsonProperty("Id")
-    public String getId;
+    public String Id;
+
     @NotEmpty
     @JsonProperty("name")
     private String name;
@@ -18,12 +19,13 @@ public class DrinkCreateRequest {
     @JsonProperty("ingredients")
     private List<String> ingredients;
 
-    public String getGetId() {
-        return getId;
+
+    public String getId() {
+        return Id;
     }
 
-    public void setGetId(String getId) {
-        this.getId = getId;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
     public String getName() {
@@ -34,7 +36,7 @@ public class DrinkCreateRequest {
         this.name = name;
     }
 
-    public List<String> getIngredients(List<String> ingredients) {
+    public List<String> getIngredients() {
         return ingredients;
     }
 

@@ -4,15 +4,36 @@ import java.util.List;
 import java.util.Objects;
 
 public class Drink {
-    private final String id;
-    private final String name;
+    private String id;
+    private String name;
     private List<String> ingredients;
+    private String userId;
 
 
+    public Drink(){}
 
+    public Drink(String id, String name, List<String> ingredients){
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
+    }
     public Drink(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+    public Drink(String id, String name, List<String> ingredients, String userId) {
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
+        this.userId = userId;
+    }
+
+    public String getUserId(){
+        return userId;
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId;
     }
 
     public String getId() {
