@@ -8,8 +8,8 @@ import java.util.List;
 
 public class DrinkCreateRequest {
     @NotEmpty
-    @JsonProperty("Id")
-    public String Id;
+    @JsonProperty("userId")
+    private String userId;
 
     @NotEmpty
     @JsonProperty("name")
@@ -20,12 +20,14 @@ public class DrinkCreateRequest {
     private List<String> ingredients;
 
 
-    public String getId() {
-        return Id;
+
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String Id) {
-        this.Id = Id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
