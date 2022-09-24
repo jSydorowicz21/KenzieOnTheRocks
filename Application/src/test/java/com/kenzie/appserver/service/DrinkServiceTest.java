@@ -34,7 +34,7 @@ public class DrinkServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        DrinkRecord record = new DrinkRecord(id, "drinkName");
+        DrinkRecord record = new DrinkRecord(id, "drinkName", "RandomUser");
 
 
         // WHEN

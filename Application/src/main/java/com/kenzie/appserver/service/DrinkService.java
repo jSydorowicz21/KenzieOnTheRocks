@@ -56,8 +56,7 @@ public class DrinkService {
 
     public List<Drink> getAllDrinks() {
         List<Drink> drinks = new ArrayList<>();
-        Iterable<DrinkRecord> drinkIterator = drinkRepository.findAll();
-        for (DrinkRecord record : drinkIterator) {
+        for (DrinkRecord record : drinkRepository.findAll()) {
             if (record != null) {
                 drinks.add(convertRecordToDrink(record));
             }
@@ -67,31 +66,42 @@ public class DrinkService {
 
     //add drink
     public Drink addDrink(DrinkCreateRequest request) {
-        drinkRepository.findById(request.getName());
+
+        if (request == null || request.getName() == null || request.getIngredients().isEmpty() || request.getIngredients() == null){
+            throw new IllegalArgumentException("BROKEN");
+        }
+
         //check if this drink already present
         if (drinkRepository.UserHasExistingDrink(request.getName())) {
             throw new UserHasExistingDrinkException(request.getName() + "has an existing drink. The existing drink will be updated");
         }
+
         DrinkRecord record = createRecordFromRequest(request);
+
         drinkRepository.save(record);
 
-        Drink drink = convertRecordToDrink(record);
+
+        return convertRecordToDrink(record);
+    }
+
+
+
+    public Drink updateDrink(String userID, Drink drink) {
+
+        // Add null checks
+
+        Drink drinkFromDB = findById(drink.getId());
+
+
+        DrinkRecord record = new DrinkRecord(drinkFromDB.getId(), drink.getName(), userID);
+        record.setIngredients(drink.getIngredients());
+
+        drinkRepository.save(record);
+
+
         return drink;
-    }
-
-
-
-    public Drink updateDrink(String id, String name) {
-//        drinkRepository.findById(id).get();
-
-        // Temporary placeholder to be able to build.
-        return new Drink();
-
-
 
     }
-
-
 
     public void delete(Drink drink){
         try{
@@ -103,14 +113,13 @@ public class DrinkService {
         }
     }
     private DrinkRecord createRecordFromRequest(DrinkCreateRequest request) {
-        DrinkRecord record = new DrinkRecord(request.getName(), request.getId());
-        record.setId(UUID.randomUUID().toString());
-        record.setName(record.getName());
+        DrinkRecord record = new DrinkRecord(request.getName(), UUID.randomUUID().toString(), request.getUserId());
+        record.setIngredients(request.getIngredients());
         return record;
     }
 
     private DrinkRecord createRecordFromDrink(Drink drink) {
-        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName());
+        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName(), drink.getId());
         record.setId(drink.getId());
         record.setName(drink.getName());
         record.setIngredients(drink.getIngredients());
@@ -122,6 +131,7 @@ public class DrinkService {
 
     private Drink convertRecordToDrink(DrinkRecord record) {
         Drink drink = new Drink(record.getId(), record.getName());
+        drink.setUserId(record.getUserId());
         drink.setIngredients(record.getIngredients());
         return drink;
     }
