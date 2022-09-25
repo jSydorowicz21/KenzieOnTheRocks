@@ -9,12 +9,12 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
-public class LambdaService {
+public class DrinkService {
 
     private DrinkDao drinkDao;
 
     @Inject
-    public LambdaService(DrinkDao drinkDao) {
+    public DrinkService(DrinkDao drinkDao) {
         this.drinkDao = drinkDao;
     }
 
