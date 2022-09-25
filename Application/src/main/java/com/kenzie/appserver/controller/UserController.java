@@ -68,9 +68,15 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.updateUserDrinks(userService.getUserById(userUpdateRequest.getUserId()), userUpdateRequest.getDrinks());
+        User user = userService.getUserById(userUpdateRequest.getUserId());
 
-        return ResponseEntity.ok(createUserResponse(user));
+        if (user == null || user.getUserId() == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+
+
+        return ResponseEntity.ok(createUserResponse(userService.updateUserDrinks(user, userUpdateRequest.getDrinks())));
 
     }
 
