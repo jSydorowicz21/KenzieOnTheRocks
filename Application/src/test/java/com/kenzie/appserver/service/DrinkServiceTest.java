@@ -1,6 +1,5 @@
 package com.kenzie.appserver.service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.ScanResultPage;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.repositories.DrinkRepository;
@@ -9,7 +8,6 @@ import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
 import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import org.apache.commons.collections.iterators.CollatingIterator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

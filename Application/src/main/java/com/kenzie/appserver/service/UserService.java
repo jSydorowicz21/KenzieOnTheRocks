@@ -23,7 +23,7 @@ public class UserService {
 
     public User getUserById(String userId){
 
-        if (userRepository.findById(userId).isEmpty()){
+        if (userId == null || userRepository.findById(userId).isEmpty()){
             throw new InvalidUserException("User " + userId + " does not exist.");
         }
 
@@ -32,9 +32,12 @@ public class UserService {
 
     public User updateUser(User user){
 
-        if (user == null || user.getUserId().isEmpty() || user.getUserId() == null || userRepository.findById(user.getUserId()).isEmpty()){
+        if (user == null ||  user.getUserId() == null || user.getUserId().isEmpty() ||
+                user.getDrinks() == null || user.getDrinks().isEmpty()){
             throw new InvalidUserException("User passed into updateUser is invalid");
         }
+
+        checkUserIsInDB(user);
 
         userRepository.save(createRecordFromUser(user));
 
@@ -43,6 +46,16 @@ public class UserService {
     }
 
     public User updateUserDrinks(User user, List<Drink> drinks){
+        if (user == null || user.getUserId().isEmpty() || user.getUserId() == null) {
+            throw new InvalidUserException("User passed into updateUser is invalid");
+        }
+
+        if (drinks == null || drinks.isEmpty()){
+            throw new IllegalArgumentException("Drinks is null or empty");
+        }
+
+        checkUserIsInDB(user);
+
 
         UserRecord record = new UserRecord();
         record.setUserId(user.getUserId());
@@ -54,48 +67,40 @@ public class UserService {
 
     }
 
-    public User deleteUser(User user){
-
-        if (user == null || user.getUserId().isEmpty() || user.getUserId() == null || userRepository.findById(user.getUserId()).isEmpty()){
-            throw new InvalidUserException("User passed into deleteUser is invalid");
-        }
-
-        if (!user.equals(createUserFromRecord(userRepository.findById(user.getUserId()).get()))){
-            throw new InsufficientPrivilegeException("You may not delete a user that you are not.");
-        }
-
-        userRepository.delete(createRecordFromUser(user));
-
-        return user;
-
-    }
-
     public List<Drink> getUsersDrinks(User user){
 
-        if (user == null || user.getUserId().isEmpty() || user.getUserId() == null || userRepository.findById(user.getUserId()).isEmpty()){
+        if (user == null || user.getUserId().isEmpty() || user.getUserId() == null ){
             throw new InvalidUserException("User passed into getUsersDrinks is invalid");
         }
 
-        if (!user.equals(createUserFromRecord(userRepository.findById(user.getUserId()).get()))){
-            throw new InsufficientPrivilegeException("You may not get the drinks for a user that you are not.");
-        }
+        checkUserIsInDB(user);
+
 
         return userRepository.findById(user.getUserId()).get().getDrinks();
 
     }
 
-    public User createUserFromRecord(UserRecord record){
+    private User createUserFromRecord(UserRecord record){
 
         return new User(record.getUserId(), record.getDrinks());
 
     }
 
-    public UserRecord createRecordFromUser(User user){
+    private UserRecord createRecordFromUser(User user){
 
         UserRecord record = new UserRecord();
         record.setUserId(user.getUserId());
         record.setDrinks(user.getDrinks());
 
         return record;
+    }
+
+    private void checkUserIsInDB(User user){
+        try{
+            userRepository.findById(user.getUserId()).get();
+        }
+        catch (NullPointerException e) {
+            throw new InvalidUserException("User is not in database");
+        }
     }
 }
