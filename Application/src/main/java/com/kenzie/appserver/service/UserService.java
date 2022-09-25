@@ -9,6 +9,7 @@ import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,6 +20,22 @@ public class UserService {
     public UserService(UserRepository userRepository, LambdaServiceClient lambdaServiceClient) {
         this.userRepository = userRepository;
         this.lambdaServiceClient = lambdaServiceClient;
+    }
+
+    public User addNewUser(String userId){
+
+        if (userId == null){
+            throw new IllegalArgumentException("No user Id entered");
+        }
+
+        UserRecord record = new UserRecord();
+        record.setUserId(userId);
+        record.setDrinks(Collections.emptyList());
+
+        userRepository.save(record);
+
+        return createUserFromRecord(record);
+
     }
 
     public User getUserById(String userId){

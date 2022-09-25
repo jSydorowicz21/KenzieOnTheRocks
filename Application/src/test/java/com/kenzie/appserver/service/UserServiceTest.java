@@ -23,13 +23,6 @@ public class UserServiceTest {
     private UserService userService;
     private LambdaServiceClient lambdaServiceClient;
 
-    //constant testing values
-    public static final String TEST_USERID = "test userid";
-    public static final String Test_USERID_ALT = "other test userid";
-    public static final String TEST_DRINK_ID ="test drinkid";
-    public static final String TEST_DRINK_ID_ALT = "other test drink id";
-    public static final String TEST_DRINK_NAME =" test drink name";
-    public static final String TEST_DRINK_NAME_ALT = "other test drink name";
 
     @BeforeEach
     void setup() {
@@ -37,6 +30,53 @@ public class UserServiceTest {
         lambdaServiceClient = mock(LambdaServiceClient.class);
         userService = new UserService(userRepository, lambdaServiceClient);
     }
+
+    /** ------------------------------------------------------------------------
+     *  UserService.addNewUser
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void addNewUser_addsUser(){
+        // GIVEN
+        String id = randomUUID().toString();
+
+
+        ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
+
+
+        when(userRepository.save(any(UserRecord.class))).then(i -> i.getArgumentAt(0, UserRecord.class));
+
+
+        // WHEN
+        User returnedUser = userService.addNewUser(id);
+
+        // THEN
+
+        verify(userRepository).save(userRecordCaptor.capture());
+
+        UserRecord capturedRecord = userRecordCaptor.getValue();
+
+        Assertions.assertNotNull(returnedUser, "The object is returned");
+        Assertions.assertEquals(returnedUser.getUserId(), id, "The id matches");
+        Assertions.assertTrue(returnedUser.getDrinks().isEmpty(), "List is expected to be empty");
+
+        Assertions.assertNotNull(capturedRecord, "The object is returned");
+        Assertions.assertEquals(capturedRecord.getUserId(), id, "The id matches");
+        Assertions.assertTrue(capturedRecord.getDrinks().isEmpty(), "List is expected to be empty");
+
+
+    }
+    @Test
+    void addNewUser_NullId_ThrowsException() {
+        // GIVEN
+
+
+        // WHEN
+
+        // THEN
+        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.addNewUser(null), "Exception is expected to be thrown");
+    }
+
+
     /** ------------------------------------------------------------------------
      *  UserService.getUserById
      *  ------------------------------------------------------------------------ **/
