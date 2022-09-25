@@ -108,8 +108,6 @@ public class DrinkService {
 
     }
 
-
-
     public void delete(Drink drink){
         try{
             drinkRepository.delete(createRecordFromDrink(drink));

@@ -1,6 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
+import com.kenzie.appserver.controller.model.DrinkDeleteRequest;
 import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
@@ -39,7 +40,7 @@ public class DrinkController {
 
     @GetMapping
     public ResponseEntity<List<DrinkResponse>> getAllDrinks() {
-        List<Drink> drinks = drinkService.getAllDrinks(); // for all drink I don't think we need Param
+        List<Drink> drinks = drinkService.getAllDrinks();
 
         if (drinks == null ||  drinks.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -66,16 +67,10 @@ public class DrinkController {
         return ResponseEntity.ok(drinkResponse);
     }
 
-    @DeleteMapping("/{name}") // I think deleted by name makes more sense?
-    public ResponseEntity<DrinkResponse> deleteDrinkByName(@PathVariable("name") String name) {
-        List<Drink> drinks = drinkService.getAllDrinks();
-        Drink drinkToDelete = new Drink();  // Neha, I think we should push this part to service
-        for(Drink drink: drinks){
-            if(drink.getName().equals(name)){
-                drinkToDelete = drink;
-            }
-        }
-        drinkService.delete(drinkToDelete); // should we delete by name?
+    @DeleteMapping
+    public ResponseEntity<DrinkResponse> deleteDrink(@RequestBody DrinkDeleteRequest drinkDeleteRequest) {
+        Drink drinkToDelete = new Drink(drinkDeleteRequest.getId(), drinkDeleteRequest.getUserId(), drinkDeleteRequest.getName());
+        drinkService.delete(drinkToDelete);
         return ResponseEntity.noContent().build();
     }
 
