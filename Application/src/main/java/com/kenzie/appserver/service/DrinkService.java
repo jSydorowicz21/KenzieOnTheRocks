@@ -1,20 +1,24 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
+import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.service.model.Drink;
 
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
+import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.DrinkData;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.DataTruncation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DrinkService {
@@ -65,6 +69,13 @@ public class DrinkService {
         return drinks;
     }
 
+    public Drink getDrink(String name, String userId){
+        List<Drink> drinks = getAllDrinks().stream().filter(drink -> drink.getUserId().equals(userId)).collect(Collectors.toList());
+        //return the drink or null
+        return drinks.isEmpty() ? null : drinks.get(0);
+
+    }
+
     //add drink
     public Drink addDrink(DrinkCreateRequest request) {
         drinkRepository.findById(request.getName());
@@ -81,12 +92,21 @@ public class DrinkService {
 
 
 
-//    public Drink updateDrink(String id, String name) {
-//        drinkRepository.findById(id).get();
-//
-//
-//
-//    }
+    public Drink updateDrink(DrinkUpdateRequest request) {
+        drinkRepository.findById(request.getId());
+        if(!drinkRepository.UserHasExistingDrink(request.getUserId())) {
+            throw new UserHasNoExistingDrinkException(request.getUserId() + "does not have existing drink." + "New drink will be added");
+        }
+        DrinkRecord existingRecord = drinkRepository.findDrinkByUserId(request.getUserId());
+
+        DrinkRecord updateRecord = new DrinkRecord(existingRecord.getId(), existingRecord.getName(), existingRecord.getUserId());
+        updateRecord.setIngredients(request.getIngredients());
+        drinkRepository.save(updateRecord);
+        return convertRecordToDrink(updateRecord);
+
+
+
+    }
 
 
 
@@ -100,14 +120,14 @@ public class DrinkService {
         }
     }
     private DrinkRecord createRecordFromRequest(DrinkCreateRequest request) {
-        DrinkRecord record = new DrinkRecord(request.getName(), request.getId());
+        DrinkRecord record = new DrinkRecord(request.getName(), request.getId(), request.Id);
         record.setId(UUID.randomUUID().toString());
         record.setName(record.getName());
         return record;
     }
 
     private DrinkRecord createRecordFromDrink(Drink drink) {
-        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName());
+        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName(), drink.getUserId());
         record.setId(drink.getId());
         record.setName(drink.getName());
         record.setIngredients(drink.getIngredients());

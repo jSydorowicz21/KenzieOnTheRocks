@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 @EnableScan
 public interface DrinkRepository extends CrudRepository<DrinkRecord, String> {
     boolean UserHasExistingDrink(String name);
+    DrinkRecord findDrinkByUserId(String userId);
 }

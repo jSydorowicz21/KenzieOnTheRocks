@@ -14,13 +14,27 @@ public class DrinkRecord {
     private String id;
     private String name;
     private List<String> ingredients;
+    private String userId;
 
-    public DrinkRecord(String id, String name) {
+    public DrinkRecord(String id, String name, String userId) {
         this.id = id;
         this.name = name;
+        this.userId = userId;
+    }
+
+    public DrinkRecord() {
+
     }
 
 
+    @DynamoDBAttribute(attributeName = "UserId")
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     @DynamoDBHashKey(attributeName = "Id")
     public String getId() {
@@ -51,18 +65,14 @@ public class DrinkRecord {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DrinkRecord drinkRecord = (DrinkRecord) o;
-        return Objects.equals(id, drinkRecord.id);
+        if (this == o) return true;
+        if (!(o instanceof DrinkRecord)) return false;
+        DrinkRecord record = (DrinkRecord) o;
+        return Objects.equals(getId(), record.getId()) && Objects.equals(getName(), record.getName()) && Objects.equals(getIngredients(), record.getIngredients()) && Objects.equals(getUserId(), record.getUserId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId(), getName(), getIngredients(), getUserId());
     }
 }

@@ -16,9 +16,20 @@ public class DrinkCreateRequest {
     private String name;
 
     @NotEmpty
+    @JsonProperty("userId")
+    private String userId;
+
+    @NotEmpty
     @JsonProperty("ingredients")
     private List<String> ingredients;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return Id;
