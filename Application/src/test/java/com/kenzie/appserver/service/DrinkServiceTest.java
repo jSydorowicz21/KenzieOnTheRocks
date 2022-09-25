@@ -46,24 +46,24 @@ public class DrinkServiceTest {
      *  exampleService.findById
      *  ------------------------------------------------------------------------ **/
 
-//    @Test
-//    void findById() {
-//        // GIVEN
-//        String id = randomUUID().toString();
-//
-//        DrinkRecord record = new DrinkRecord();
-//        record.setId(id);
-//        record.setName("concertname");
-//
-//        // WHEN
-//        when(drinkRepository.findById(id)).thenReturn(Optional.of(record));
-//        Drink drink = drinkService.findById(id);
-//
-//        // THEN
-//        Assertions.assertNotNull(drink, "The object is returned");
-//        Assertions.assertEquals(record.getId(), drink.getId(), "The id matches");
-//        Assertions.assertEquals(record.getName(), drink.getName(), "The name matches");
-//    }
+    @Test
+    void findById() {
+        // GIVEN
+        String id = randomUUID().toString();
+
+        DrinkRecord record = new DrinkRecord();
+        record.setId(id);
+        record.setName("concertname");
+
+        // WHEN
+        when(drinkRepository.findById(id)).thenReturn(Optional.of(record));
+        Drink drink = drinkService.findById(id);
+
+        // THEN
+        Assertions.assertNotNull(drink, "The object is returned");
+        Assertions.assertEquals(record.getId(), drink.getId(), "The id matches");
+        Assertions.assertEquals(record.getName(), drink.getName(), "The name matches");
+    }
 //
 //    @Test
 //    void findByConcertId_invalid() {

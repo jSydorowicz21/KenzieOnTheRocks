@@ -30,19 +30,19 @@ public class DrinkService {
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
-//    public Drink findById(String id) {
-//
-//        // Example getting data from the lambda
-//        DrinkData dataFromLambda = lambdaServiceClient.getExampleData(id);
-//
-//        // Example getting data from the local repository
-//        Drink dataFromDynamo = drinkRepository
-//                .findById(id)
-//                .map(example -> new Drink(example.getId(), example.getName()))
-//                .orElse(null);
-//
-//        return dataFromDynamo;
-//    }
+    public Drink findById(String id) {
+
+        // Example getting data from the lambda
+        DrinkData dataFromLambda = lambdaServiceClient.getExampleData(id);
+
+        // Example getting data from the local repository
+        Drink dataFromDynamo = drinkRepository
+                .findById(id)
+                .map(example -> new Drink(example.getId(), example.getName(), example.getUserId()))
+                .orElse(null);
+
+        return dataFromDynamo;
+    }
 
 //    public Drink addNewExample(String name) {
 //        // Example sending data to the lambda
@@ -142,4 +142,6 @@ public class DrinkService {
         drink.setIngredients(record.getIngredients());
         return drink;
     }
+
+
 }
