@@ -11,4 +11,5 @@ import java.util.List;
 public interface DrinkRepository extends CrudRepository<DrinkRecord, String> {
     boolean UserHasExistingDrink(String name);
     List<DrinkRecord> getUsersDrinks(String userId);
+    DrinkRecord findDrinkByUserId(String userId);
 }

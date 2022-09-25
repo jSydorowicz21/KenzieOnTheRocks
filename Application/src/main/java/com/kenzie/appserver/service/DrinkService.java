@@ -30,19 +30,19 @@ public class DrinkService {
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
-    public Drink findById(String id) {
-
-        // Example getting data from the lambda
-        DrinkData dataFromLambda = lambdaServiceClient.getExampleData(id);
-
-        // Example getting data from the local repository
-        Drink dataFromDynamo = drinkRepository
-                .findById(id)
-                .map(example -> new Drink(example.getId(), example.getName()))
-                .orElse(null);
-
-        return dataFromDynamo;
-    }
+//    public Drink findById(String id) {
+//
+//        // Example getting data from the lambda
+//        DrinkData dataFromLambda = lambdaServiceClient.getExampleData(id);
+//
+//        // Example getting data from the local repository
+//        Drink dataFromDynamo = drinkRepository
+//                .findById(id)
+//                .map(example -> new Drink(example.getId(), example.getName()))
+//                .orElse(null);
+//
+//        return dataFromDynamo;
+//    }
 
 //    public Drink addNewExample(String name) {
 //        // Example sending data to the lambda
@@ -120,7 +120,7 @@ public class DrinkService {
         }
     }
     private DrinkRecord createRecordFromRequest(DrinkCreateRequest request) {
-        DrinkRecord record = new DrinkRecord(request.getName(), request.getId(), request.Id);
+        DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getId());
         record.setId(UUID.randomUUID().toString());
         record.setName(record.getName());
         return record;
@@ -138,7 +138,7 @@ public class DrinkService {
 
 
     private Drink convertRecordToDrink(DrinkRecord record) {
-        Drink drink = new Drink(record.getId(), record.getName());
+        Drink drink = new Drink(record.getId(), record.getName(),record.getUserId());
         drink.setIngredients(record.getIngredients());
         return drink;
     }
