@@ -49,6 +49,25 @@ public class UserController {
 
     }
 
+    @PostMapping("/drinks")
+    public ResponseEntity<List<DrinkResponse>> addNewDrink(@RequestBody AddDrinkRequest addDrinkRequest){
+
+        if (addDrinkRequest == null || addDrinkRequest.getUserId() == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+
+        List<Drink> drinks = userService.addDrinkToList(userService.getUserById(addDrinkRequest.getUserId()), addDrinkRequest.getDrink());
+
+        List<DrinkResponse> drinkResponses = new ArrayList<>();
+        for (Drink drink : drinks){
+            drinkResponses.add(createDrinkResponse(drink));
+        }
+
+        return ResponseEntity.ok(drinkResponses);
+
+    }
+
     @PutMapping
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserUpdateRequest userUpdateRequest){
         if (userUpdateRequest == null || userUpdateRequest.getUserId() == null){
@@ -94,6 +113,7 @@ public class UserController {
         }
 
         return ResponseEntity.ok(drinkResponses);
+
     }
 
     private UserResponse createUserResponse(User user) {

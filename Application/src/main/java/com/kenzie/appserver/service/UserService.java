@@ -97,6 +97,20 @@ public class UserService {
 
     }
 
+    public List<Drink> addDrinkToList(User user, Drink drink) {
+
+        if (user == null || user.getUserId().isEmpty() || user.getUserId() == null ){
+            throw new InvalidUserException("User passed into getUsersDrinks is invalid");
+        }
+
+        checkUserIsInDB(user);
+
+        List<Drink> drinks = user.getDrinks();
+        drinks.add(drink);
+
+        return updateUserDrinks(user, drinks).getDrinks();
+    }
+
     private User createUserFromRecord(UserRecord record){
 
         return new User(record.getUserId(), record.getDrinks());
