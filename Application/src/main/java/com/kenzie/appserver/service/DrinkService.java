@@ -54,7 +54,7 @@ public class DrinkService {
 //        drinkRecord.setName(dataFromLambda.getData());
 //        drinkRepository.save(drinkRecord);
 //
-//        Drink drink = new Drink(dataFromLambda.getId(), name);
+//        Drink drink = new Drink(dataFromLambda.getId(), dataFromLambda.getData(),da);
 //        return drink;
 //    }
 
@@ -77,7 +77,7 @@ public class DrinkService {
     }
 
     //add drink
-    public Drink addDrink(DrinkCreateRequest request) {
+    public Drink addDrink(Drink request) {
         drinkRepository.findById(request.getName());
         //check if this drink already present
         if (drinkRepository.UserHasExistingDrink(request.getName())) {
@@ -92,7 +92,7 @@ public class DrinkService {
 
 
 
-    public Drink updateDrink(DrinkUpdateRequest request) {
+    public Drink updateDrink(Drink request) {
         drinkRepository.findById(request.getId());
         if(!drinkRepository.UserHasExistingDrink(request.getUserId())) {
             throw new UserHasNoExistingDrinkException(request.getUserId() + "does not have existing drink." + "New drink will be added");
@@ -103,21 +103,18 @@ public class DrinkService {
         updateRecord.setIngredients(request.getIngredients());
         drinkRepository.save(updateRecord);
         return convertRecordToDrink(updateRecord);
-
-
-
     }
 
-    public void delete(Drink drink){
+    public void delete(Drink drinkId){
         try{
-            drinkRepository.delete(createRecordFromDrink(drink));
+            drinkRepository.delete(createRecordFromDrink(drinkId));
 
         } catch (IllegalArgumentException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no matching drink");
         }
     }
-    private DrinkRecord createRecordFromRequest(DrinkCreateRequest request) {
+    private DrinkRecord createRecordFromRequest(Drink request) {
         DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getId());
         record.setId(UUID.randomUUID().toString());
         record.setName(record.getName());
@@ -130,8 +127,6 @@ public class DrinkService {
         record.setName(drink.getName());
         record.setIngredients(drink.getIngredients());
         return record;
-
-
     }
 
 

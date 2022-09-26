@@ -29,7 +29,7 @@ public class DrinkServiceTest {
     //constant testing values
     public static final String TEST_USERID = "test userid";
     public static final String Test_USERID_ALT = "other test userid";
-    public static final String TEST_DRINK_ID ="test drinkid";
+    public static final String TEST_DRINK_ID ="test drinkId";
     public static final String TEST_DRINK_ID_ALT = "other test drink id";
     public static final String TEST_DRINK_NAME =" test drink name";
     public static final String TEST_DRINK_NAME_ALT = "other test drink name";
@@ -51,7 +51,7 @@ public class DrinkServiceTest {
 
         DrinkRecord record = new DrinkRecord();
         record.setId(id);
-        record.setName("concertname");
+        record.setName("concertName");
 
         // WHEN
         when(drinkRepository.findById(id)).thenReturn(Optional.of(record));
@@ -155,7 +155,7 @@ public class DrinkServiceTest {
     @Test
     void addNewDrink_userHasNotExistingDrink_addDrink() {
         //given
-        DrinkCreateRequest request = new DrinkCreateRequest();
+        Drink request = new Drink();
         request.setId(TEST_DRINK_ID);
         request.setName(TEST_DRINK_NAME);
         request.setUserId(TEST_USERID);
@@ -187,7 +187,7 @@ public class DrinkServiceTest {
         when(drinkRepository.UserHasExistingDrink(any())).thenReturn(true);
 
         //when then
-        Assertions.assertThrows(UserHasExistingDrinkException.class,() ->drinkService.addDrink(mock(DrinkCreateRequest.class)));
+        Assertions.assertThrows(UserHasExistingDrinkException.class,() ->drinkService.addDrink(mock(Drink.class)));
         verify(drinkService).findById(any());
         verify(drinkRepository).UserHasExistingDrink(any());
         verifyNoMoreInteractions(drinkService);
@@ -203,7 +203,7 @@ public class DrinkServiceTest {
         //Given
         DrinkRecord existingRecord = createRecord(TEST_DRINK_ID,TEST_DRINK_NAME,TEST_USERID);
 
-        DrinkUpdateRequest request = new DrinkUpdateRequest();
+        Drink request = new Drink();
         request.setId(TEST_DRINK_ID);
         request.setName(TEST_DRINK_NAME);
         request.setUserId(TEST_USERID);
@@ -237,7 +237,7 @@ public class DrinkServiceTest {
         when(drinkRepository.UserHasExistingDrink(any())).thenReturn(false);
 
         //when then
-        Assertions.assertThrows(UserHasNoExistingDrinkException.class,()-> drinkService.updateDrink(mock(DrinkUpdateRequest.class)));
+        Assertions.assertThrows(UserHasNoExistingDrinkException.class,()-> drinkService.updateDrink(mock(Drink.class)));
         verify(drinkService).findById(any());
         verify(drinkRepository).UserHasExistingDrink(any());
         verifyNoMoreInteractions(drinkService);
