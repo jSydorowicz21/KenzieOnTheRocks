@@ -1,11 +1,13 @@
 :root {
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
+    font-family: 'Cinzel', serif;
     --primary-color: #131921;
     --secondary-color: #fff;
     --error-color: rgba(194, 0, 0, 0.71);
 }
 
 .background {
+    background-image: url("https://images.unsplash.com/photo-1496104679561-38d3af73f9b0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=418&q=8");
     background-color: #eaeded;
     margin: 0;
     counter-reset: section;
@@ -13,6 +15,7 @@
 
 .header {
     /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+    font-family: 'Major Mono Display', monospace;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -54,9 +57,67 @@
 }
 
 .card {
+  border-top-left-radius:15px;
+  background: linear-gradient(white, grey);
+  background-image: linear-gradient(to left, rgba(239,239,240,0), rgba(239,239,240,1));
+   color: brown;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 40%;
+    margin: 20px;
+    padding: 10px 20px;
+}
+
+.dropdown-check-list {
+  display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-check-list .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.dropdown-check-list .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+
+.dropdown-check-list.visible .anchor {
+  color: #0094ff;
+}
+
+.dropdown-check-list.visible .items {
+  display: block;
 }
 
 .validated-field:invalid {
@@ -67,7 +128,7 @@
 }
 
 .card-content {
-    max-width: 500px;
+    max-width: 150px;
 }
 
 .card-content .form-field {
