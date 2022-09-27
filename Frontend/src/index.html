@@ -1,71 +1,116 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script type="text/javascript" src="examplePage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Della+Respira:wght@400&display=swap" rel="stylesheet">
 </head>
+
 <body class="background">
-    <header class="header" id="header">
-        <div class="site-title">
-            <a class="header_home" href="index.html">Example App</a>
+<header class="header" id="header">
+    <div class="site-title">
+        <a class="header_home" href="index.html">THE LIQUID LIBRARY</a>
+    </div>
+</header>
+<div class="card">
+    <h2>Create Drink</h2>
+    <form class="card-content" id="create-form">
+        <p class="form-field">
+            <label>Drink Name</label>
+            <input type="text" required class="validated-field" id="create-name-field">
+        </p>
+        <div id="list1" class="dropdown-check-list" tabindex="100">
+            <span class="anchor" id="anchor1">Select Alcohol</span>
+            <ul class="items">
+                <li><input type="checkbox" />Rum</li>
+                <li><input type="checkbox" />Scotch</li>
+                <li><input type="checkbox" />Whiskey</li>
+                <li><input type="checkbox" />Schnapps</li>
+                <li><input type="checkbox" />Vodka</li>
+                <li><input type="checkbox" />Tequila</li>
+                <li><input type="checkbox" />Champagne</li>
+            </ul>
         </div>
-    </header>
+        <div id="list2" class="dropdown-check-list" tabindex="100">
+            <span class="anchor" id="anchor2">Select Mixer</span>
+            <ul class="items">
+                <li><input type="checkbox" />Apple(J)</li>
+                <li><input type="checkbox" />Orange(J)</li>
+                <li><input type="checkbox" />Grape(J)</li>
+                <li><input type="checkbox" />Pineapple(J)</li>
+                <li><input type="checkbox" />Mango(J)</li>
+                <li><input type="checkbox" />Peach(J)</li>
+                <li><input type="checkbox" />Tomato(J)</li>
+                <li><input type="checkbox" />Lemon(J)</li>
+                <li><input type="checkbox" />Lime(J)</li>
+                <li><input type="checkbox" />Coke(S)</li>
+                <li><input type="checkbox" />Root Beer(S)</li>
+                <li><input type="checkbox" />Sprite(S)</li>
+                <li><input type="checkbox" />Tonic Water(S)</li>
+            </ul>
+        </div>
+        <div id="list3" class="dropdown-check-list" tabindex="100">
+            <span class="anchor">Select Finisher</span>
+            <ul class="items">
+                <li><input type="checkbox" />Ice</li>
+                <li><input type="checkbox" />Milk</li>
+                <li><input type="checkbox" />Salt</li>
+                <li><input type="checkbox" />Sugar</li>
+                <li><input type="checkbox" />Mint Leaves</li>
+                <li><input type="checkbox" />Grenadine</li>
+                <li><input type="checkbox" />Citrus Twist</li>
+            </ul>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</div>
+<div class="card">
+    <h2>Get By ID</h2>
+    <form class="card-content" id="get-by-id-form">
+        <p class="form-field">
+            <label>ID</label>
+            <input type="text" required class="validated-field" id="id-field">
+        </p>
+        <button type="submit">Get</button>
+    </form>
+</div>
+<div class="card" id="result">
+    <h2><span class="createClass">My Drinks:</span></h2>
+    <p id="result-info"></p>
+</div>
+
+<div class="card">
+    <h4><b>John Doe</b></h4>
+    <p>Architect & Engineer</p>
+</div>
+</div>
+<div class="drink">
+
     <div class="card">
-        <h2>Create Example</h2>
-        <form class="card-content" id="create-form">
-            <p class="form-field">
-                <label>Name</label>
-                <input type="text" required class="validated-field" id="create-name-field">
-            </p>
-            <button type="submit">Create</button>
-        </form>
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
     </div>
+</div>
+<div class="drink">
+
     <div class="card">
-        <h2>Get By ID</h2>
-        <form class="card-content" id="get-by-id-form">
-            <p class="form-field">
-                <label>ID</label>
-                <input type="text" required class="validated-field" id="id-field">
-            </p>
-            <button type="submit">Get</button>
-        </form>
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
     </div>
-    <div class="card" id="result">
-        <h2>Result:</h2>
-        <p id="result-info"></p>
+</div>
+<div class="drink">
+
+    <div class="card">
+        <h4><b>John Doe</b></h4>
+        <p>Architect & Engineer</p>
     </div>
-
-    <div class="float-container">
-        <div class="drink">
-
-            <div class="container">
-                <h4><b>John Doe</b></h4>
-                <p>Architect & Engineer</p>
-            </div>
-        </div>
-        <div class="drink">
-
-            <div class="container">
-                <h4><b>John Doe</b></h4>
-                <p>Architect & Engineer</p>
-            </div>
-        </div>
-        <div class="drink">
-
-            <div class="container">
-                <h4><b>John Doe</b></h4>
-                <p>Architect & Engineer</p>
-            </div>
-        </div>
-        <div class="drink">
-
-            <div class="container">
-                <h4><b>John Doe</b></h4>
-                <p>Architect & Engineer</p>
-            </div>
-        </div>
-    </div>
+</div>
+</div>
 
 </body>
 </html>
+
