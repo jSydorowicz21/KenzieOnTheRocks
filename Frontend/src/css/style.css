@@ -138,6 +138,7 @@
 
 .card-content {
     max-width: 150px;
+    display: inline;
 }
 
 .card-content .form-field {
@@ -177,6 +178,10 @@
   grid-auto-rows: 200px;
   column-gap: 40px;
   row-gap: 1em;
+}
+
+.anchor {
+    display:inline-block;
 }
 
 
