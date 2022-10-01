@@ -55,7 +55,7 @@ public class DrinkController {
     }
 
     @PostMapping
-    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody DrinkCreateRequest drinkCreateRequest) {
+    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
         Drink drink = drinkService.addDrink(drinkCreateRequest);
 
         DrinkResponse drinkResponse = new DrinkResponse();
