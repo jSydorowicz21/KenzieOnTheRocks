@@ -10,6 +10,7 @@ import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
 import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.DrinkData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +26,7 @@ public class DrinkService {
     private DrinkRepository drinkRepository;
     private LambdaServiceClient lambdaServiceClient;
 
+    @Autowired
     public DrinkService(DrinkRepository drinkRepository, LambdaServiceClient lambdaServiceClient) {
         this.drinkRepository = drinkRepository;
         this.lambdaServiceClient = lambdaServiceClient;
