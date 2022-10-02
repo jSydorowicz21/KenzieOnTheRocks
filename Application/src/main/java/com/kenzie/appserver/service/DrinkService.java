@@ -79,33 +79,33 @@ public class DrinkService {
     }
 
     //add drink
-    public Drink addDrink(Drink request) {
-        drinkRepository.findById(request.getName());
-        //check if this drink already present
-        if (drinkRepository.UserHasExistingDrink(request.getName())) {
-            throw new UserHasExistingDrinkException(request.getName() + "has an existing drink. The existing drink will be updated");
-        }
-        DrinkRecord record = createRecordFromRequest(request);
-        drinkRepository.save(record);
+//    public Drink addDrink(Drink request) {
+//        drinkRepository.findById(request.getName());
+//        //check if this drink already present
+//        if (drinkRepository.UserHasExistingDrink(request.getName())) {
+//            throw new UserHasExistingDrinkException(request.getName() + "has an existing drink. The existing drink will be updated");
+//        }
+//        DrinkRecord record = createRecordFromRequest(request);
+//        drinkRepository.save(record);
+//
+//        Drink drink = convertRecordToDrink(record);
+//        return drink;
+//    }
 
-        Drink drink = convertRecordToDrink(record);
-        return drink;
-    }
 
 
-
-    public Drink updateDrink(Drink request) {
-        drinkRepository.findById(request.getId());
-        if(!drinkRepository.UserHasExistingDrink(request.getUserId())) {
-            throw new UserHasNoExistingDrinkException(request.getUserId() + "does not have existing drink." + "New drink will be added");
-        }
-        DrinkRecord existingRecord = drinkRepository.findDrinkByUserId(request.getUserId());
-
-        DrinkRecord updateRecord = new DrinkRecord(existingRecord.getId(), existingRecord.getName(), existingRecord.getUserId());
-        updateRecord.setIngredients(request.getIngredients());
-        drinkRepository.save(updateRecord);
-        return convertRecordToDrink(updateRecord);
-    }
+//    public Drink updateDrink(Drink request) {
+//        drinkRepository.findById(request.getId());
+//        if(!drinkRepository.UserHasExistingDrink(request.getUserId())) {
+//            throw new UserHasNoExistingDrinkException(request.getUserId() + "does not have existing drink." + "New drink will be added");
+//        }
+//        DrinkRecord existingRecord = drinkRepository.findDrinkByUserId(request.getUserId());
+//
+//        DrinkRecord updateRecord = new DrinkRecord(existingRecord.getId(), existingRecord.getName(), existingRecord.getUserId());
+//        updateRecord.setIngredients(request.getIngredients());
+//        drinkRepository.save(updateRecord);
+//        return convertRecordToDrink(updateRecord);
+//    }
 
     public void delete(Drink drinkId){
         try{

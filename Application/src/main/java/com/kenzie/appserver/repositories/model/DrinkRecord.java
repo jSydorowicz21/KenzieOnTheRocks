@@ -41,7 +41,7 @@ public class DrinkRecord {
         return id;
     }
 
-    @DynamoDBRangeKey(attributeName = "Name")
+    @DynamoDBAttribute(attributeName = "Name")
     public String getName() {
         return name;
     }

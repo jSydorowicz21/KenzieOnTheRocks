@@ -7,6 +7,7 @@ import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
 
 import com.kenzie.appserver.service.model.Drink;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class DrinkController {
 
     private DrinkService drinkService;
 
+    @Autowired
     DrinkController(DrinkService drinkService) {
         this.drinkService = drinkService;
     }
@@ -55,17 +57,17 @@ public class DrinkController {
     }
 
     @PostMapping
-    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
-        Drink drink = drinkService.addDrink(drinkCreateRequest);
-
-        DrinkResponse drinkResponse = new DrinkResponse();
-        drinkResponse.setId(drink.getId());
-        drinkResponse.setName(drink.getName());
-        drinkResponse.setUserId(drink.getUserId());
-        drinkResponse.setIngredients(drink.getIngredients());
-
-        return ResponseEntity.ok(drinkResponse);
-    }
+//    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
+//        Drink drink = drinkService.addDrink(drinkCreateRequest);
+//
+//        DrinkResponse drinkResponse = new DrinkResponse();
+//        drinkResponse.setId(drink.getId());
+//        drinkResponse.setName(drink.getName());
+//        drinkResponse.setUserId(drink.getUserId());
+//        drinkResponse.setIngredients(drink.getIngredients());
+//
+//        return ResponseEntity.ok(drinkResponse);
+//    }
 
     @DeleteMapping
     public ResponseEntity<DrinkResponse> deleteDrink(@RequestBody DrinkDeleteRequest drinkDeleteRequest) {
@@ -75,18 +77,18 @@ public class DrinkController {
     }
 
     @PutMapping
-    public ResponseEntity<DrinkResponse> updateDrink(@RequestBody DrinkUpdateRequest drinkUpdateRequest) {
-        Drink drink = new Drink(
-                drinkUpdateRequest.getId(),
-                drinkUpdateRequest.getName(),
-                drinkUpdateRequest.getUserId());
-        drink.setIngredients(drinkUpdateRequest.getIngredients());
-        drinkService.updateDrink(drinkUpdateRequest); // user DB
-
-        DrinkResponse drinkResponse = createDrinkResponse(drink);
-
-        return ResponseEntity.ok(drinkResponse);
-    }
+//    public ResponseEntity<DrinkResponse> updateDrink(@RequestBody DrinkUpdateRequest drinkUpdateRequest) {
+//        Drink drink = new Drink(
+//                drinkUpdateRequest.getId(),
+//                drinkUpdateRequest.getName(),
+//                drinkUpdateRequest.getUserId());
+//        drink.setIngredients(drinkUpdateRequest.getIngredients());
+//        drinkService.updateDrink(drink); // user DB
+//
+//        DrinkResponse drinkResponse = createDrinkResponse(drink);
+//
+//        return ResponseEntity.ok(drinkResponse);
+//    }
     private DrinkResponse createDrinkResponse(Drink drink) {
         DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
