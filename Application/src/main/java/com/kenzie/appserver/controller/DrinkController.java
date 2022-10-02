@@ -57,17 +57,17 @@ public class DrinkController {
     }
 
     @PostMapping
-//    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
-//        Drink drink = drinkService.addDrink(drinkCreateRequest);
-//
-//        DrinkResponse drinkResponse = new DrinkResponse();
-//        drinkResponse.setId(drink.getId());
-//        drinkResponse.setName(drink.getName());
-//        drinkResponse.setUserId(drink.getUserId());
-//        drinkResponse.setIngredients(drink.getIngredients());
-//
-//        return ResponseEntity.ok(drinkResponse);
-//    }
+    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
+        Drink drink = drinkService.addDrink(drinkCreateRequest);
+
+        DrinkResponse drinkResponse = new DrinkResponse();
+        drinkResponse.setId(drink.getId());
+        drinkResponse.setName(drink.getName());
+        drinkResponse.setUserId(drink.getUserId());
+        drinkResponse.setIngredients(drink.getIngredients());
+
+        return ResponseEntity.ok(drinkResponse);
+    }
 
     @DeleteMapping
     public ResponseEntity<DrinkResponse> deleteDrink(@RequestBody DrinkDeleteRequest drinkDeleteRequest) {

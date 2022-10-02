@@ -7,6 +7,7 @@ import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.model.Drink;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import java.util.UUID;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -127,24 +129,25 @@ class DrinkControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void deleteDrink_DeleteSuccessful() throws Exception {
-//        // GIVEN
-//        String userId = UUID.randomUUID().toString();
-//        String name = mockNeat.strings().valStr();
-//        String id = UUID.randomUUID().toString();
-//
-//        DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
-//        drinkCreateRequest.setUserId(userId);
-//        drinkCreateRequest.setName(name);
-//        Drink persistedDrink = drinkService.addDrink(drinkCreateRequest);
-//
-//        // WHEN
-//        mvc.perform(delete("/drinks", persistedDrink.getId())
-//                        .accept(MediaType.APPLICATION_JSON))
-//                // THEN
-//                .andExpect(status().isNoContent())
-//                .assertThat(drinkService.findById(id)).isNull();
-//    }
+    @Test
+    public void deleteDrink_DeleteSuccessful() throws Exception {
+        // GIVEN
+        String userId = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
+        String id = UUID.randomUUID().toString();
+
+        DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
+        drinkCreateRequest.setUserId(userId);
+        drinkCreateRequest.setName(name);
+        Drink drink = new Drink(userId, name, id);
+        Drink persistedDrink = drinkService.addDrink(drink);
+
+        // WHEN
+        mvc.perform(delete("/drinks", persistedDrink.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                // THEN
+                .andExpect(status().isNoContent());
+        assertThat(drinkService.findById(id)).isNull();
+    }
 
 }
