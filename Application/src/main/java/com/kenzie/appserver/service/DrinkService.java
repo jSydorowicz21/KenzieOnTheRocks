@@ -79,18 +79,18 @@ public class DrinkService {
     }
 
     //add drink
-//    public Drink addDrink(Drink request) {
-//        drinkRepository.findById(request.getName());
-//        //check if this drink already present
+    public Drink addDrink(Drink request) {
+        drinkRepository.findById(request.getName());
+        //check if this drink already present
 //        if (drinkRepository.UserHasExistingDrink(request.getName())) {
 //            throw new UserHasExistingDrinkException(request.getName() + "has an existing drink. The existing drink will be updated");
 //        }
-//        DrinkRecord record = createRecordFromRequest(request);
-//        drinkRepository.save(record);
-//
-//        Drink drink = convertRecordToDrink(record);
-//        return drink;
-//    }
+        DrinkRecord record = createRecordFromRequest(request);
+        drinkRepository.save(record);
+
+        Drink drink = convertRecordToDrink(record);
+        return drink;
+    }
 
 
 

@@ -75,8 +75,8 @@ public class DrinkController {
         drinkService.delete(drinkToDelete);
         return ResponseEntity.noContent().build();
     }
-
-    @PutMapping
+//
+//    @PutMapping
 //    public ResponseEntity<DrinkResponse> updateDrink(@RequestBody DrinkUpdateRequest drinkUpdateRequest) {
 //        Drink drink = new Drink(
 //                drinkUpdateRequest.getId(),
