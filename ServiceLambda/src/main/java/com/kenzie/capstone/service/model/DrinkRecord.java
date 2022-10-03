@@ -1,14 +1,15 @@
 package com.kenzie.capstone.service.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.util.List;
 import java.util.Objects;
 
-@DynamoDBTable(tableName = "LambdaExample")
+@DynamoDBTable(tableName = "Drinks")
 public class DrinkRecord {
+
+    public static final String USER_ID_INDEX = "UserIdIndex";
+
     private String id;
     private String name;
     private List<String> ingredients;
@@ -19,6 +20,7 @@ public class DrinkRecord {
         return id;
     }
 
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = USER_ID_INDEX)
     @DynamoDBAttribute(attributeName = "name")
     public String getName() {
         return name;
@@ -29,6 +31,7 @@ public class DrinkRecord {
         return ingredients;
     }
 
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = USER_ID_INDEX)
     @DynamoDBAttribute(attributeName = "userId")
     public String getUserId() {
         return userId;
