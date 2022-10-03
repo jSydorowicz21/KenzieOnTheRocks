@@ -1,22 +1,23 @@
 package com.kenzie.capstone.service.lambda;
 
-import com.kenzie.capstone.service.DrinkService;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
-
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.DrinkService;
+import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
+import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.exceptions.InvalidDataException;
+import com.kenzie.capstone.service.model.Drink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class DeleteDrink implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -24,37 +25,26 @@ public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEven
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-
+        // Logging the request json to make debugging easier.
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        DrinkService lambdaService = serviceComponent.provideDrinkService();
+        DrinkService drinkService = serviceComponent.provideDrinkService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
-
-        if (id == null || id.length() == 0) {
-            return response
-                    .withStatusCode(400)
-                    .withBody("Id is invalid");
-        }
-
         try {
-            DrinkData drinkData = lambdaService.getExampleData(id);
-            String output = gson.toJson(drinkData);
-
+            drinkService.deleteDrink(input.getBody());
             return response
                     .withStatusCode(200)
-                    .withBody(output);
-
-        } catch (Exception e) {
+                    .withBody(input.getBody());
+        } catch (InvalidDataException e) {
             return response
                     .withStatusCode(400)
-                    .withBody(gson.toJson(e.getMessage()));
+                    .withBody(gson.toJson(e.errorPayload()));
         }
     }
 }
