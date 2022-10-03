@@ -82,6 +82,11 @@ public class NonCachingDrinkDao implements DrinkDao {
     }
 
     public void deleteDrink(DrinkRecord  drink) {
+
         mapper.delete(drink);
+
     }
+
+
+
 }

@@ -16,6 +16,7 @@ public class Drink{
         this.userId = userId;
     }
 
+
     public Drink() {}
 
     public String getId() {
