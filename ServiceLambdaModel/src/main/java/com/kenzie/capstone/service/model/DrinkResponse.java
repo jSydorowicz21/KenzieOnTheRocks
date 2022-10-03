@@ -9,6 +9,7 @@ public class DrinkResponse {
         this.id = id;
         this.name = name;
     }
+    public DrinkResponse(){}
 
     public String getId() {
         return id;
