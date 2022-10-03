@@ -1,7 +1,10 @@
 package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenzie.capstone.service.model.DrinkData;
+import com.google.gson.Gson;
+import com.kenzie.capstone.service.model.Drink;
+
+import java.util.List;
 
 
 public class LambdaServiceClient {
@@ -17,27 +20,74 @@ public class LambdaServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public DrinkData getExampleData(String id) {
+    private Gson gson = new Gson();
+
+    public Drink getDrink(String id) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
-        DrinkData drinkData;
+        Drink drink;
         try {
-            drinkData = mapper.readValue(response, DrinkData.class);
+            drink = mapper.readValue(response, Drink.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
-        return drinkData;
+        return drink;
     }
 
-    public DrinkData setExampleData(String data) {
+    public Drink addDrink(Drink drink) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.postEndpoint(DRINKS_ENDPOINT, data);
-        DrinkData drinkData;
+        String response = endpointUtility.postEndpoint(DRINKS_ENDPOINT, gson.toJson(drink));
         try {
-            drinkData = mapper.readValue(response, DrinkData.class);
+            drink = mapper.readValue(response, Drink.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
-        return drinkData;
+        return drink;
+    }
+
+    public Drink updateDrink(Drink drink) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.putEndpoint(DRINKS_ENDPOINT, gson.toJson(drink));
+        try {
+            drink = mapper.readValue(response, Drink.class);
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return drink;
+    }
+
+    public Drink deleteDrink(String id) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
+        try {
+            return mapper.readValue(response, Drink.class);
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+    }
+
+    public List<Drink> getAllDrinks() {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(DRINKS_ENDPOINT);
+        List<Drink> drinks;
+        try {
+            drinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, Drink.class));
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return drinks;
+    }
+
+
+    public List<Drink> getDrinksByUserId(String id) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String response = endpointUtility.getEndpoint(DRINKS_USER_ENDPOINT.replace("{id}", id));
+        List<Drink> drinks;
+        try {
+            drinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, Drink.class));
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+        return drinks;
     }
 }
