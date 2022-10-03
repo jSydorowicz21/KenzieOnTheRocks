@@ -3,7 +3,7 @@ package com.kenzie.capstone.service.model;
 import java.util.List;
 import java.util.Objects;
 
-class Drink{
+public class Drink{
     private String id;
     private String name;
     private List<String> ingredients;
