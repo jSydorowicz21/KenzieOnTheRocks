@@ -1,7 +1,5 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.controller.model.DrinkCreateRequest;
-import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.service.model.Drink;
@@ -164,7 +162,7 @@ public class DrinkServiceTest {
         ArgumentCaptor<DrinkRecord> recordArgumentCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
 
         //when
-        Drink returnedDrink = drinkService.addDrink(request);
+        com.kenzie.capstone.service.model.Drink returnedDrink = drinkService.addDrink(request);
         //then
         Assertions.assertNotNull(returnedDrink);
         verify(drinkRepository).save(recordArgumentCaptor.capture());

@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.DrinkCreateRequest;
 import com.kenzie.appserver.controller.model.DrinkDeleteRequest;
 import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
@@ -58,7 +57,7 @@ public class DrinkController {
 
     @PostMapping
     public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
-        Drink drink = drinkService.addDrink(drinkCreateRequest);
+        com.kenzie.capstone.service.model.Drink drink = drinkService.addDrink(drinkCreateRequest);
 
         DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
@@ -71,24 +70,26 @@ public class DrinkController {
 
     @DeleteMapping
     public ResponseEntity<DrinkResponse> deleteDrink(@RequestBody DrinkDeleteRequest drinkDeleteRequest) {
-        Drink drinkToDelete = new Drink(drinkDeleteRequest.getId(), drinkDeleteRequest.getUserId(), drinkDeleteRequest.getName());
+        Drink drinkToDelete = new Drink(drinkDeleteRequest.getId(), drinkDeleteRequest.getUserId(), drinkDeleteRequest.getIngredients(), drinkDeleteRequest.getName());
         drinkService.delete(drinkToDelete);
         return ResponseEntity.noContent().build();
     }
-//
-//    @PutMapping
-//    public ResponseEntity<DrinkResponse> updateDrink(@RequestBody DrinkUpdateRequest drinkUpdateRequest) {
-//        Drink drink = new Drink(
-//                drinkUpdateRequest.getId(),
-//                drinkUpdateRequest.getName(),
-//                drinkUpdateRequest.getUserId());
-//        drink.setIngredients(drinkUpdateRequest.getIngredients());
-//        drinkService.updateDrink(drink); // user DB
-//
-//        DrinkResponse drinkResponse = createDrinkResponse(drink);
-//
-//        return ResponseEntity.ok(drinkResponse);
-//    }
+
+    @PutMapping
+    public ResponseEntity<DrinkResponse> updateDrink(@RequestBody DrinkUpdateRequest drinkUpdateRequest) {
+        Drink drink = new Drink(
+                drinkUpdateRequest.getId(),
+                drinkUpdateRequest.getName(),
+                drinkUpdateRequest.getIngredients(),
+                drinkUpdateRequest.getUserId());
+        drink.setIngredients(drinkUpdateRequest.getIngredients());
+        drinkService.updateDrink(drink); // user DB
+
+        DrinkResponse drinkResponse = createDrinkResponse(drink);
+
+        return ResponseEntity.ok(drinkResponse);
+    }
+
     private DrinkResponse createDrinkResponse(Drink drink) {
         DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
