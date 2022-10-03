@@ -37,6 +37,17 @@
                 <li><input type="checkbox" value="champagne" name="Alcohol"/>Champagne</li>
             </ul>
         </div>
+        <script type="text/javascript">
+
+        var checkList = document.getElementById('list1');
+        checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+            if (checkList.classList.contains('visible'))
+                checkList.classList.remove('visible');
+            else
+                checkList.classList.add('visible');
+        }
+
+    </script>
         <div id="list2" class="dropdown-check-list" tabindex="100">
             <span class="anchor" id="anchor2">Select Mixer</span>
             <ul class="items">
@@ -55,6 +66,7 @@
                 <li><input type="checkbox" value="tonic" name="Mixer"/>Tonic Water(S)</li>
             </ul>
         </div>
+
         <div id="list3" class="dropdown-check-list" tabindex="100">
             <span class="anchor" id="anchor3">Select Finisher</span>
             <ul class="items">
@@ -67,7 +79,7 @@
                 <li><input type="checkbox" value="citrustwist" name="Finisher"/>Citrus Twist</li>
             </ul>
         </div>
-        <button type="submit">Create</button>
+        <button type="button" id="createButton">Create</button>
     </form>
 </div>
 <div class="card" id="search-card">
@@ -79,7 +91,8 @@
             <input type="radio" name="filter" value="Mixer" >Mixer
             <input type="radio" name="filter" value="Finisher" >Finisher
         </p>
-        <button type="submit">Search</button>
+        <input type="text" required class="validated-field" id="searchFilter">
+        <button type="button" id="searchButton">Search</button>
     </form>
 </div>
 <div class="card" id="result">

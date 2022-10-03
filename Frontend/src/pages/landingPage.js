@@ -17,9 +17,9 @@ class LandingPage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-        document.getElementById('filter-form').addEventListener('submit', this.onGet);
-        document.querySelector("[name=filter]:checked").addEventListener('click', this.onGet);
-        document.getElementById('create-form').addEventListener('submit', this.onCreate);
+        document.getElementById('searchButton').addEventListener('click', this.onGet);
+        //document.querySelector("[name=filter]:checked").addEventListener('click', this.onGet);
+        document.getElementById('createButton').addEventListener('click', this.onCreate);
         this.client = new DrinkClient();
 
         this.dataStore.addChangeListener(this.renderDrink)
@@ -49,6 +49,7 @@ class LandingPage extends BaseClass {
         event.preventDefault();
 
         let filter = document.querySelector("[name=filter]:checked").value;
+        let ingredients = document.getElementById("searchFilter").value;
 //        this.dataStore.set("drinks", null);
 
         let result = await this.client.getDrink(id, this.errorHandler);

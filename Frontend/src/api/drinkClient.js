@@ -101,6 +101,11 @@ export default class DrinkClient extends BaseClass {
 
     }
 
+    //async getFilteredDrink(List<String> ingredients, error)
+    //use as onGet for search button in landingPage
+    //filter is value of checked query box
+    //use .contains
+
     /**
      * Helper method to log the error and run any error functions.
      * @param error The error received from the server.
