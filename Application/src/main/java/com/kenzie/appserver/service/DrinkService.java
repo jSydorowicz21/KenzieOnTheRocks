@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.DataTruncation;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -109,7 +110,7 @@ public class DrinkService {
 
     public List<Drink> getFilteredDrinks(List<String> ingredients){
         return lambdaServiceClient.getAllDrinks().stream()
-                .filter(drink -> drink.getIngredients().containsAll(ingredients))
+                .filter(drink -> new HashSet<>(drink.getIngredients()).containsAll(ingredients))
                 .map(drink -> new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId()))
                 .collect(Collectors.toList());
     }
@@ -122,6 +123,10 @@ public class DrinkService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no matching drink");
         }
+    }
+
+    public Drink createDrinkFromLambda(com.kenzie.capstone.service.model.Drink drink){
+        return new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
     }
     private DrinkRecord createRecordFromRequest(Drink request) {
         DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getIngredients(), request.getId());
