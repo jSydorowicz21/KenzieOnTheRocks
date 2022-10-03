@@ -5,11 +5,11 @@ import ExampleClient from "../api/exampleClient";
 /**
  * Logic needed for the view playlist page of the website.
  */
-class ExamplePage extends BaseClass {
+class LandingPage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onGet', 'onCreate', 'renderExample'], this);
+        this.bindClassMethods(['onGet', 'onCreate', 'renderDrink'], this);
         this.dataStore = new DataStore();
     }
 
@@ -17,24 +17,25 @@ class ExamplePage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-        document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
+        document.getElementById('filter-form').addEventListener('submit', this.onGet);
+        document.querySelector("[name=filter]:checked").addEventListener('click', this.onGet);
         document.getElementById('create-form').addEventListener('submit', this.onCreate);
-        this.client = new ExampleClient();
+        this.client = new DrinkClient();
 
-        this.dataStore.addChangeListener(this.renderExample)
+        this.dataStore.addChangeListener(this.renderDrink)
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
 
-    async renderExample() {
+    async renderDrink() {
         let resultArea = document.getElementById("result-info");
 
-        const example = this.dataStore.get("example");
+        const drink = this.dataStore.get("drink");
 
-        if (example) {
+        if (drink) {
             resultArea.innerHTML = `
-                <div>ID: ${example.id}</div>
-                <div>Name: ${example.name}</div>
+                <div>Drink Name: ${drink.name}</div>
+                <div>Ingredients: ${drink.ingredients}</div>
             `
         } else {
             resultArea.innerHTML = "No Item";
@@ -47,11 +48,11 @@ class ExamplePage extends BaseClass {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
 
-        let id = document.getElementById("id-field").value;
-        this.dataStore.set("example", null);
+        let filter = document.querySelector("[name=filter]:checked").value;
+//        this.dataStore.set("drinks", null);
 
-        let result = await this.client.getExample(id, this.errorHandler);
-        this.dataStore.set("example", result);
+        let result = await this.client.getDrink(id, this.errorHandler);
+        this.dataStore.set("drinks", result);
         if (result) {
             this.showMessage(`Got ${result.name}!`)
         } else {
@@ -62,15 +63,23 @@ class ExamplePage extends BaseClass {
     async onCreate(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
-        this.dataStore.set("example", null);
+        this.dataStore.set("drink", null);
 
         let name = document.getElementById("create-name-field").value;
 
-        const createdExample = await this.client.createExample(name, this.errorHandler);
-        this.dataStore.set("example", createdExample);
+        let alcohol = document.querySelector("[name=Alcohol]:checked").value;
 
-        if (createdExample) {
-            this.showMessage(`Created ${createdExample.name}!`)
+        let mixer = document.querySelector("[name=Mixer]:checked").value;
+
+        let finisher = document.querySelector("[name=Finisher]:checked").value;
+
+        let ingredients = [alcohol, mixer, finisher];
+
+        const createdDrink = await this.client.createDrink(name, this.errorHandler);
+        this.dataStore.set("drink", createdDrink);
+
+        if (createdDrink) {
+            this.showMessage(`Created ${createdDrink.name}!`)
         } else {
             this.errorHandler("Error creating!  Try again...");
         }
@@ -81,8 +90,8 @@ class ExamplePage extends BaseClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const examplePage = new ExamplePage();
-    examplePage.mount();
+    const landingPage = new LandingPage();
+    landingPage.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

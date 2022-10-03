@@ -37,12 +37,12 @@ export default class DrinkClient extends BaseClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The concert
      */
-    async getHomeDrinks(id, errorCallback) {
+    async getHomeDrinks(errorCallback) {
         try {
             const response = await this.client.get(`/drinks`);
             return response.data;
         } catch (error) {
-            this.handleError("getConcert", error, errorCallback)
+            this.handleError("getHomeDrinks", error, errorCallback)
         }
     }
 
@@ -55,7 +55,7 @@ export default class DrinkClient extends BaseClass {
             });
             return response.data;
         } catch (error) {
-            this.handleError("createExample", error, errorCallback);
+            this.handleError("createDrink", error, errorCallback);
         }
     }
 
