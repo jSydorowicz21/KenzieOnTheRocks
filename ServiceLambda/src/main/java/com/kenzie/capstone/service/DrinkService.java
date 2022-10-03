@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
+import com.kenzie.capstone.service.dao.CachingDrinkDao;
 import com.kenzie.capstone.service.model.Drink;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import com.kenzie.capstone.service.model.DrinkRequest;
@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 
 public class DrinkService {
 
-    private NonCachingDrinkDao nonCachingDrinkDao;
+    private CachingDrinkDao DrinkDao;
 
     @Inject
-    public DrinkService(NonCachingDrinkDao nonCachingDrinkDao) {
-        this.nonCachingDrinkDao = nonCachingDrinkDao;
+    public DrinkService(CachingDrinkDao DrinkDao) {
+        this.DrinkDao = DrinkDao;
     }
 
     public Drink getDrink(String id) {
-        DrinkRecord drinkRecord = nonCachingDrinkDao.getDrink(id);
+        DrinkRecord drinkRecord = DrinkDao.getDrink(id);
 
         if (drinkRecord == null){
             throw new IllegalArgumentException("Drink not found");
@@ -38,7 +38,7 @@ public class DrinkService {
         drinkRecord.setIngredients(drinkRequest.getIngredients());
         drinkRecord.setUserId(drinkRequest.getUserId());
 
-        nonCachingDrinkDao.addDrink(drinkRecord);
+        DrinkDao.addDrink(drinkRecord);
         Drink drink = toDrink(drinkRecord);
         return drink;
     }
@@ -50,7 +50,7 @@ public class DrinkService {
         drinkRecord.setIngredients(drink.getIngredients());
         drinkRecord.setUserId(drink.getUserId());
 
-        nonCachingDrinkDao.updateDrink(drinkRecord);
+        DrinkDao.updateDrink(drinkRecord);
 
         return drink;
     }
@@ -60,19 +60,19 @@ public class DrinkService {
         DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
 
-        nonCachingDrinkDao.deleteDrink(drinkRecord);
+        DrinkDao.deleteDrink(drinkRecord);
 
     }
 
     public List<Drink> getAllDrinks() {
-        return nonCachingDrinkDao.getAllDrinks().stream()
+        return DrinkDao.getAllDrinks().stream()
                 .map(drinkRecord ->
                     new Drink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
     }
 
     public List<Drink> getDrinksByUserId(String userId) {
-        return nonCachingDrinkDao.getDrinksByUserId(userId).stream()
+        return DrinkDao.getDrinksByUserId(userId).stream()
                 .map(drinkRecord ->
                         new Drink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
