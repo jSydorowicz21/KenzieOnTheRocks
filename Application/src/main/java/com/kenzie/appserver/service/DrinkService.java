@@ -36,15 +36,11 @@ public class DrinkService {
     public Drink findById(String id) {
 
         // Example getting data from the lambda
-        Drink dataFromLambda = lambdaServiceClient.getDrink(id);
+        Drink dataFromLambda = createDrinkFromLambda(lambdaServiceClient.getDrink(id));
 
         // Example getting data from the local repository
-        Drink dataFromDynamo = drinkRepository
-                .findById(id)
-                .map(drink -> new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId()))
-                .orElse(null);
 
-        return dataFromDynamo;
+        return dataFromLambda;
     }
 
 //    public Drink addNewExample(String name) {
