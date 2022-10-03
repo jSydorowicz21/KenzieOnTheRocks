@@ -3,6 +3,7 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 public class DrinkDeleteRequest {
         @NotEmpty
@@ -14,11 +15,23 @@ public class DrinkDeleteRequest {
         private String name;
 
         @NotEmpty
+        @JsonProperty("ingredients")
+        private List<String> ingredients;
+
+        @NotEmpty
         @JsonProperty("Id")
         private String Id;
 
         public String getId() {
             return Id;
+        }
+
+        public List<String> getIngredients() {
+            return ingredients;
+        }
+
+        public void setIngredients(List<String> ingredients) {
+            this.ingredients = ingredients;
         }
 
         public void setId(String id) {

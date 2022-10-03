@@ -2,7 +2,6 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
-import com.kenzie.appserver.controller.model.DrinkDeleteRequest;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.model.Drink;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.UUID;
 
@@ -47,7 +45,7 @@ class DrinkControllerTest {
         String id = UUID.randomUUID().toString();
 
         Drink drink = new Drink(userId, name, id);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        com.kenzie.capstone.service.model.Drink persistedDrink = drinkService.addDrink(drink);
 
         mvc.perform(get("/drinks/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
@@ -107,7 +105,7 @@ class DrinkControllerTest {
         drinkCreateRequest.setName(name);
         drinkCreateRequest.setId(id);
         Drink drink = new Drink(userId, name, id);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        com.kenzie.capstone.service.model.Drink persistedDrink = drinkService.addDrink(drink);
 
         DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
         drinkUpdateRequest.setUserId(userId);
@@ -140,7 +138,7 @@ class DrinkControllerTest {
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
         Drink drink = new Drink(userId, name, id);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        com.kenzie.capstone.service.model.Drink persistedDrink = drinkService.addDrink(drink);
 
         // WHEN
         mvc.perform(delete("/drinks", persistedDrink.getId())

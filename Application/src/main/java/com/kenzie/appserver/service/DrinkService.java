@@ -1,22 +1,15 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.controller.model.DrinkCreateRequest;
-import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.service.model.Drink;
 
-import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
-import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
-import com.kenzie.capstone.service.model.DrinkData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.DataTruncation;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -35,74 +28,65 @@ public class DrinkService {
 
     public Drink findById(String id) {
 
-        // Example getting data from the lambda
         Drink dataFromLambda = createDrinkFromLambda(lambdaServiceClient.getDrink(id));
-
-        // Example getting data from the local repository
-
         return dataFromLambda;
     }
 
-//    public Drink addNewExample(String name) {
-//        // Example sending data to the lambda
-//        DrinkData dataFromLambda = lambdaServiceClient.setExampleData(name);
-//
-//        // Example sending data to the local repository
-//        DrinkRecord drinkRecord = new DrinkRecord();
-//        drinkRecord.setId(dataFromLambda.getId());
-//        drinkRecord.setName(dataFromLambda.getData());
-//        drinkRepository.save(drinkRecord);
-//
-//        Drink drink = new Drink(dataFromLambda.getId(), dataFromLambda.getData(),da);
-//        return drink;
-//    }
-
     public List<Drink> getAllDrinks() {
-        List<Drink> drinks = new ArrayList<>();
-        Iterable<DrinkRecord> drinkIterator = drinkRepository.findAll();
-        for (DrinkRecord record : drinkIterator) {
-            if (record != null) {
-                drinks.add(convertRecordToDrink(record));
-            }
-        }
-        return drinks;
+        return lambdaServiceClient.getAllDrinks()
+                .stream()
+                .map(drink -> createDrinkFromLambda(drink))
+                .collect(Collectors.toList());
     }
 
     public Drink getDrink(String name, String userId){
         List<Drink> drinks = getAllDrinks().stream().filter(drink -> drink.getUserId().equals(userId)).collect(Collectors.toList());
-        //return the drink or null
         return drinks.isEmpty() ? null : drinks.get(0);
 
     }
 
     //add drink
-    public Drink addDrink(Drink request) {
-        drinkRepository.findById(request.getName());
-        //check if this drink already present
-//        if (drinkRepository.UserHasExistingDrink(request.getName())) {
-//            throw new UserHasExistingDrinkException(request.getName() + "has an existing drink. The existing drink will be updated");
-//        }
-        DrinkRecord record = createRecordFromRequest(request);
-        drinkRepository.save(record);
+    public com.kenzie.capstone.service.model.Drink addDrink(Drink request) {
+        com.kenzie.capstone.service.model.Drink drinkExists = lambdaServiceClient.getDrink(request.getId());
 
-        Drink drink = convertRecordToDrink(record);
+        if(drinkExists != null) {
+            try {
+                throw new Exception("has an existing drink. The existing drink should be updated instead");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        DrinkRecord record = createRecordFromRequest(request);
+        com.kenzie.capstone.service.model.Drink drink = new com.kenzie.capstone.service.model.Drink(record.getId(), record.getName(), record.getIngredients(), record.getUserId());
+        lambdaServiceClient.addDrink(drink);
+
         return drink;
     }
 
+    public Drink updateDrink(Drink request) {
+        com.kenzie.capstone.service.model.Drink drinkDoesnotExists = lambdaServiceClient.getDrink(request.getId());
 
+        if(drinkDoesnotExists == null) {
+            try {
+                throw new Exception("The drink does not exist, it should be added instead");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        List<com.kenzie.capstone.service.model.Drink> lambdaServiceClientDrinksByUserId = lambdaServiceClient.getDrinksByUserId(request.getUserId());
 
-//    public Drink updateDrink(Drink request) {
-//        drinkRepository.findById(request.getId());
-//        if(!drinkRepository.UserHasExistingDrink(request.getUserId())) {
-//            throw new UserHasNoExistingDrinkException(request.getUserId() + "does not have existing drink." + "New drink will be added");
-//        }
-//        DrinkRecord existingRecord = drinkRepository.findDrinkByUserId(request.getUserId());
-//
-//        DrinkRecord updateRecord = new DrinkRecord(existingRecord.getId(), existingRecord.getName(), existingRecord.getUserId());
-//        updateRecord.setIngredients(request.getIngredients());
-//        drinkRepository.save(updateRecord);
-//        return convertRecordToDrink(updateRecord);
-//    }
+        com.kenzie.capstone.service.model.Drink updatedDrink = null;
+
+        for(com.kenzie.capstone.service.model.Drink drink : lambdaServiceClientDrinksByUserId){
+            if(drink.equals(request)){
+                drink.setIngredients(request.getIngredients());
+                updatedDrink = new com.kenzie.capstone.service.model.Drink(drink.getId(), drink.getName(), request.getIngredients(), drink.getUserId());
+                lambdaServiceClient.updateDrink(updatedDrink);
+            }
+        }
+        Drink serviceDrink = new Drink(updatedDrink.getId(), updatedDrink.getName(), updatedDrink.getIngredients(), updatedDrink.getUserId());
+        return serviceDrink;
+    }
 
     public List<Drink> getFilteredDrinks(List<String> ingredients){
         return lambdaServiceClient.getAllDrinks().stream()
@@ -111,10 +95,9 @@ public class DrinkService {
                 .collect(Collectors.toList());
     }
 
-    public void delete(Drink drinkId){
+    public void delete(Drink drink){
         try{
-            drinkRepository.delete(createRecordFromDrink(drinkId));
-
+            lambdaServiceClient.deleteDrink(drink.getId());
         } catch (IllegalArgumentException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no matching drink");
@@ -129,20 +112,5 @@ public class DrinkService {
         record.setId(UUID.randomUUID().toString());
         record.setName(record.getName());
         return record;
-    }
-
-    private DrinkRecord createRecordFromDrink(Drink drink) {
-        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
-        record.setId(drink.getId());
-        record.setName(drink.getName());
-        record.setIngredients(drink.getIngredients());
-        return record;
-    }
-
-
-    private Drink convertRecordToDrink(DrinkRecord record) {
-        Drink drink = new Drink(record.getId(), record.getName(), record.getIngredients(),record.getUserId());
-        drink.setIngredients(record.getIngredients());
-        return drink;
     }
 }
