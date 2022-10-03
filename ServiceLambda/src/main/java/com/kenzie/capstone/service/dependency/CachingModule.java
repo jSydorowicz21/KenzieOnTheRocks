@@ -7,6 +7,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Module
@@ -44,6 +45,7 @@ public class CachingModule {
     }
 
     @Provides
+    @Named("CacheClient")
     @Singleton
     public CacheClient provideCacheClient() {
         return new CacheClient();

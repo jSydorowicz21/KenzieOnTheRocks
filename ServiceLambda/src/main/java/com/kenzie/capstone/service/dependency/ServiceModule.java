@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.dependency;
 
 import com.kenzie.capstone.service.DrinkService;
+import com.kenzie.capstone.service.dao.CachingDrinkDao;
 import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
 
 import dagger.Module;
@@ -18,8 +19,8 @@ public class ServiceModule {
     @Singleton
     @Provides
     @Inject
-    public DrinkService provideDrinkService(@Named("DrinkDao") NonCachingDrinkDao nonCachingDrinkDao) {
-        return new DrinkService(nonCachingDrinkDao);
+    public DrinkService provideDrinkService(@Named("DrinkDao") CachingDrinkDao drinkDao) {
+        return new DrinkService(drinkDao);
     }
 }
 
