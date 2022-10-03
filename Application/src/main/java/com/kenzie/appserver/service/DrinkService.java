@@ -35,7 +35,7 @@ public class DrinkService {
     public Drink findById(String id) {
 
         // Example getting data from the lambda
-        DrinkData dataFromLambda = lambdaServiceClient.getExampleData(id);
+        Drink dataFromLambda = lambdaServiceClient.getExampleData(id);
 
         // Example getting data from the local repository
         Drink dataFromDynamo = drinkRepository
