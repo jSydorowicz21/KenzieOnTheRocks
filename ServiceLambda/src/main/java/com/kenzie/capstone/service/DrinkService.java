@@ -4,12 +4,10 @@ import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
 import com.kenzie.capstone.service.model.Drink;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import com.kenzie.capstone.service.model.DrinkRequest;
-import com.kenzie.capstone.service.model.DrinkResponse;
 
 import javax.inject.Inject;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DrinkService {
