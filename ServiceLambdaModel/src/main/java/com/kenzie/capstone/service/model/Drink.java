@@ -63,4 +63,14 @@ public class Drink{
     public int hashCode() {
         return Objects.hash(id, name, ingredients, userId);
     }
+
+    @Override
+    public String toString() {
+        return "Drink{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", ingredients=" + ingredients +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package com.kenzie.capstone.service.lambda;
 
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.Drink;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -35,17 +36,17 @@ public class GetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
+        Drink drink = gson.fromJson(input.getBody(), Drink.class);
 
-        if (id == null || id.length() == 0) {
+        if (drink == null || drink.getId() == null) {
             return response
                     .withStatusCode(400)
-                    .withBody("Id is invalid");
+                    .withBody("drink is invalid");
         }
 
         try {
-            DrinkData drinkData = lambdaService.getExampleData(id);
-            String output = gson.toJson(drinkData);
+            Drink drinkFromLambda = lambdaService.updateDrink(drink);
+            String output = gson.toJson(drinkFromLambda);
 
             return response
                     .withStatusCode(200)

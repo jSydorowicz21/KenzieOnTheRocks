@@ -1,23 +1,23 @@
 package com.kenzie.capstone.service.lambda;
 
-import com.kenzie.capstone.service.DrinkService;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.DrinkData;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
-
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.DrinkService;
+import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
+import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.Drink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetAllDrinks implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -36,17 +36,10 @@ public class SetExampleData implements RequestHandler<APIGatewayProxyRequestEven
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String data = input.getBody();
-
-        if (data == null || data.length() == 0) {
-            return response
-                    .withStatusCode(400)
-                    .withBody("data is invalid");
-        }
 
         try {
-            DrinkData drinkData = lambdaService.setExampleData(data);
-            String output = gson.toJson(drinkData);
+            List<Drink> drinksFromLambda = lambdaService.getAllDrinks();
+            String output = gson.toJson(drinksFromLambda);
 
             return response
                     .withStatusCode(200)
