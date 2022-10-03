@@ -13,9 +13,10 @@ public class Drink {
     public Drink(){}
 
 
-    public Drink(String id, String name, String userId) {
+    public Drink(String id, String name, List<String> ingredients, String userId) {
         this.id = id;
         this.name = name;
+        this.ingredients = ingredients;
         this.userId = userId;
     }
 

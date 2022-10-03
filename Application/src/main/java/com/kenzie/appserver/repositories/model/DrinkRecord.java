@@ -16,9 +16,10 @@ public class DrinkRecord {
     private List<String> ingredients;
     private String userId;
 
-    public DrinkRecord(String id, String name, String userId) {
+    public DrinkRecord(String id, String name, List<String> ingredients, String userId) {
         this.id = id;
         this.name = name;
+        this.ingredients = ingredients;
         this.userId = userId;
     }
 

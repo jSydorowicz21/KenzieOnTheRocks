@@ -35,12 +35,12 @@ public class DrinkService {
     public Drink findById(String id) {
 
         // Example getting data from the lambda
-        Drink dataFromLambda = lambdaServiceClient.getExampleData(id);
+        Drink dataFromLambda = lambdaServiceClient.getDrink(id);
 
         // Example getting data from the local repository
         Drink dataFromDynamo = drinkRepository
                 .findById(id)
-                .map(example -> new Drink(example.getId(), example.getName(), example.getUserId()))
+                .map(drink -> new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId()))
                 .orElse(null);
 
         return dataFromDynamo;
@@ -107,6 +107,13 @@ public class DrinkService {
 //        return convertRecordToDrink(updateRecord);
 //    }
 
+    public List<Drink> getFilteredDrinks(List<String> ingredients){
+        return lambdaServiceClient.getAllDrinks().stream()
+                .filter(drink -> drink.getIngredients().containsAll(ingredients))
+                .map(drink -> new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId()))
+                .collect(Collectors.toList());
+    }
+
     public void delete(Drink drinkId){
         try{
             drinkRepository.delete(createRecordFromDrink(drinkId));
@@ -117,14 +124,14 @@ public class DrinkService {
         }
     }
     private DrinkRecord createRecordFromRequest(Drink request) {
-        DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getId());
+        DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getIngredients(), request.getId());
         record.setId(UUID.randomUUID().toString());
         record.setName(record.getName());
         return record;
     }
 
     private DrinkRecord createRecordFromDrink(Drink drink) {
-        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName(), drink.getUserId());
+        DrinkRecord record = new DrinkRecord(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
         record.setId(drink.getId());
         record.setName(drink.getName());
         record.setIngredients(drink.getIngredients());
@@ -133,7 +140,7 @@ public class DrinkService {
 
 
     private Drink convertRecordToDrink(DrinkRecord record) {
-        Drink drink = new Drink(record.getId(), record.getName(),record.getUserId());
+        Drink drink = new Drink(record.getId(), record.getName(), record.getIngredients(),record.getUserId());
         drink.setIngredients(record.getIngredients());
         return drink;
     }
