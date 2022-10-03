@@ -4,7 +4,9 @@ package com.kenzie.capstone.service.caching;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class CacheClient {
 
@@ -34,6 +36,26 @@ public class CacheClient {
         jedis.close();
 
         return value;
+
+    }
+
+    public Optional<List<String>> getAll() {
+
+        this.jedis = DaggerServiceComponent.create().provideJedis();
+
+        Set<String> keys = jedis.keys("*");
+
+        try {
+            List<String> values = jedis.mget(keys.toArray(new String[keys.size()]));
+            return Optional.ofNullable(values);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        jedis.close();
+
+        return Optional.empty();
 
     }
 
