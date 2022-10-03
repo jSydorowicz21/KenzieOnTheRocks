@@ -1,68 +1,23 @@
 package com.kenzie.capstone.service.dao;
 
-import com.kenzie.capstone.service.model.DrinkData;
+import com.kenzie.capstone.service.model.Drink;
 import com.kenzie.capstone.service.model.DrinkRecord;
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
-import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
-public class DrinkDao {
-    private DynamoDBMapper mapper;
+public interface DrinkDao {
 
-    /**
-     * Allows access to and manipulation of Match objects from the data store.
-     * @param mapper Access to DynamoDB
-     */
-    public DrinkDao(DynamoDBMapper mapper) {
-        this.mapper = mapper;
-    }
+    DrinkRecord addDrink(DrinkRecord drink);
 
-    public DrinkData storeExampleData(DrinkData drinkData) {
-        try {
-            mapper.save(drinkData, new DynamoDBSaveExpression()
-                    .withExpected(ImmutableMap.of(
-                            "id",
-                            new ExpectedAttributeValue().withExists(false)
-                    )));
-        } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("id has already been used");
-        }
+    DrinkRecord getDrink(String id);
 
-        return drinkData;
-    }
+    DrinkRecord updateDrink(DrinkRecord drink);
 
-    public List<DrinkRecord> getExampleData(String id) {
-        DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(id);
+    void deleteDrink(DrinkRecord drink);
 
-        DynamoDBQueryExpression<DrinkRecord> queryExpression = new DynamoDBQueryExpression<DrinkRecord>()
-                .withHashKeyValues(drinkRecord)
-                .withConsistentRead(false);
+    List<DrinkRecord> getAllDrinks();
 
-        return mapper.query(DrinkRecord.class, queryExpression);
-    }
+    List<DrinkRecord> getDrinksByUserId(String userId);
 
-    public DrinkRecord setExampleData(String id, String data) {
-        DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(id);
-        drinkRecord.setData(data);
 
-        try {
-            mapper.save(drinkRecord, new DynamoDBSaveExpression()
-                    .withExpected(ImmutableMap.of(
-                            "id",
-                            new ExpectedAttributeValue().withExists(false)
-                    )));
-        } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("id already exists");
-        }
-
-        return drinkRecord;
-    }
 }
