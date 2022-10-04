@@ -73,7 +73,7 @@ public class DrinkController {
 
     @PostMapping
     public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
-        com.kenzie.capstone.service.model.Drink drink = drinkService.addDrink(drinkCreateRequest);
+        Drink drink = drinkService.addDrink(drinkCreateRequest);
 
         DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());

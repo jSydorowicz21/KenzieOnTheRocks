@@ -10,9 +10,8 @@ import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.exceptions.InvalidDataException;
-import com.kenzie.capstone.service.model.Drink;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.model.DrinkRequest;
-import com.kenzie.capstone.service.model.DrinkResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,10 +34,10 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
 
         try {
             DrinkRequest drinkRequest = this.convert(input.getBody());
-            Drink drink = drinkService.addDrink(drinkRequest);
+            LambdaDrink lambdaDrink = drinkService.addDrink(drinkRequest);
             return response
                     .withStatusCode(200)
-                    .withBody(gson.toJson(drink));
+                    .withBody(gson.toJson(lambdaDrink));
         } catch (InvalidDataException e) {
             return response
                     .withStatusCode(400)

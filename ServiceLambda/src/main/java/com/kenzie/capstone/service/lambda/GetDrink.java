@@ -10,12 +10,11 @@ import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.exceptions.InvalidDataException;
-import com.kenzie.capstone.service.model.Drink;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GetDrink implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -38,8 +37,8 @@ public class GetDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
                 .withHeaders(headers);
 
         try {
-            Drink drink = drinkService.getDrink(input.getBody());
-            String output = gson.toJson(drink);
+            LambdaDrink lambdaDrink = drinkService.getDrink(input.getBody());
+            String output = gson.toJson(lambdaDrink);
 
             return response
                     .withStatusCode(200)

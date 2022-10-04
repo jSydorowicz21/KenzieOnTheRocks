@@ -1,6 +1,5 @@
 package com.kenzie.capstone.service.dao;
 
-import com.kenzie.capstone.service.model.Drink;
 import com.kenzie.capstone.service.model.DrinkRecord;
 
 import java.util.List;

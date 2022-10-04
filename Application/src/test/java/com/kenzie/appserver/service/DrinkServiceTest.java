@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import com.kenzie.capstone.service.model.LambdaDrink;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,11 +27,13 @@ public class DrinkServiceTest {
 
     //constant testing values
     public static final String TEST_USERID = "test userid";
-    public static final String Test_USERID_ALT = "other test userid";
+    public static final String TEST_USERID_ALT = "other test userid";
     public static final String TEST_DRINK_ID ="test drinkId";
     public static final String TEST_DRINK_ID_ALT = "other test drink id";
     public static final String TEST_DRINK_NAME =" test drink name";
     public static final String TEST_DRINK_NAME_ALT = "other test drink name";
+    public static final List<String> TEST_DRINK_INGREDIENTS = List.of("Ingredient1", "Ingredient2");
+    public static final List<String> TEST_DRINK_INGREDIENTS_ALT = List.of("Ingredient3", "Ingredient4");
 
     @BeforeEach
     void setup() {
@@ -47,18 +50,19 @@ public class DrinkServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        DrinkRecord record = new DrinkRecord();
-        record.setId(id);
-        record.setName("concertName");
+        LambdaDrink drink = new LambdaDrink();
+        drink.setId(id);
+        drink.setName(TEST_DRINK_NAME);
+        drink.setUserId(TEST_USERID);
 
         // WHEN
-        when(drinkRepository.findById(id)).thenReturn(Optional.of(record));
-        Drink drink = drinkService.findById(id);
+        when(lambdaServiceClient.getDrink(id)).thenReturn(drink);
+        Drink returnedDrink = drinkService.findById(id);
 
         // THEN
-        Assertions.assertNotNull(drink, "The object is returned");
-        Assertions.assertEquals(record.getId(), drink.getId(), "The id matches");
-        Assertions.assertEquals(record.getName(), drink.getName(), "The name matches");
+        Assertions.assertNotNull(returnedDrink, "The object is returned");
+        Assertions.assertEquals(returnedDrink.getId(), drink.getId(), "The id matches");
+        Assertions.assertEquals(returnedDrink.getName(), drink.getName(), "The name matches");
     }
 //
 //    @Test
@@ -78,16 +82,16 @@ public class DrinkServiceTest {
      *  drinkService.getDrinks
      *  ------------------------------------------------------------------------ **/
 
+    //Todo Fix to throw exception
     @Test
-    void getDrink_noMatchingDrink_returnsNull() {
-        DrinkRecord record1 = createRecord(TEST_DRINK_ID,TEST_USERID,TEST_DRINK_NAME);
-        when(drinkRepository.findAll()).thenReturn(Collections.singleton(record1));
+    void getDrink_noMatchingDrink_Throws_Exception() {
 
         //when
-        Drink drink = drinkService.getDrink(TEST_DRINK_ID_ALT,TEST_USERID);
+
+        when(lambdaServiceClient.getDrink(any())).thenReturn(null);
 
         //then
-        Assertions.assertNull(drink,"if no drink available with the id then it should return null");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> drinkService.getDrink(TEST_DRINK_ID, TEST_USERID));
 
     }
     /** ------------------------------------------------------------------------
@@ -97,13 +101,12 @@ public class DrinkServiceTest {
     @Test
     void getAllDrinks_sameUser_returnsAll(){
         //Given
-        DrinkRecord record1 = createRecord(TEST_DRINK_ID,TEST_DRINK_NAME,TEST_USERID);
-        DrinkRecord record2 = createRecord(TEST_DRINK_ID_ALT,TEST_DRINK_NAME_ALT,TEST_USERID);
+        LambdaDrink drink = new LambdaDrink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS, TEST_USERID);
+        LambdaDrink drink2 = new LambdaDrink(TEST_DRINK_ID_ALT, TEST_DRINK_NAME_ALT, TEST_DRINK_INGREDIENTS_ALT, TEST_USERID);
 
-            List<DrinkRecord> recordList = new ArrayList<>();
-            recordList.add(record1);
-            recordList.add(record2);
-            when(drinkRepository.findAll()).thenReturn(recordList);
+
+
+        when(lambdaServiceClient.getAllDrinks()).thenReturn(List.of(drink,drink2));
 
             //when
         List<Drink> drinks = drinkService.getAllDrinks();
@@ -116,19 +119,15 @@ public class DrinkServiceTest {
     @Test
     void getAllDrinks_noDrinkMatch_returnsEmptyList(){
         //Given
-        DrinkRecord record1 = createRecord(TEST_DRINK_ID,TEST_DRINK_NAME,TEST_USERID);
-        DrinkRecord record2 = createRecord(TEST_DRINK_ID_ALT,TEST_DRINK_NAME_ALT,TEST_USERID);
 
-        List<DrinkRecord> recordList = new ArrayList<>();
-        recordList.add(record1);
-        recordList.add(record2);
-        when(drinkRepository.findAll()).thenReturn(recordList);
+
+        when(lambdaServiceClient.getAllDrinks()).thenReturn(Collections.emptyList());
 
         //when
         List<Drink> drinks = drinkService.getAllDrinks();
         //then
         Assertions.assertNotNull(drinks, "An empty list will be returned");
-        Assertions.assertTrue(drinks.isEmpty(),"The list should be empty as no drink found with the drink name");
+        Assertions.assertTrue(drinks.isEmpty(),"The list should be empty as no drink found ");
 
     }
     /** ------------------------------------------------------------------------
@@ -138,13 +137,14 @@ public class DrinkServiceTest {
     @Test
     void deleteDrink_drinkExists_verifyInteractions() {
         //given
-        doNothing().when(drinkRepository).delete(mock(DrinkRecord.class));
+        Drink drink = new Drink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS, TEST_USERID);
+        when(lambdaServiceClient.deleteDrink(TEST_DRINK_ID)).thenReturn(mock(LambdaDrink.class));
 
         //when
-        drinkService.delete(mock(Drink.class));
+        drinkService.delete(drink);
 
         //then
-        verify(drinkRepository).delete(any());
+        verify(lambdaServiceClient).deleteDrink(TEST_DRINK_ID);
 
     }
     /** ------------------------------------------------------------------------
@@ -153,21 +153,21 @@ public class DrinkServiceTest {
     @Test
     void addNewDrink_userHasNotExistingDrink_addDrink() {
         //given
-        Drink request = new Drink();
-        request.setId(TEST_DRINK_ID);
-        request.setName(TEST_DRINK_NAME);
-        request.setUserId(TEST_USERID);
+        Drink request = new Drink(TEST_DRINK_ID,TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS, TEST_USERID);
 
-        when(drinkService.findById(any())).thenReturn(mock(Drink.class));
-        ArgumentCaptor<DrinkRecord> recordArgumentCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
+
+        LambdaDrink drink = new LambdaDrink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS, TEST_USERID);
+
+        when(lambdaServiceClient.addDrink(drink)).thenReturn(drink);
+        ArgumentCaptor<LambdaDrink> recordArgumentCaptor = ArgumentCaptor.forClass(LambdaDrink.class);
 
         //when
-        com.kenzie.capstone.service.model.Drink returnedDrink = drinkService.addDrink(request);
+        Drink returnedDrink = drinkService.addDrink(request);
         //then
         Assertions.assertNotNull(returnedDrink);
-        verify(drinkRepository).save(recordArgumentCaptor.capture());
+        verify(lambdaServiceClient).addDrink(recordArgumentCaptor.capture());
 
-        DrinkRecord record = recordArgumentCaptor.getValue();
+        LambdaDrink record = recordArgumentCaptor.getValue();
 
         Assertions.assertNotNull(returnedDrink,"The new drink should be returned");
         Assertions.assertEquals(TEST_USERID,returnedDrink.getUserId(),"the userId should be the test user id");
@@ -181,14 +181,10 @@ public class DrinkServiceTest {
     @Test
     void addNewDrink_userHasExistingDrink_throwsException() {
         //given
-        when(drinkService.findById(any())).thenReturn(mock(Drink.class));
-        when(drinkRepository.UserHasExistingDrink(any())).thenReturn(true);
+        when(lambdaServiceClient.getDrink(any())).thenReturn(mock(LambdaDrink.class));
 
         //when then
-        Assertions.assertThrows(UserHasExistingDrinkException.class,() ->drinkService.addDrink(mock(Drink.class)));
-        verify(drinkService).findById(any());
-        verify(drinkRepository).UserHasExistingDrink(any());
-        verifyNoMoreInteractions(drinkService);
+        Assertions.assertThrows(UserHasExistingDrinkException.class,() -> drinkService.addDrink(mock(Drink.class)));
 
     }
 
@@ -199,25 +195,23 @@ public class DrinkServiceTest {
     @Test
     void updateDrink_dataValidAndMatches_returnsUpdatedDrink(){
         //Given
-        DrinkRecord existingRecord = createRecord(TEST_DRINK_ID,TEST_DRINK_NAME,TEST_USERID);
+        LambdaDrink existingDrink = new LambdaDrink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS, TEST_USERID);
+        LambdaDrink updatedDrink = new LambdaDrink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS_ALT, TEST_USERID);
 
-        Drink request = new Drink();
-        request.setId(TEST_DRINK_ID);
-        request.setName(TEST_DRINK_NAME);
-        request.setUserId(TEST_USERID);
+        Drink request = new Drink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS_ALT, TEST_USERID);
 
-        when(drinkService.findById(TEST_USERID)).thenReturn(mock(Drink.class));
-        when(drinkRepository.UserHasExistingDrink(any())).thenReturn(true);
-        when(drinkRepository.findDrinkByUserId(any())).thenReturn(existingRecord);
 
-        ArgumentCaptor<DrinkRecord> recordArgumentCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
+        when(lambdaServiceClient.getDrink(TEST_DRINK_ID)).thenReturn(existingDrink);
+        when(lambdaServiceClient.updateDrink(any())).thenReturn(updatedDrink);
+
+        ArgumentCaptor<LambdaDrink> recordArgumentCaptor = ArgumentCaptor.forClass(LambdaDrink.class);
 
         //when
         Drink drink = drinkService.updateDrink(request);
 
         //then
-        verify(drinkRepository).save(recordArgumentCaptor.capture());
-        DrinkRecord recordWithUpdatedValues = recordArgumentCaptor.getValue();
+        verify(lambdaServiceClient).updateDrink(recordArgumentCaptor.capture());
+        LambdaDrink recordWithUpdatedValues = recordArgumentCaptor.getValue();
 
         Assertions.assertNotNull(drink, "the newly updated drink should be returned");
         Assertions.assertEquals(TEST_DRINK_ID, recordWithUpdatedValues.getId(),"The drink id should match");
@@ -231,14 +225,10 @@ public class DrinkServiceTest {
 
     @Test
     void updateDrink_userHasNoExistingDrink_throwsException(){
-        when(drinkService.findById(any())).thenReturn(mock(Drink.class));
-        when(drinkRepository.UserHasExistingDrink(any())).thenReturn(false);
+        when(lambdaServiceClient.getDrink(any())).thenReturn(null);
 
         //when then
         Assertions.assertThrows(UserHasNoExistingDrinkException.class,()-> drinkService.updateDrink(mock(Drink.class)));
-        verify(drinkService).findById(any());
-        verify(drinkRepository).UserHasExistingDrink(any());
-        verifyNoMoreInteractions(drinkService);
 
     }
 
