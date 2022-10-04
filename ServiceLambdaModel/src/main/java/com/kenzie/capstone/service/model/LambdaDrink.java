@@ -3,13 +3,13 @@ package com.kenzie.capstone.service.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Drink{
+public class LambdaDrink {
     private String id;
     private String name;
     private List<String> ingredients;
     private String userId;
 
-    public Drink(String id, String name, List<String> ingredients, String userId) {
+    public LambdaDrink(String id, String name, List<String> ingredients, String userId) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -17,7 +17,7 @@ public class Drink{
     }
 
 
-    public Drink() {}
+    public LambdaDrink() {}
 
     public String getId() {
         return id;
@@ -54,9 +54,9 @@ public class Drink{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Drink)) return false;
-        Drink drink = (Drink) o;
-        return Objects.equals(id, drink.id) && Objects.equals(name, drink.name) && Objects.equals(ingredients, drink.ingredients) && Objects.equals(userId, drink.userId);
+        if (!(o instanceof LambdaDrink)) return false;
+        LambdaDrink lambdaDrink = (LambdaDrink) o;
+        return Objects.equals(id, lambdaDrink.id) && Objects.equals(name, lambdaDrink.name) && Objects.equals(ingredients, lambdaDrink.ingredients) && Objects.equals(userId, lambdaDrink.userId);
     }
 
     @Override

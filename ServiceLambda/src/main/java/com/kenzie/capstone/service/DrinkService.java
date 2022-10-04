@@ -1,7 +1,7 @@
 package com.kenzie.capstone.service;
 
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
-import com.kenzie.capstone.service.model.Drink;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import com.kenzie.capstone.service.model.DrinkRequest;
 
@@ -19,18 +19,18 @@ public class DrinkService {
         this.DrinkDao = DrinkDao;
     }
 
-    public Drink getDrink(String id) {
+    public LambdaDrink getDrink(String id) {
         DrinkRecord drinkRecord = DrinkDao.getDrink(id);
 
         if (drinkRecord == null){
             throw new IllegalArgumentException("Drink not found");
         }
 
-        return new Drink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId());
+        return new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId());
 
     }
 
-    public Drink addDrink(DrinkRequest drinkRequest) {
+    public LambdaDrink addDrink(DrinkRequest drinkRequest) {
 
         DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(drinkRequest.getId());
@@ -39,20 +39,20 @@ public class DrinkService {
         drinkRecord.setUserId(drinkRequest.getUserId());
 
         DrinkDao.addDrink(drinkRecord);
-        Drink drink = toDrink(drinkRecord);
-        return drink;
+        LambdaDrink lambdaDrink = toDrink(drinkRecord);
+        return lambdaDrink;
     }
 
-    public Drink updateDrink(Drink drink) {
+    public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {
         DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(drink.getId());
-        drinkRecord.setName(drink.getName());
-        drinkRecord.setIngredients(drink.getIngredients());
-        drinkRecord.setUserId(drink.getUserId());
+        drinkRecord.setId(lambdaDrink.getId());
+        drinkRecord.setName(lambdaDrink.getName());
+        drinkRecord.setIngredients(lambdaDrink.getIngredients());
+        drinkRecord.setUserId(lambdaDrink.getUserId());
 
         DrinkDao.updateDrink(drinkRecord);
 
-        return drink;
+        return lambdaDrink;
     }
 
     public void deleteDrink(String id) {
@@ -64,22 +64,22 @@ public class DrinkService {
 
     }
 
-    public List<Drink> getAllDrinks() {
+    public List<LambdaDrink> getAllDrinks() {
         return DrinkDao.getAllDrinks().stream()
                 .map(drinkRecord ->
-                    new Drink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
+                    new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
     }
 
-    public List<Drink> getDrinksByUserId(String userId) {
+    public List<LambdaDrink> getDrinksByUserId(String userId) {
         return DrinkDao.getDrinksByUserId(userId).stream()
                 .map(drinkRecord ->
-                        new Drink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
+                        new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
     }
 
-    private Drink toDrink(DrinkRecord record){
-        Drink rec = new Drink();
+    private LambdaDrink toDrink(DrinkRecord record){
+        LambdaDrink rec = new LambdaDrink();
         rec.setId(record.getId());
         rec.setName(record.getName());
         rec.setIngredients(record.getIngredients());

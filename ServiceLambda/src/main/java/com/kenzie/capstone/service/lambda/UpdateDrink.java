@@ -2,7 +2,7 @@ package com.kenzie.capstone.service.lambda;
 
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.Drink;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 
 import com.amazonaws.services.lambda.runtime.Context;
@@ -36,17 +36,17 @@ public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        Drink drink = gson.fromJson(input.getBody(), Drink.class);
+        LambdaDrink lambdaDrink = gson.fromJson(input.getBody(), LambdaDrink.class);
 
-        if (drink == null || drink.getId() == null) {
+        if (lambdaDrink == null || lambdaDrink.getId() == null) {
             return response
                     .withStatusCode(400)
                     .withBody("drink is invalid");
         }
 
         try {
-            Drink drinkFromLambda = lambdaService.updateDrink(drink);
-            String output = gson.toJson(drinkFromLambda);
+            LambdaDrink lambdaDrinkFromLambda = lambdaService.updateDrink(lambdaDrink);
+            String output = gson.toJson(lambdaDrinkFromLambda);
 
             return response
                     .withStatusCode(200)

@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.Drink;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +38,7 @@ public class GetAllDrinks implements RequestHandler<APIGatewayProxyRequestEvent,
 
 
         try {
-            List<Drink> drinksFromLambda = lambdaService.getAllDrinks();
+            List<LambdaDrink> drinksFromLambda = lambdaService.getAllDrinks();
             String output = gson.toJson(drinksFromLambda);
 
             return response

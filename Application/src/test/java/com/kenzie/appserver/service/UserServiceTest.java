@@ -86,7 +86,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
         UserRecord record = new UserRecord();
         record.setUserId(id);
@@ -123,7 +123,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
         User user = new User(id, drinks);
 
@@ -164,7 +164,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
         User user = new User(id, drinks);
 
@@ -187,7 +187,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(),  "Drink2", List.of("Ingredient"), id));
 
         User user = new User(id, drinks);
 
@@ -243,9 +243,9 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
-        List<Drink> newDrinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink3", id));
+        List<Drink> newDrinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink3", List.of("Ingredient"), id));
 
         User user = new User(id, drinks);
 
@@ -339,7 +339,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
         User user = new User(id, drinks);
 
@@ -366,7 +366,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", id), new Drink(UUID.randomUUID().toString(), "Drink2", id));
+        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
         UserRecord record = new UserRecord();
         record.setUserId(id);
