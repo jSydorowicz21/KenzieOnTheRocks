@@ -39,7 +39,7 @@ export default class DrinkClient extends BaseClass {
      */
     async getHomeDrinks(errorCallback) {
         try {
-            const response = await this.client.get(`/drinks`);
+            const response = await this.client.get(`/drinks/all`);
             return response.data;
         } catch (error) {
             this.handleError("getHomeDrinks", error, errorCallback)
@@ -101,7 +101,9 @@ export default class DrinkClient extends BaseClass {
 
     }
 
-    //async getFilteredDrink(List<String> ingredients, error)
+    async getFilteredDrink(List<String> ingredients, errorCallBack) {
+
+    }
     //use as onGet for search button in landingPage
     //filter is value of checked query box
     //use .contains

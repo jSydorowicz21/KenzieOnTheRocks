@@ -9,7 +9,7 @@ class LandingPage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onGet', 'onCreate', 'renderDrink'], this);
+        this.bindClassMethods(['onGet', 'onGetAllDrinks', 'onCreate', 'renderDrink'], this);
         this.dataStore = new DataStore();
     }
 
@@ -20,6 +20,7 @@ class LandingPage extends BaseClass {
         document.getElementById('searchButton').addEventListener('click', this.onGet);
         //document.querySelector("[name=filter]:checked").addEventListener('click', this.onGet);
         document.getElementById('createButton').addEventListener('click', this.onCreate);
+        document.getElementById('homeButton').addEventListener('click', this.onGetAllDrinks);
         this.client = new DrinkClient();
 
         this.dataStore.addChangeListener(this.renderDrink)
@@ -28,9 +29,10 @@ class LandingPage extends BaseClass {
     // Render Methods --------------------------------------------------------------------------------------------------
 
     async renderDrink() {
-        let resultArea = document.getElementById("result-info");
+        let resultArea = document.getElementsByClassName('drink')
 
         const drink = this.dataStore.get("drink");
+
 
         if (drink) {
             resultArea.innerHTML = `
@@ -61,6 +63,18 @@ class LandingPage extends BaseClass {
         }
     }
 
+    async onGetAllDrinks() {
+        event.preventDefault();
+
+            let result = await this.client.getHomeDrinks();
+            this.dataStore.set("drinks", result);
+            if (result) {
+                        this.showMessage("Returned all drinks!")
+                    } else {
+                        this.errorHandler("Error doing GET!  Try again...");
+                    }
+    }
+
     async onCreate(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
@@ -68,19 +82,22 @@ class LandingPage extends BaseClass {
 
         let name = document.getElementById("create-name-field").value;
 
-        let alcohol = document.querySelector("[name=Alcohol]:checked").value;
+        let userId = "validUserId"
 
-        let mixer = document.querySelector("[name=Mixer]:checked").value;
+        let alcohol = document.querySelectorAll("[name=Alcohol]:checked");
 
-        let finisher = document.querySelector("[name=Finisher]:checked").value;
+        let mixer = document.querySelectorAll("[name=Mixer]:checked");
+
+        let finisher = document.querySelectorAll("[name=Finisher]:checked");
 
         let ingredients = [alcohol, mixer, finisher];
 
-        const createdDrink = await this.client.createDrink(name, this.errorHandler);
+        const createdDrink = await this.client.createDrink(userId, name, ingredients, this.errorHandler);
         this.dataStore.set("drink", createdDrink);
 
         if (createdDrink) {
             this.showMessage(`Created ${createdDrink.name}!`)
+
         } else {
             this.errorHandler("Error creating!  Try again...");
         }
