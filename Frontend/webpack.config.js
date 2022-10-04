@@ -33,7 +33,6 @@ module.exports = {
                 target: 'http://localhost:5001'
                 }
             ]
-      },
   },
   plugins: [
     new HtmlWebpackPlugin({
