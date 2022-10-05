@@ -1,7 +1,6 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.model.DrinkRecord;
-import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
 import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
@@ -21,12 +20,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class DrinkService {
-    private DrinkRepository drinkRepository;
     private LambdaServiceClient lambdaServiceClient;
 
     @Autowired
-    public DrinkService(DrinkRepository drinkRepository, LambdaServiceClient lambdaServiceClient) {
-        this.drinkRepository = drinkRepository;
+    public DrinkService(LambdaServiceClient lambdaServiceClient) {
         this.lambdaServiceClient = lambdaServiceClient;
     }
 
