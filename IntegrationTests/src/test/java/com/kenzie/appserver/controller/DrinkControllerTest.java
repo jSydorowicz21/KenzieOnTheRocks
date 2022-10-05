@@ -109,9 +109,12 @@ class DrinkControllerTest {
         Drink persistedDrink = drinkService.addDrink(drink);
 
         DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
+
         drinkUpdateRequest.setUserId(persistedDrink.getUserId());
         drinkUpdateRequest.setName("new Name");
         drinkUpdateRequest.setId(persistedDrink.getId());
+        drinkUpdateRequest.setIngredients(List.of("Mojito", "long island"));
+
 
 //         WHEN
         mvc.perform(put("/drinks")
