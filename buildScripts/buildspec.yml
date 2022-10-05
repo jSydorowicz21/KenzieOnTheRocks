@@ -20,10 +20,6 @@ reports:
     files:
       - 'Application/build/test-results/test/*.xml'
     file-format: "JUNITXML"
-  service-junit-reports:
-    files:
-      - 'ServiceLambda/build/test-results/test/*.xml'
-    file-format: "JUNITXML"
 artifacts:
   files:
     - '**/*'
