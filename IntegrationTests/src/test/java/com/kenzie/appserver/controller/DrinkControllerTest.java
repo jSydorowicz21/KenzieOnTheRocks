@@ -86,19 +86,11 @@ class DrinkControllerTest {
         drinkCreateRequest.setId(id);
 
         // WHEN
-        ResultActions actions =mvc.perform(post("/drinks")
+        mvc.perform(post("/drinks")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(drinkCreateRequest)))
-                // THEN
-//                .andExpect(jsonPath("userId")
-//                        .exists())
-//                .andExpect(jsonPath("name")
-//                        .value((name)))
-//                .andExpect(jsonPath("id")
-//                        .value((id)))
                 .andExpect(status().isOk());
-        String responseBody = actions.andReturn().getResponse().getContentAsString();
     }
 
     @Test
