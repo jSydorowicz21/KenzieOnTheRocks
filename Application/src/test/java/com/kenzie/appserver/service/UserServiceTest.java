@@ -2,7 +2,6 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
-import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.repositories.model.UserRecord;
