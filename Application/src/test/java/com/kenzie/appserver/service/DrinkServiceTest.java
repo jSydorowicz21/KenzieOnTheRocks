@@ -1,6 +1,5 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.repositories.DrinkRepository;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
@@ -21,7 +20,6 @@ import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
 
 public class DrinkServiceTest {
-    private DrinkRepository drinkRepository;
     private DrinkService drinkService;
     private LambdaServiceClient lambdaServiceClient;
 
@@ -37,9 +35,8 @@ public class DrinkServiceTest {
 
     @BeforeEach
     void setup() {
-        drinkRepository = mock(DrinkRepository.class);
         lambdaServiceClient = mock(LambdaServiceClient.class);
-        drinkService = new DrinkService(drinkRepository, lambdaServiceClient);
+        drinkService = new DrinkService(lambdaServiceClient);
     }
     /** ------------------------------------------------------------------------
      *  exampleService.findById
