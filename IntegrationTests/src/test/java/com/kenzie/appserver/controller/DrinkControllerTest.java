@@ -41,12 +41,13 @@ class DrinkControllerTest {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    private final List<String> ingredients = List.of("Rum","Coke","Ice");
+
     @Test
     public void getById_Exists() throws Exception {
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
-        List<String> ingredients = List.of("Mojito", "wine", "long island");
 
 
         Drink drink = new Drink(id, name, ingredients, userId);
@@ -76,7 +77,6 @@ class DrinkControllerTest {
         // GIVEN
         String userId = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
-        List<String> ingredients = List.of("Mojito", "wine", "long island");
         String id = UUID.randomUUID().toString();
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
@@ -90,14 +90,13 @@ class DrinkControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(drinkCreateRequest)))
-                .andExpect(status().isOk());
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void updateDrink_PutSuccessful() throws Exception {
         // GIVEN
         String id = UUID.randomUUID().toString();
-        List<String> ingredients = List.of("Mojito", "wine", "long island");
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
 
@@ -110,9 +109,9 @@ class DrinkControllerTest {
         Drink persistedDrink = drinkService.addDrink(drink);
 
         DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
-        drinkUpdateRequest.setUserId(userId);
+        drinkUpdateRequest.setUserId(persistedDrink.getUserId());
         drinkUpdateRequest.setName("new Name");
-        drinkUpdateRequest.setId(id);
+        drinkUpdateRequest.setId(persistedDrink.getId());
 
 //         WHEN
         mvc.perform(put("/drinks")
@@ -135,7 +134,6 @@ class DrinkControllerTest {
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
-        List<String> ingredients = List.of("Mojito", "wine", "long island");
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);

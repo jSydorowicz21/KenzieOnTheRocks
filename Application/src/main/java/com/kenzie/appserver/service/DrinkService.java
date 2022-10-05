@@ -103,6 +103,9 @@ public class DrinkService {
     }
 
     public Drink createDrinkFromLambda(LambdaDrink drink){
+        if(drink == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
     }
     private DrinkRecord createRecordFromRequest(Drink request) {
