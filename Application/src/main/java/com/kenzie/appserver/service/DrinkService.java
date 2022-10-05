@@ -29,7 +29,7 @@ public class DrinkService {
 
     public Drink findById(String id) {
 
-        if (id == null || lambdaServiceClient.getDrink(id) == null) {
+        if (id == null && lambdaServiceClient.getDrink(id) == null) {
             throw new IllegalArgumentException("Invalid drink id");
         }
 

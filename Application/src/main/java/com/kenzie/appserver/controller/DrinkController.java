@@ -1,6 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.google.gson.Gson;
+import com.kenzie.appserver.controller.model.DrinkCreateRequest;
 import com.kenzie.appserver.controller.model.DrinkDeleteRequest;
 import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
@@ -74,18 +75,15 @@ public class DrinkController {
     }
 
     @PostMapping
-    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
+    public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody DrinkCreateRequest drinkCreateRequest) {
         System.out.println(gson.toJson(drinkCreateRequest));
 
-        Drink drink = drinkService.addDrink(drinkCreateRequest);
 
-        DrinkResponse drinkResponse = new DrinkResponse();
-        drinkResponse.setId(drink.getId());
-        drinkResponse.setName(drink.getName());
-        drinkResponse.setUserId(drink.getUserId());
-        drinkResponse.setIngredients(drink.getIngredients());
+        Drink drink = drinkService.addDrink(new Drink(drinkCreateRequest.getId(), drinkCreateRequest.getName(),
+                drinkCreateRequest.getIngredients(), drinkCreateRequest.getUserId()));
 
-        return ResponseEntity.ok(drinkResponse);
+
+        return ResponseEntity.ok(createDrinkResponse(drink));
     }
 
     @DeleteMapping
