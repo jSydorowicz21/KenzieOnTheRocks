@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kenzie.appserver.service.UserServiceTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2022-10-05T06:35:57" hostname="DESKTOP-FGSO8KI" time="0.079">
+<testsuite name="com.kenzie.appserver.service.UserServiceTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2022-10-05T07:16:29" hostname="DESKTOP-FGSO8KI" time="0.068">
   <properties/>
-  <testcase name="updateUserDrinks_UpdatesUsersDrinks()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.015"/>
+  <testcase name="updateUserDrinks_UpdatesUsersDrinks()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.014"/>
   <testcase name="updateUserDrinks_NullDrinks_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
   <testcase name="updateUser_NullDrinks_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
-  <testcase name="updateUser_NullID_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.004"/>
+  <testcase name="updateUser_NullID_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.003"/>
   <testcase name="updateUser_UpdatesUser()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.004"/>
-  <testcase name="updateUser_UserNotInDB_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.003"/>
+  <testcase name="updateUser_UserNotInDB_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
   <testcase name="updateUserDrinks_UserNotInDB_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.003"/>
-  <testcase name="getUserById_NullId_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.011"/>
-  <testcase name="updateUser_EmptyDrinks_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.001"/>
-  <testcase name="updateUserDrinks_EmptyDrinks_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.001"/>
-  <testcase name="getUsersDrinks_NullUser_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
+  <testcase name="getUserById_NullId_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.01"/>
+  <testcase name="updateUser_EmptyDrinks_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
+  <testcase name="updateUserDrinks_EmptyDrinks_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
+  <testcase name="getUsersDrinks_NullUser_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.001"/>
   <testcase name="addNewUser_addsUser()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
   <testcase name="addNewUser_NullId_ThrowsException()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
   <testcase name="getUserById_ReturnsCorrectUser()" classname="com.kenzie.appserver.service.UserServiceTest" time="0.002"/>
