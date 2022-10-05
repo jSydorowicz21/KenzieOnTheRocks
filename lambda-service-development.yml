@@ -9,7 +9,7 @@ Resources:
   AddDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/ec88669dc816674b3b73fa786f49f3f1
       Handler: com.kenzie.capstone.service.lambda.AddDrink
       Runtime: java11
       Description: Add drink for given id
@@ -24,12 +24,18 @@ Resources:
       - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SecurityGroupIds:
+        - Fn::GetAtt:
+          - SecurityGroup
+          - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+        - Ref: PublicSubnet
       Environment:
         Variables:
-          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
+          JEDIS_URL:
+            Fn::GetAtt:
+            - ReplicationGroup
+            - PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
@@ -39,7 +45,7 @@ Resources:
   DeleteDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/ec88669dc816674b3b73fa786f49f3f1
       Handler: com.kenzie.capstone.service.lambda.DeleteDrink
       Runtime: java11
       Description: Delete given drink
@@ -54,12 +60,18 @@ Resources:
       - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SecurityGroupIds:
+        - Fn::GetAtt:
+          - SecurityGroup
+          - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+        - Ref: PublicSubnet
       Environment:
         Variables:
-          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
+          JEDIS_URL:
+            Fn::GetAtt:
+            - ReplicationGroup
+            - PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
@@ -69,7 +81,7 @@ Resources:
   GetAllDrinksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/ec88669dc816674b3b73fa786f49f3f1
       Handler: com.kenzie.capstone.service.lambda.GetAllDrinks
       Runtime: java11
       Description: Get all drinks
@@ -84,12 +96,18 @@ Resources:
       - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SecurityGroupIds:
+        - Fn::GetAtt:
+          - SecurityGroup
+          - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+        - Ref: PublicSubnet
       Environment:
         Variables:
-          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
+          JEDIS_URL:
+            Fn::GetAtt:
+            - ReplicationGroup
+            - PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
@@ -99,7 +117,7 @@ Resources:
   GetDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/ec88669dc816674b3b73fa786f49f3f1
       Handler: com.kenzie.capstone.service.lambda.GetDrink
       Runtime: java11
       Description: Get specific drink
@@ -114,12 +132,18 @@ Resources:
       - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SecurityGroupIds:
+        - Fn::GetAtt:
+          - SecurityGroup
+          - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+        - Ref: PublicSubnet
       Environment:
         Variables:
-          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
+          JEDIS_URL:
+            Fn::GetAtt:
+            - ReplicationGroup
+            - PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
@@ -129,7 +153,7 @@ Resources:
   GetDrinksByUserIdFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/ec88669dc816674b3b73fa786f49f3f1
       Handler: com.kenzie.capstone.service.lambda.GetDrinksByUserId
       Runtime: java11
       Description: Gets userId specific drinks
@@ -144,12 +168,18 @@ Resources:
       - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SecurityGroupIds:
+        - Fn::GetAtt:
+          - SecurityGroup
+          - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+        - Ref: PublicSubnet
       Environment:
         Variables:
-          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
+          JEDIS_URL:
+            Fn::GetAtt:
+            - ReplicationGroup
+            - PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
@@ -159,7 +189,7 @@ Resources:
   UpdateDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/ec88669dc816674b3b73fa786f49f3f1
       Handler: com.kenzie.capstone.service.lambda.UpdateDrink
       Runtime: java11
       Description: Updates given drink
@@ -174,12 +204,18 @@ Resources:
       - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
-        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SecurityGroupIds:
+        - Fn::GetAtt:
+          - SecurityGroup
+          - GroupId
         SubnetIds:
-          - !Ref PublicSubnet
+        - Ref: PublicSubnet
       Environment:
         Variables:
-          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
+          JEDIS_URL:
+            Fn::GetAtt:
+            - ReplicationGroup
+            - PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
