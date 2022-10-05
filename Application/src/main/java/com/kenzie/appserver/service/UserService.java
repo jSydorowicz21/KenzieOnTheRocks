@@ -3,7 +3,6 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.Drink;
-import com.kenzie.appserver.service.model.InsufficientPrivilegeException;
 import com.kenzie.appserver.service.model.InvalidUserException;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
