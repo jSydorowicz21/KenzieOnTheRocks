@@ -42,10 +42,10 @@ class DrinkControllerTest {
 
     @Test
     public void getById_Exists() throws Exception {
+        String id = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
         List<String> ingredients = List.of("Mojito", "wine", "long island");
-        String name = mockNeat.strings().valStr();
-        String id = UUID.randomUUID().toString();
 
 
         Drink drink = new Drink(id, name, ingredients, userId);
@@ -80,6 +80,7 @@ class DrinkControllerTest {
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
+        drinkCreateRequest.setIngredients(ingredients);
         drinkCreateRequest.setName(name);
         drinkCreateRequest.setId(id);
 
@@ -93,6 +94,8 @@ class DrinkControllerTest {
                         .exists())
                 .andExpect(jsonPath("name")
                         .value(is(name)))
+                .andExpect(jsonPath("ingredients")
+                        .value(is(ingredients)))
                 .andExpect(jsonPath("id")
                         .value(is(id)))
                 .andExpect(status().isCreated());
@@ -101,10 +104,10 @@ class DrinkControllerTest {
     @Test
     public void updateDrink_PutSuccessful() throws Exception {
         // GIVEN
-        String userId = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        List<String> ingredients = List.of("Mojito", "wine", "long island");
         String id = UUID.randomUUID().toString();
+        List<String> ingredients = List.of("Mojito", "wine", "long island");
+        String name = mockNeat.strings().valStr();
+        String userId = UUID.randomUUID().toString();
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
@@ -137,9 +140,9 @@ class DrinkControllerTest {
     @Test
     public void deleteDrink_DeleteSuccessful() throws Exception {
         // GIVEN
-        String userId = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
         String id = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
+        String userId = UUID.randomUUID().toString();
         List<String> ingredients = List.of("Mojito", "wine", "long island");
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
