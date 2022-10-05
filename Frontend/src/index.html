@@ -19,140 +19,160 @@
     </div>
     <button type="button" id="homeButton">All Drinks</button>
 </header>
-<div class="card">
-    <h1><span class="createClass">Create Drink</span></h1>
-    <form class="card-content" id="create-form">
-        <p class="form-field">
-            <label>Drink Name</label>
-            <input type="text" required class="validated-field" id="create-name-field">
-        </p>
-        <div id="list1" class="dropdown-check-list" tabindex="100">
-            <span class="anchor" id="anchor1">Select Alcohol</span>
-            <ul class="items">
-                <li><input type="checkbox" value="rum" name="Alcohol"/>Rum</li>
-                <li><input type="checkbox" value="scotch" name="Alcohol"/>Scotch</li>
-                <li><input type="checkbox" value="whiskey" name="Alcohol"/>Whiskey</li>
-                <li><input type="checkbox" value="schnapps" name="Alcohol"/>Schnapps</li>
-                <li><input type="checkbox" value="vodka" name="Alcohol"/>Vodka</li>
-                <li><input type="checkbox" value="tequila" name="Alcohol"/>Tequila</li>
-                <li><input type="checkbox" value="champagne" name="Alcohol"/>Champagne</li>
-            </ul>
-        </div>
-        <script type="text/javascript">
+<div id="container">
+	<div class="card">
+		<h1><span class="createClass">Create Drink</span></h1>
+		<form class="card-content" id="create-form">
+			<p class="form-field">
+				<label>Drink Name</label>
+				<input type="text" required class="validated-field" id="create-name-field">
+			</p>
+			<div id="list1" class="dropdown-check-list" tabindex="100">
+				<span class="anchor" id="anchor1">Select Alcohol</span>
+				<ul class="items">
+					<li><input type="checkbox" value="rum" name="Alcohol"/>Rum</li>
+					<li><input type="checkbox" value="scotch" name="Alcohol"/>Scotch</li>
+					<li><input type="checkbox" value="whiskey" name="Alcohol"/>Whiskey</li>
+					<li><input type="checkbox" value="schnapps" name="Alcohol"/>Schnapps</li>
+					<li><input type="checkbox" value="vodka" name="Alcohol"/>Vodka</li>
+					<li><input type="checkbox" value="tequila" name="Alcohol"/>Tequila</li>
+					<li><input type="checkbox" value="champagne" name="Alcohol"/>Champagne</li>
+				</ul>
+			</div>
+			<script type="text/javascript">
 
-        var checkList = document.getElementById('list1');
-        checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
-            if (checkList.classList.contains('visible'))
-                checkList.classList.remove('visible');
-            else
-                checkList.classList.add('visible');
-        }
+			var checkList = document.getElementById('list1');
+			checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+				if (checkList.classList.contains('visible'))
+					checkList.classList.remove('visible');
+				else
+					checkList.classList.add('visible');
+			}
 
-    </script>
-        <div id="list2" class="dropdown-check-list" tabindex="100">
-            <span class="anchor" id="anchor2">Select Mixer</span>
-            <ul class="items">
-                <li><input type="checkbox" value="applejuice" name="Mixer"/>Apple(J)</li>
-                <li><input type="checkbox" value="orangejuice" name="Mixer"/>Orange(J)</li>
-                <li><input type="checkbox" value="grapejuice" name="Mixer"/>Grape(J)</li>
-                <li><input type="checkbox" value="pineapplejuice" name="Mixer"/>Pineapple(J)</li>
-                <li><input type="checkbox" value="mangojuice" name="Mixer"/>Mango(J)</li>
-                <li><input type="checkbox" value="peachjuice" name="Mixer"/>Peach(J)</li>
-                <li><input type="checkbox" value="tomatojuice" name="Mixer"/>Tomato(J)</li>
-                <li><input type="checkbox" value="lemonjuice" name="Mixer"/>Lemon(J)</li>
-                <li><input type="checkbox" value="limejuice" name="Mixer"/>Lime(J)</li>
-                <li><input type="checkbox" value="coke" name="Mixer"/>Coke(S)</li>
-                <li><input type="checkbox" value="rootbeer" name="Mixer"/>Root Beer(S)</li>
-                <li><input type="checkbox" value="sprite" name="Mixer"/>Sprite(S)</li>
-                <li><input type="checkbox" value="tonic" name="Mixer"/>Tonic Water(S)</li>
-            </ul>
-        </div>
-        <script type="text/javascript">
+		</script>
+			<div id="list2" class="dropdown-check-list" tabindex="100">
+				<span class="anchor" id="anchor2">Select Mixer</span>
+				<ul class="items">
+					<li><input type="checkbox" value="applejuice" name="Mixer"/>Apple(J)</li>
+					<li><input type="checkbox" value="orangejuice" name="Mixer"/>Orange(J)</li>
+					<li><input type="checkbox" value="grapejuice" name="Mixer"/>Grape(J)</li>
+					<li><input type="checkbox" value="pineapplejuice" name="Mixer"/>Pineapple(J)</li>
+					<li><input type="checkbox" value="mangojuice" name="Mixer"/>Mango(J)</li>
+					<li><input type="checkbox" value="peachjuice" name="Mixer"/>Peach(J)</li>
+					<li><input type="checkbox" value="tomatojuice" name="Mixer"/>Tomato(J)</li>
+					<li><input type="checkbox" value="lemonjuice" name="Mixer"/>Lemon(J)</li>
+					<li><input type="checkbox" value="limejuice" name="Mixer"/>Lime(J)</li>
+					<li><input type="checkbox" value="coke" name="Mixer"/>Coke(S)</li>
+					<li><input type="checkbox" value="rootbeer" name="Mixer"/>Root Beer(S)</li>
+					<li><input type="checkbox" value="sprite" name="Mixer"/>Sprite(S)</li>
+					<li><input type="checkbox" value="tonic" name="Mixer"/>Tonic Water(S)</li>
+				</ul>
+			</div>
+			<script type="text/javascript">
 
-        var checkList2 = document.getElementById('list2');
-        checkList2.getElementsByClassName('anchor')[0].onclick = function (evt) {
-            if (checkList2.classList.contains('visible'))
-                checkList2.classList.remove('visible');
-            else
-                checkList2.classList.add('visible');
-        }
+			var checkList2 = document.getElementById('list2');
+			checkList2.getElementsByClassName('anchor')[0].onclick = function (evt) {
+				if (checkList2.classList.contains('visible'))
+					checkList2.classList.remove('visible');
+				else
+					checkList2.classList.add('visible');
+			}
 
-    </script>
+		</script>
 
-        <div id="list3" class="dropdown-check-list" tabindex="100">
-            <span class="anchor" id="anchor3">Select Finisher</span>
-            <ul class="items">
-                <li><input type="checkbox" value="ice" name="Finisher"/>Ice</li>
-                <li><input type="checkbox" value="milk" name="Finisher"/>Milk</li>
-                <li><input type="checkbox" value="salt" name="Finisher"/>Salt</li>
-                <li><input type="checkbox" value="sugar" name="Finisher"/>Sugar</li>
-                <li><input type="checkbox" value="mintleaves" name="Finisher"/>Mint Leaves</li>
-                <li><input type="checkbox" value="grenadine" name="Finisher"/>Grenadine</li>
-                <li><input type="checkbox" value="citrustwist" name="Finisher"/>Citrus Twist</li>
-            </ul>
-        </div>
-        <script type="text/javascript">
+			<div id="list3" class="dropdown-check-list" tabindex="100">
+				<span class="anchor" id="anchor3">Select Finisher</span>
+				<ul class="items">
+					<li><input type="checkbox" value="ice" name="Finisher"/>Ice</li>
+					<li><input type="checkbox" value="milk" name="Finisher"/>Milk</li>
+					<li><input type="checkbox" value="salt" name="Finisher"/>Salt</li>
+					<li><input type="checkbox" value="sugar" name="Finisher"/>Sugar</li>
+					<li><input type="checkbox" value="mintleaves" name="Finisher"/>Mint Leaves</li>
+					<li><input type="checkbox" value="grenadine" name="Finisher"/>Grenadine</li>
+					<li><input type="checkbox" value="citrustwist" name="Finisher"/>Citrus Twist</li>
+				</ul>
+			</div>
+			<script type="text/javascript">
 
-        var checkList3 = document.getElementById('list3');
-        checkList3.getElementsByClassName('anchor')[0].onclick = function (evt) {
-            if (checkList3.classList.contains('visible'))
-                checkList3.classList.remove('visible');
-            else
-                checkList3.classList.add('visible');
-        }
+			var checkList3 = document.getElementById('list3');
+			checkList3.getElementsByClassName('anchor')[0].onclick = function (evt) {
+				if (checkList3.classList.contains('visible'))
+					checkList3.classList.remove('visible');
+				else
+					checkList3.classList.add('visible');
+			}
 
-    </script>
-        <button type="button" id="createButton">Create</button>
-    </form>
+		</script>
+			<button type="button" id="createButton">Create</button>
+		</form>
+		</div>
+	<div class="card" id="search-card">
+		<h2><span class="createClass">Filter by Ingredient</span></h2>
+		<form class="card-content" id="filter-form">
+			<p class="form-field">
+				<label><b><span class="searchClass">Choose Filter</span></b></label>
+				<input type="radio" name="filter" value="Alcohol" >Alcohol
+				<input type="radio" name="filter" value="Mixer" >Mixer
+				<input type="radio" name="filter" value="Finisher" >Finisher
+			</p>
+			<input type="text" required class="validated-field" id="searchFilter">
+			<button type="button" id="searchButton">Search</button>
+		</form>
+	</div>
+	<div class="card" id="result">
+		<h2><span class="createClass">My Drinks:</span></h2>
+		<p id="result-info"></p>
+		<div class="wrapper">
+
+		<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+
+		<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+
+		<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+
+		<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+
+			<div class="drink">
+				<h4><b>Drink Name</b></h4>
+				<p>Ingredients:</p>
+			</div>
+
+			<div class="drink">
+				<h4><b>Drink Name</b></h4>
+				<p>Ingredients:</p>
+			</div>
+		</div>
+	</div>
 </div>
-<div class="card" id="search-card">
-    <h2><span class="createClass">Filter by Ingredient</span></h2>
-    <form class="card-content" id="filter-form">
-        <p class="form-field">
-            <label><b><span class="searchClass">Choose Filter</span></b></label>
-            <input type="radio" name="filter" value="Alcohol" >Alcohol
-            <input type="radio" name="filter" value="Mixer" >Mixer
-            <input type="radio" name="filter" value="Finisher" >Finisher
-        </p>
-        <input type="text" required class="validated-field" id="searchFilter">
-        <button type="button" id="searchButton">Search</button>
-    </form>
-</div>
-<div class="card" id="result">
-    <h2><span class="createClass">My Drinks:</span></h2>
-    <p id="result-info"></p>
-    <div class="wrapper">
+<div class="sidebar">
 
-    <div class="drink">
-        <h4><b>Drink Name</b></h4>
-        <p>Ingredients:</p>
-    </div>
+<p>My List</p>
+	<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+	<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+	<div class="drink">
+			<h4><b>Drink Name</b></h4>
+			<p>Ingredients:</p>
+		</div>
+	
 
-    <div class="drink">
-        <h4><b>Drink Name</b></h4>
-        <p>Ingredients:</p>
-    </div>
-
-    <div class="drink">
-        <h4><b>Drink Name</b></h4>
-        <p>Ingredients:</p>
-    </div>
-
-    <div class="drink">
-        <h4><b>Drink Name</b></h4>
-        <p>Ingredients:</p>
-    </div>
-
-        <div class="drink">
-            <h4><b>Drink Name</b></h4>
-            <p>Ingredients:</p>
-        </div>
-
-        <div class="drink">
-            <h4><b>Drink Name</b></h4>
-            <p>Ingredients:</p>
-        </div>
-    </div>
 </div>
 </body>
 </html>

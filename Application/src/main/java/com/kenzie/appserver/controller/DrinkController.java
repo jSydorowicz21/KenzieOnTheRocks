@@ -30,7 +30,7 @@ public class DrinkController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DrinkResponse> get(@PathVariable String id) {
+    public ResponseEntity<DrinkResponse> get(@PathVariable("id") String id) {
 
         Drink drink = drinkService.findById(id);
         if (drink == null) {
