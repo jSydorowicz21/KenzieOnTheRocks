@@ -7,8 +7,6 @@ Resources:
           "AttributeType": "S"
         - "AttributeName": "name"
           "AttributeType": "S"
-        - "AttributeName": "ingredients"
-          "AttributeType": "S"
         - "AttributeName": "userId"
           "AttributeType": "S"
       "KeySchema":
