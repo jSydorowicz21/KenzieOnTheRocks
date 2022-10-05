@@ -8,7 +8,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import java.util.List;
 import java.util.Objects;
 
-@DynamoDBTable(tableName = "Drinks")
+//@DynamoDBTable(tableName = "Drinks")
 public class DrinkRecord {
 
     private String id;
@@ -28,7 +28,7 @@ public class DrinkRecord {
     }
 
 
-    @DynamoDBAttribute(attributeName = "UserId")
+//    @DynamoDBAttribute(attributeName = "userId")
     public String getUserId() {
         return userId;
     }
@@ -37,12 +37,12 @@ public class DrinkRecord {
         this.userId = userId;
     }
 
-    @DynamoDBHashKey(attributeName = "Id")
+//    @DynamoDBHashKey(attributeName = "id")
     public String getId() {
         return id;
     }
 
-    @DynamoDBAttribute(attributeName = "Name")
+//    @DynamoDBAttribute(attributeName = "name")
     public String getName() {
         return name;
     }
@@ -55,7 +55,7 @@ public class DrinkRecord {
         this.name = name;
     }
 
-    @DynamoDBAttribute(attributeName = "Ingredients")
+//    @DynamoDBAttribute(attributeName = "ingredients")
     public List<String> getIngredients() {
         return ingredients;
     }

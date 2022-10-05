@@ -9,7 +9,7 @@ import com.kenzie.appserver.service.model.Drink;
 import java.util.List;
 import java.util.Objects;
 
-@DynamoDBTable(tableName = "Users")
+//@DynamoDBTable(tableName = "Users")
 public class UserRecord {
 
     private String userId;
@@ -17,7 +17,7 @@ public class UserRecord {
     private List<Drink> drinks;
 
 
-    @DynamoDBHashKey(attributeName = "UserId")
+//    @DynamoDBHashKey(attributeName = "UserId")
     public String getUserId() {
         return userId;
     }
@@ -26,7 +26,7 @@ public class UserRecord {
         this.userId = userId;
     }
 
-    @DynamoDBAttribute(attributeName = "Drinks")
+//    @DynamoDBAttribute(attributeName = "Drinks")
     public List<Drink> getDrinks() {
         return drinks;
     }
