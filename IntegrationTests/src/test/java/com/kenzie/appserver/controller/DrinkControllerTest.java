@@ -111,8 +111,9 @@ class DrinkControllerTest {
 
         DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
         drinkUpdateRequest.setUserId(userId);
-        drinkUpdateRequest.setName("new Name");
+        drinkUpdateRequest.setName(name);
         drinkUpdateRequest.setId(id);
+        drinkUpdateRequest.setIngredients(List.of("Mojito", "long island"));
 
 //         WHEN
         mvc.perform(put("/drinks")
