@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
+Transform: AWS::Serverless-2016-10-31
 Description: An AWS Lambda application that calls the Lambda API.
 Parameters:
   EnvironmentName:
@@ -9,20 +9,19 @@ Resources:
   AddDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
       Handler: com.kenzie.capstone.service.lambda.AddDrink
       Runtime: java11
       Description: Add drink for given id
       MemorySize: 512
       Timeout: 240
-      # Function's execution role
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
         SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
@@ -40,20 +39,19 @@ Resources:
   DeleteDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
       Handler: com.kenzie.capstone.service.lambda.DeleteDrink
       Runtime: java11
       Description: Delete given drink
       MemorySize: 512
       Timeout: 240
-      # Function's execution role
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
         SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
@@ -71,20 +69,19 @@ Resources:
   GetAllDrinksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
       Handler: com.kenzie.capstone.service.lambda.GetAllDrinks
       Runtime: java11
       Description: Get all drinks
       MemorySize: 512
       Timeout: 240
-      # Function's execution role
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
         SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
@@ -102,20 +99,19 @@ Resources:
   GetDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
       Handler: com.kenzie.capstone.service.lambda.GetDrink
       Runtime: java11
       Description: Get specific drink
       MemorySize: 512
       Timeout: 240
-      # Function's execution role
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
         SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
@@ -133,20 +129,19 @@ Resources:
   GetDrinksByUserIdFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
       Handler: com.kenzie.capstone.service.lambda.GetDrinksByUserId
       Runtime: java11
       Description: Gets userId specific drinks
       MemorySize: 512
       Timeout: 240
-      # Function's execution role
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
         SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
@@ -164,20 +159,19 @@ Resources:
   UpdateDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/b25c1d1334da56d3d50fc0d8f9abb015
       Handler: com.kenzie.capstone.service.lambda.UpdateDrink
       Runtime: java11
       Description: Updates given drink
       MemorySize: 512
       Timeout: 240
-      # Function's execution role
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AWSLambda_ReadOnlyAccess
-        - AWSXrayWriteOnlyAccess
-        - AWSLambdaVPCAccessExecutionRole
-        - AmazonS3FullAccess
-        - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambda_ReadOnlyAccess
+      - AWSXrayWriteOnlyAccess
+      - AWSLambdaVPCAccessExecutionRole
+      - AmazonS3FullAccess
+      - AmazonDynamoDBFullAccess
       Tracing: Active
       VpcConfig:
         SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
@@ -192,4 +186,3 @@ Resources:
           Properties:
             Path: /drinks/{id}
             Method: put
-
