@@ -1,5 +1,6 @@
 package com.kenzie.appserver.controller;
 
+import com.google.gson.Gson;
 import com.kenzie.appserver.controller.model.DrinkDeleteRequest;
 import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
@@ -18,6 +19,7 @@ import java.util.List;
 public class DrinkController {
 
     private DrinkService drinkService;
+    private Gson gson = new Gson();
 
     @Autowired
     DrinkController(DrinkService drinkService) {
@@ -73,6 +75,8 @@ public class DrinkController {
 
     @PostMapping
     public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody Drink drinkCreateRequest) {
+        System.out.println(gson.toJson(drinkCreateRequest));
+
         Drink drink = drinkService.addDrink(drinkCreateRequest);
 
         DrinkResponse drinkResponse = new DrinkResponse();

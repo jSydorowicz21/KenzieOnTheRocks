@@ -47,7 +47,13 @@ public class NonCachingDrinkDao implements DrinkDao {
                 .withHashKeyValues(drinkRecord)
                 .withConsistentRead(false);
 
-        return mapper.load(DrinkRecord.class, queryExpression);
+        try {
+            return mapper.load(DrinkRecord.class, queryExpression);
+        }
+        catch (Exception e){
+            System.out.println("Nah brah");
+        }
+        return null;
     }
 
     public DrinkRecord updateDrink(DrinkRecord drink) {

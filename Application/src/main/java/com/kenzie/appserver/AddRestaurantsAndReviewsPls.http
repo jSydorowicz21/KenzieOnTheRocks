@@ -1,0 +1,200 @@
+
+### Restaurant 1
+### Send POST request with json body
+POST http://localhost:5001/restaurants
+Content-Type: application/json
+
+{
+  "name":"Ryans Rigatoni",
+  "category":"pasta",
+  "storeHours":[
+    "Monday: 9am to 5pm",
+    "Tuesday: 9am to 10pm"
+
+  ]
+}
+
+> {%
+ client.global.set("restaurant1Id", JSON.stringify(response.body.restaurantId));
+ %}
+
+
+
+
+### Review 1
+### Send POST request with json body
+POST http://localhost:5001/review
+Content-Type: application/json
+
+{
+  "restaurantId":{{restaurant1Id}},
+  "restaurantName":"Ryans Rigatoni",
+  "userId":"73",
+  "title":"Bad Food",
+  "description":"food was alright, staff was bad",
+  "rating":"2",
+  "price":"10.50"
+}
+
+
+### Restaurant 2
+POST http://localhost:5001/restaurants
+Content-Type: application/json
+
+{
+  "name":"FoodManChewed",
+  "category":"chinese",
+  "storeHours":[
+    "Wednesday: 6am to 6pm",
+    "Thursday: 6am to 6pm"
+  ]
+}
+
+> {%
+ client.global.set("restaurant2Id", JSON.stringify(response.body.restaurantId));
+ %}
+
+### Review 2
+POST http://localhost:5001/review
+Content-Type: application/json
+
+{
+  "restaurantId":{{restaurant2Id}},
+  "restaurantName":"FoodManChewed",
+  "userId":"73",
+  "title":"The rice was uncooked",
+  "description":"my fortune cookie was already open and it said my wife would leave me :c",
+  "rating":"4",
+  "price":"13"
+}
+
+
+### Restaurant 3
+POST http://localhost:5001/restaurants
+Content-Type: application/json
+
+{
+  "name":"Soul Poultry",
+  "category":"fried chicken",
+  "storeHours":[
+    "Tuesday: 10am to 4pm",
+    "Friday: 9am to 11pm"
+  ]
+}
+
+> {%
+ client.global.set("restaurant3Id", JSON.stringify(response.body.restaurantId));
+ %}
+
+### Review 3
+POST http://localhost:5001/review
+Content-Type: application/json
+
+{
+  "restaurantId":{{restaurant3Id}},
+  "restaurantName":"Soul Poultry",
+  "userId":"73",
+  "title":"Food fine",
+  "description":"I originally thought the restaurant was soul poetry. Although I was disappointed at first I came to really like the Mario statue in the corner. The way he looks into my soul brings me great joy.",
+  "rating":"5",
+  "price":"9.29"
+}
+
+### Restaurant 6
+POST http://localhost:5001/restaurants
+Content-Type: application/json
+
+{
+  "name":"Street Eat",
+  "category":"burgers",
+  "storeHours":[
+    "Thursday: 12am to 7pm",
+    "Saturday: 8am to 8pm"
+  ]
+}
+
+> {%
+ client.global.set("restaurant6Id", JSON.stringify(response.body.restaurantId));
+ %}
+
+### Review 6
+POST http://localhost:5001/review
+Content-Type: application/json
+
+{
+  "restaurantId":{{restaurant6Id}},
+  "restaurantName":"Street Eat",
+  "userId":"73",
+  "title":"Really sweet!",
+  "description":"The cake was a lie. Bad delivery though.",
+  "rating":"4",
+  "price":"15"
+}
+
+### Restaurant 4
+### Send POST request with json body
+POST http://localhost:5001/restaurants
+Content-Type: application/json
+
+{
+  "name":"Krusty Krab",
+  "category":"burgers",
+  "storeHours":[
+    "Sunday: 2pm to 7pm",
+    "Monday: 9am to 11pm"
+  ]
+}
+
+> {%
+ client.global.set("restaurant4Id", JSON.stringify(response.body.restaurantId));
+ %}
+
+### Review 4
+POST http://localhost:5001/review
+Content-Type: application/json
+
+{
+  "restaurantId":{{restaurant4Id}},
+  "restaurantName":"Krusty Krab",
+  "userId":"73",
+  "title":"great burgers for a sponge",
+  "description":"I'm ready, I'm ready, I'm READYYYY.",
+  "rating":"4",
+  "price":"15"
+}
+
+### Restaurant 5
+### Send POST request with json body
+POST http://localhost:5001/restaurants
+Content-Type: application/json
+
+{
+  "name":"BattyBurgers",
+  "category":"burgers",
+  "storeHours":[
+    "Saturday: 5am to 5pm",
+    "Sunday: 9am to 10pm"
+  ]
+}
+
+> {%
+ client.global.set("restaurant5Id", JSON.stringify(response.body.restaurantId));
+ %}
+
+### Review5
+POST http://localhost:5001/review
+Content-Type: application/json
+
+{
+  "restaurantId":{{restaurant5Id}},
+  "restaurantName":"BattyBurgers",
+  "userId":"73",
+  "title":"Great food",
+  "description":"Food was great! I love those bat burgers",
+  "rating":"5",
+  "price":"18"
+}
+
+
+
+

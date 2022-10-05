@@ -16,7 +16,7 @@ public class DrinkCreateRequest {
     private String name;
 
     @NotEmpty
-    @JsonProperty("Id")
+    @JsonProperty("id")
     private String Id;
 
     @NotEmpty

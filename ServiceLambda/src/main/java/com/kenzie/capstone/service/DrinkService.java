@@ -23,7 +23,7 @@ public class DrinkService {
         DrinkRecord drinkRecord = DrinkDao.getDrink(id);
 
         if (drinkRecord == null){
-            throw new IllegalArgumentException("Drink not found");
+            return null;
         }
 
         return new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId());
