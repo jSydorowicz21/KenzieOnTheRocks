@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
@@ -41,11 +43,13 @@ class DrinkControllerTest {
     @Test
     public void getById_Exists() throws Exception {
         String userId = UUID.randomUUID().toString();
+        List<String> ingredients = List.of("Mojito", "wine", "long island");
         String name = mockNeat.strings().valStr();
         String id = UUID.randomUUID().toString();
 
-        Drink drink = new Drink(userId, name, id);
-        com.kenzie.capstone.service.model.Drink persistedDrink = drinkService.addDrink(drink);
+
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
 
         mvc.perform(get("/drinks/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
@@ -71,6 +75,7 @@ class DrinkControllerTest {
         // GIVEN
         String userId = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
+        List<String> ingredients = List.of("Mojito", "wine", "long island");
         String id = UUID.randomUUID().toString();
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
@@ -98,14 +103,16 @@ class DrinkControllerTest {
         // GIVEN
         String userId = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
+        List<String> ingredients = List.of("Mojito", "wine", "long island");
         String id = UUID.randomUUID().toString();
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
         drinkCreateRequest.setId(id);
-        Drink drink = new Drink(userId, name, id);
-        com.kenzie.capstone.service.model.Drink persistedDrink = drinkService.addDrink(drink);
+        drinkCreateRequest.setIngredients(ingredients);
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
 
         DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
         drinkUpdateRequest.setUserId(userId);
@@ -133,12 +140,14 @@ class DrinkControllerTest {
         String userId = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String id = UUID.randomUUID().toString();
+        List<String> ingredients = List.of("Mojito", "wine", "long island");
 
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
-        Drink drink = new Drink(userId, name, id);
-        com.kenzie.capstone.service.model.Drink persistedDrink = drinkService.addDrink(drink);
+        drinkCreateRequest.setIngredients(ingredients);
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
 
         // WHEN
         mvc.perform(delete("/drinks", persistedDrink.getId())
