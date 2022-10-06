@@ -48,10 +48,10 @@ public class NonCachingDrinkDao implements DrinkDao {
                 .withConsistentRead(false);
 
         try {
-            return mapper.load(DrinkRecord.class, queryExpression);
+            return mapper.query(DrinkRecord.class, queryExpression).get(0);
         }
         catch (Exception e){
-            System.out.println("Nah brah");
+            System.out.println(e.getMessage());
         }
         return null;
     }

@@ -18,9 +18,11 @@ public class DrinkService {
     public DrinkService(CachingDrinkDao DrinkDao) {
         this.DrinkDao = DrinkDao;
     }
-
     public LambdaDrink getDrink(String id) {
+
+
         DrinkRecord drinkRecord = DrinkDao.getDrink(id);
+
 
         if (drinkRecord == null){
             return null;

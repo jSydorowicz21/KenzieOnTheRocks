@@ -9,16 +9,19 @@ import com.kenzie.appserver.service.model.Drink;
 import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.andreinc.mockneat.MockNeat;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -43,6 +46,19 @@ class DrinkControllerTest {
 
     private final List<String> ingredients = List.of("Rum","Coke","Ice");
 
+    List<String> idsToBeDeleted = new ArrayList<>();
+
+    @AfterEach
+    public void tearDown() {
+        if (!idsToBeDeleted.isEmpty()) {
+            for(String id : idsToBeDeleted) {
+                drinkService.delete(id);
+            }
+        }
+        idsToBeDeleted.clear();
+    }
+
+
     @Test
     public void getById_Exists() throws Exception {
         String id = UUID.randomUUID().toString();
@@ -53,12 +69,14 @@ class DrinkControllerTest {
         Drink drink = new Drink(id, name, ingredients, userId);
         Drink persistedDrink = drinkService.addDrink(drink);
 
+        idsToBeDeleted.add(id);
+
         mvc.perform(get("/drinks/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
                         .isString())
                 .andExpect(jsonPath("name")
-                        .value(is(name)))
+                        .value(name))
                 .andExpect(status().is2xxSuccessful());
         }
     @Test
@@ -84,6 +102,8 @@ class DrinkControllerTest {
         drinkCreateRequest.setIngredients(ingredients);
         drinkCreateRequest.setName(name);
         drinkCreateRequest.setId(id);
+
+        idsToBeDeleted.add(id);
 
         // WHEN
         mvc.perform(post("/drinks")
@@ -114,6 +134,8 @@ class DrinkControllerTest {
         drinkUpdateRequest.setName("new Name");
         drinkUpdateRequest.setId(persistedDrink.getId());
         drinkUpdateRequest.setIngredients(List.of("Mojito", "long island"));
+
+        idsToBeDeleted.add(id);
 
 
 //         WHEN
@@ -146,11 +168,10 @@ class DrinkControllerTest {
         Drink persistedDrink = drinkService.addDrink(drink);
 
         // WHEN
-        mvc.perform(delete("/drinks", persistedDrink.getId())
+        mvc.perform(delete("/drinks/" + persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 // THEN
-                .andExpect(status().isNoContent());
-        assertThat(drinkService.findById(id)).isNull();
+                .andExpect(status().isOk());
     }
 
 }
