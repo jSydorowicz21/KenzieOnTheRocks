@@ -35,11 +35,12 @@ public class DeleteDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
+        String id = input.getPathParameters().get("id");
+
         try {
-            drinkService.deleteDrink(input.getBody());
+            drinkService.deleteDrink(id);
             return response
-                    .withStatusCode(200)
-                    .withBody(input.getBody());
+                    .withStatusCode(200);
         } catch (InvalidDataException e) {
             return response
                     .withStatusCode(400)

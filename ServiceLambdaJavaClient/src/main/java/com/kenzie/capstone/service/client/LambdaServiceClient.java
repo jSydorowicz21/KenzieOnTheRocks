@@ -23,14 +23,17 @@ public class LambdaServiceClient {
     private Gson gson = new Gson();
 
     public LambdaDrink getDrink(String id) {
+
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
         LambdaDrink lambdaDrink;
+
         try {
             lambdaDrink = mapper.readValue(response, LambdaDrink.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
+
         return lambdaDrink;
     }
 
@@ -56,14 +59,10 @@ public class LambdaServiceClient {
         return lambdaDrink;
     }
 
-    public LambdaDrink deleteDrink(String id) {
+    public void deleteDrink(String id) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
-        try {
-            return mapper.readValue(response, LambdaDrink.class);
-        } catch (Exception e) {
-            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
-        }
+
+        endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
     }
 
     public List<LambdaDrink> getAllDrinks() {

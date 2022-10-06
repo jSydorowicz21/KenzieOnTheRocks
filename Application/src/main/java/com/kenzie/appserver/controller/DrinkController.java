@@ -31,16 +31,19 @@ public class DrinkController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DrinkResponse> get(@PathVariable("id") String id) {
-
-        Drink drink = drinkService.findById(id);
+        Drink drink;
+        try {
+             drink = drinkService.findById(id);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
         if (drink == null) {
             return ResponseEntity.notFound().build();
         }
 
-        DrinkResponse drinkResponse = new DrinkResponse();
-        drinkResponse.setId(drink.getId());
-        drinkResponse.setName(drink.getName());
-        return ResponseEntity.ok(drinkResponse);
+
+        return ResponseEntity.ok(createDrinkResponse(drink));
     }
 
     @GetMapping
@@ -88,11 +91,16 @@ public class DrinkController {
         return ResponseEntity.created(URI.create("/drinks/" + drink.getId())).body(this.createDrinkResponse(drink));
     }
 
-    @DeleteMapping
-    public ResponseEntity<DrinkResponse> deleteDrink(@RequestBody DrinkDeleteRequest drinkDeleteRequest) {
-        Drink drinkToDelete = new Drink(drinkDeleteRequest.getId(), drinkDeleteRequest.getUserId(), drinkDeleteRequest.getIngredients(), drinkDeleteRequest.getName());
-        drinkService.delete(drinkToDelete);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DrinkResponse> deleteDrink(@PathVariable("id") String id) {
+        try {
+            drinkService.delete(id);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping

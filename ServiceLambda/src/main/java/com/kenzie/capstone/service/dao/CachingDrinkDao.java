@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.dao;
 
 import com.google.gson.Gson;
+import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.model.DrinkRecord;
 
@@ -27,12 +28,13 @@ public class CachingDrinkDao implements DrinkDao{
     @Override
     public DrinkRecord addDrink(DrinkRecord drink) {
         cacheClient.invalidate(keyMaker(drink.getId()));
+        addToCache(drink);
         return drinkDao.addDrink(drink);
     }
 
     @Override
     public DrinkRecord getDrink(String id) {
-        if (cacheClient.getValue(keyMaker(id)) != null && cacheClient.getValue(keyMaker(id)).isPresent()) {
+        if (id != null && cacheClient.getValue(keyMaker(id)) != null && cacheClient.getValue(keyMaker(id)).isPresent()) {
             return cacheToRecord(cacheClient.getValue(keyMaker(id)).get());
         }
         DrinkRecord drink = drinkDao.getDrink(id);
@@ -45,6 +47,7 @@ public class CachingDrinkDao implements DrinkDao{
     @Override
     public DrinkRecord updateDrink(DrinkRecord drink) {
         cacheClient.invalidate(keyMaker(drink.getId()));
+        addToCache(drink);
         return drinkDao.updateDrink(drink);
     }
 
@@ -59,7 +62,10 @@ public class CachingDrinkDao implements DrinkDao{
 
         Optional<List<String>> cacheRecords = cacheClient.getAll();
 
+
+
         if (cacheRecords != null && cacheRecords.isPresent()) {
+            System.out.println("Cache hit");
             return cacheRecords.get().stream().filter(Objects::nonNull).map(this::cacheToRecord).collect(Collectors.toList());
         }
 
@@ -77,8 +83,8 @@ public class CachingDrinkDao implements DrinkDao{
         return drinkDao.getDrinksByUserId(userId);
     }
 
-    private DrinkRecord cacheToRecord(Object value) {
-        return (DrinkRecord) value;
+    private DrinkRecord cacheToRecord(String value) {
+        return gson.fromJson(value, DrinkRecord.class );
     }
 
     private String keyMaker(String id) {
