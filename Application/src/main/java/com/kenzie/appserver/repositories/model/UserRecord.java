@@ -17,6 +17,8 @@ public class UserRecord {
     private List<Drink> drinks;
 
 
+
+
     @DynamoDBHashKey(attributeName = "UserId")
     public String getUserId() {
         return userId;
