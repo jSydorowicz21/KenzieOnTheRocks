@@ -25,3 +25,9 @@ Resources:
               KeyType: "RANGE"
           Projection:
             ProjectionType: ALL
+        - IndexName: "id-index"
+          KeySchema:
+          - AttributeName: "id"
+            KeyType: "HASH"
+          Projection:
+            ProjectionType: ALL

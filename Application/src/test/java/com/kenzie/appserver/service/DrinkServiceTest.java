@@ -134,11 +134,10 @@ public class DrinkServiceTest {
     @Test
     void deleteDrink_drinkExists_verifyInteractions() {
         //given
-        Drink drink = new Drink(TEST_DRINK_ID, TEST_DRINK_NAME, TEST_DRINK_INGREDIENTS, TEST_USERID);
-        when(lambdaServiceClient.deleteDrink(TEST_DRINK_ID)).thenReturn(mock(LambdaDrink.class));
+        when(lambdaServiceClient.getDrink(TEST_DRINK_ID)).thenReturn(mock(LambdaDrink.class));
 
         //when
-        drinkService.delete(drink);
+        drinkService.delete(TEST_DRINK_ID);
 
         //then
         verify(lambdaServiceClient).deleteDrink(TEST_DRINK_ID);

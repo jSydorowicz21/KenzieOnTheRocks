@@ -36,8 +36,10 @@ public class GetDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
+        String id = input.getPathParameters().get("id");
+
         try {
-            LambdaDrink lambdaDrink = drinkService.getDrink(input.getBody());
+            LambdaDrink lambdaDrink = drinkService.getDrink(id);
             String output = gson.toJson(lambdaDrink);
 
             return response

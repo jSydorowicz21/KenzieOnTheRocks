@@ -25,14 +25,14 @@ module.exports = {
     // overlay shows a full-screen overlay in the browser when there are compiler errors or warnings
     overlay: true,
     proxy: [
-                {
-                context: [
-                    '/drinks',
-                    '/users'
-                ],
-                target: 'http://localhost:5001'
-                }
-            ]
+      {
+        context: [
+          '/drinks',
+          '/users'
+        ],
+        target: 'http://localhost:5001'
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({

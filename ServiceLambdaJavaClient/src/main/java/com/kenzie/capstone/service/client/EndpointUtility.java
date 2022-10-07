@@ -123,6 +123,9 @@ public class EndpointUtility {
                 .build();
         try {
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(httpResponse.body());
+            System.out.println(httpResponse.statusCode());
+            System.out.println(httpResponse.uri());
 
             int statusCode = httpResponse.statusCode();
             if (statusCode == 200) {

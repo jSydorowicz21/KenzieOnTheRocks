@@ -171,8 +171,7 @@
     margin-bottom: 1rem;
 }
 
-#search-card{
-
+#search-card {
     float: right;
     width: 38%
 }
@@ -221,6 +220,19 @@
 .searchClass {
     display: flex;
     flex-direction: row;
+}
+
+#container {
+	width: 80%;
+	float: left;
+}
+
+.sidebar {
+	height: 80%;
+	padding-top: 10%;
+	width: 10%;
+	float:right;
+	
 }
 
 

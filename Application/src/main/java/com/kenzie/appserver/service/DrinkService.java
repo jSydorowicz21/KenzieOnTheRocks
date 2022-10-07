@@ -29,11 +29,13 @@ public class DrinkService {
 
     public Drink findById(String id) {
 
-        if (id == null && lambdaServiceClient.getDrink(id) == null) {
+        LambdaDrink drink = lambdaServiceClient.getDrink(id);
+
+        if (id == null || drink == null) {
             throw new IllegalArgumentException("Invalid drink id");
         }
 
-        return createDrinkFromLambda(lambdaServiceClient.getDrink(id));
+        return createDrinkFromLambda(drink);
     }
 
     public List<Drink> getAllDrinks() {
@@ -61,7 +63,14 @@ public class DrinkService {
     //add drink
     public Drink addDrink(Drink request) {
         System.out.println(request.getId());
-        LambdaDrink drinkExists = lambdaServiceClient.getDrink(request.getId());
+        LambdaDrink drinkExists = null;
+        try {
+            drinkExists = lambdaServiceClient.getDrink(request.getId());
+        }
+        catch (IllegalArgumentException e){{
+            // do nothing
+        }}
+
 
         if(drinkExists != null) {
             throw new UserHasExistingDrinkException("Drink should be updated instead");
@@ -73,15 +82,20 @@ public class DrinkService {
     }
 
     public Drink updateDrink(Drink request) {
-        LambdaDrink drinkFromLambda = lambdaServiceClient.getDrink(request.getId());
+        Drink drinkFromLambda;
 
-        if(drinkFromLambda == null) {
-            throw new UserHasNoExistingDrinkException("Drink should be added instead.");
+        try {
+            drinkFromLambda = findById(request.getId());
         }
+        catch (IllegalArgumentException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid drink id");
+        }
+
 
         drinkFromLambda.setIngredients(request.getIngredients());
 
-        LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(drinkFromLambda);
+        LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(drinkFromLambda.getId(), drinkFromLambda.getName(),
+                drinkFromLambda.getIngredients(), drinkFromLambda.getUserId()));
 
         return createDrinkFromLambda(updatedDrink);
     }
@@ -93,9 +107,11 @@ public class DrinkService {
                 .collect(Collectors.toList());
     }
 
-    public void delete(Drink drink){
+    public void delete(String id){
+
         try{
-            lambdaServiceClient.deleteDrink(drink.getId());
+            findById(id);
+            lambdaServiceClient.deleteDrink(id);
         } catch (IllegalArgumentException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no matching drink");
@@ -103,6 +119,9 @@ public class DrinkService {
     }
 
     public Drink createDrinkFromLambda(LambdaDrink drink){
+        if(drink == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
     }
     private DrinkRecord createRecordFromRequest(Drink request) {
