@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kenzie.appserver.service.DrinkServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2022-10-05T07:16:28" hostname="DESKTOP-FGSO8KI" time="0.578">
+<testsuite name="com.kenzie.appserver.service.DrinkServiceTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2022-10-07T22:37:27" hostname="DESKTOP-MBTHIU9" time="0.321">
   <properties/>
-  <testcase name="updateDrink_userHasNoExistingDrink_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.51"/>
-  <testcase name="addNewDrink_userHasExistingDrink_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.013"/>
-  <testcase name="getAllDrinks_sameUser_returnsAll()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.007"/>
-  <testcase name="findById()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.007"/>
-  <testcase name="getDrink_noMatchingDrink_Throws_Exception()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.005"/>
-  <testcase name="updateDrink_dataValidAndMatches_returnsUpdatedDrink()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.019"/>
-  <testcase name="deleteDrink_drinkExists_verifyInteractions()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.003"/>
-  <testcase name="addNewDrink_userHasNotExistingDrink_addDrink()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.003"/>
-  <testcase name="getAllDrinks_noDrinkMatch_returnsEmptyList()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="updateDrink_userHasNoExistingDrink_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.264"/>
+  <testcase name="addNewDrink_userHasExistingDrink_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.012"/>
+  <testcase name="getAllDrinks_sameUser_returnsAll()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.004"/>
+  <testcase name="filterDrink_no_match_empty_list()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.005"/>
+  <testcase name="getDrink_null_drink_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.004"/>
+  <testcase name="findById()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.003"/>
+  <testcase name="getDrink_noMatchingDrink_Throws_Exception()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.001"/>
+  <testcase name="getDrink_null_id_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.001"/>
+  <testcase name="getDrink_null_name_throwsException()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.001"/>
+  <testcase name="updateDrink_dataValidAndMatches_returnsUpdatedDrink()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.008"/>
+  <testcase name="deleteDrink_drinkExists_verifyInteractions()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.001"/>
+  <testcase name="filterDrink_matching_ingredient_returns_drink()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.001"/>
+  <testcase name="addNewDrink_userHasNotExistingDrink_addDrink()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.002"/>
+  <testcase name="getAllDrinks_noDrinkMatch_returnsEmptyList()" classname="com.kenzie.appserver.service.DrinkServiceTest" time="0.001"/>
+  <system-out><![CDATA[null
+test drinkId
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

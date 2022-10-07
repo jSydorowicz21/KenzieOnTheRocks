@@ -47,7 +47,7 @@ public class DrinkController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DrinkResponse>> getFilteredDrinks(@RequestBody List<String> ingredients) {
+    public ResponseEntity<List<DrinkResponse>> getFilteredDrinks(@RequestBody String ingredients) {
 
         List<Drink> filteredDrinks = drinkService.getFilteredDrinks(ingredients);
 
