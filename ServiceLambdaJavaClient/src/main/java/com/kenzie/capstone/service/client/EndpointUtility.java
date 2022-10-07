@@ -118,6 +118,7 @@ public class EndpointUtility {
         String api = getApiEndpint();
         String url = api + endpoint;
 
+
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create(url);
         HttpRequest request = HttpRequest.newBuilder()
@@ -127,9 +128,6 @@ public class EndpointUtility {
                 .build();
         try {
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(httpResponse.body());
-            System.out.println(httpResponse.statusCode());
-            System.out.println(httpResponse.uri());
 
             int statusCode = httpResponse.statusCode();
             if (statusCode == 200) {

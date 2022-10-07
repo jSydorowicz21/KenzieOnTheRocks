@@ -59,11 +59,7 @@ public class NonCachingDrinkDao implements DrinkDao {
     public DrinkRecord updateDrink(DrinkRecord drink) {
 
         try {
-            mapper.save(drink, new DynamoDBSaveExpression()
-                    .withExpected(ImmutableMap.of(
-                            "id",
-                            new ExpectedAttributeValue().withExists(false)
-                    )));
+            mapper.save(drink, new DynamoDBSaveExpression());
         } catch (ConditionalCheckFailedException e) {
             throw new IllegalArgumentException("update Failed");
         }

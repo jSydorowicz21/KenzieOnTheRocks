@@ -111,7 +111,6 @@ public class DrinkController {
                 drinkUpdateRequest.getName(),
                 drinkUpdateRequest.getIngredients(),
                 drinkUpdateRequest.getUserId());
-        drink.setIngredients(drinkUpdateRequest.getIngredients());
         drinkService.updateDrink(drink); // user DB
 
         DrinkResponse drinkResponse = createDrinkResponse(drink);
