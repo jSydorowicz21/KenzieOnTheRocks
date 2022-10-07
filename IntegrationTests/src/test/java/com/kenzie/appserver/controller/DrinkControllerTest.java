@@ -138,18 +138,19 @@ class DrinkControllerTest {
         idsToBeDeleted.add(id);
 
 
+
 //         WHEN
         mvc.perform(put("/drinks/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(drinkCreateRequest)))
+                        .content(mapper.writeValueAsString(drinkUpdateRequest)))
                 // THEN
                 .andExpect(jsonPath("userId")
                         .exists())
                 .andExpect(jsonPath("name")
-                        .value(is("new Name")))
+                        .value("new Name"))
                 .andExpect(jsonPath("id")
-                        .value(is(id)))
+                        .value(id))
                 .andExpect(status().isOk());
     }
 

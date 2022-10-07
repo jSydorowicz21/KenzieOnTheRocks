@@ -94,8 +94,8 @@ public class DrinkService {
 
         drinkFromLambda.setIngredients(request.getIngredients());
 
-        LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(drinkFromLambda.getId(), drinkFromLambda.getName(),
-                drinkFromLambda.getIngredients(), drinkFromLambda.getUserId()));
+        LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(drinkFromLambda.getId(), request.getName(),
+                request.getIngredients(), drinkFromLambda.getUserId()));
 
         return createDrinkFromLambda(updatedDrink);
     }

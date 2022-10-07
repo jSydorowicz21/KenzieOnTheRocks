@@ -37,18 +37,17 @@ public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
                 .withHeaders(headers);
 
         LambdaDrink lambdaDrink = gson.fromJson(input.getBody(), LambdaDrink.class);
-        String id = input.getPathParameters().get("id");
 
 
-        if (lambdaDrink == null || id == null) {
+        if (lambdaDrink == null || lambdaDrink.getId() == null) {
             return response
                     .withStatusCode(400)
                     .withBody("drink is invalid");
         }
 
         try {
-            //LambdaDrink lambdaDrinkFromLambda = lambdaService.updateDrink(lambdaDrink);
-            String output = gson.toJson(lambdaService.updateDrink(lambdaDrink));
+            LambdaDrink lambdaDrinkFromLambda = lambdaService.updateDrink(lambdaDrink);
+            String output = gson.toJson(lambdaDrinkFromLambda);
 
             return response
                     .withStatusCode(200)
