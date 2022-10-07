@@ -139,7 +139,7 @@ class DrinkControllerTest {
 
 
 //         WHEN
-        mvc.perform(put("/drinks")
+        mvc.perform(put("/drinks/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(drinkCreateRequest)))
