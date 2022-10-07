@@ -163,6 +163,7 @@ class DrinkControllerTest {
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
+        drinkCreateRequest.setId(id);
         drinkCreateRequest.setIngredients(ingredients);
         Drink drink = new Drink(id, name, ingredients, userId);
         Drink persistedDrink = drinkService.addDrink(drink);

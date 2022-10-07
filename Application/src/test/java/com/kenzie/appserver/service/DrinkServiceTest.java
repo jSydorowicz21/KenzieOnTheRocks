@@ -43,7 +43,7 @@ public class DrinkServiceTest {
      *  ------------------------------------------------------------------------ **/
 
     @Test
-    void findById() {
+    void getDrinkById() {
         // GIVEN
         String id = randomUUID().toString();
 
@@ -221,7 +221,7 @@ public class DrinkServiceTest {
 
     @Test
     void updateDrink_userHasNoExistingDrink_throwsException(){
-        when(lambdaServiceClient.getDrink(any())).thenReturn(null);
+        when(lambdaServiceClient.getDrink(any())).thenReturn(mock(LambdaDrink.class));
 
         //when then
         Assertions.assertThrows(UserHasNoExistingDrinkException.class,()-> drinkService.updateDrink(mock(Drink.class)));
