@@ -38,6 +38,7 @@ public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
 
         LambdaDrink lambdaDrink = gson.fromJson(input.getBody(), LambdaDrink.class);
 
+
         if (lambdaDrink == null || lambdaDrink.getId() == null) {
             return response
                     .withStatusCode(400)

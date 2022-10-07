@@ -28,6 +28,9 @@ public class EndpointUtility {
             deploymentName = System.getenv("STACK_NAME");
         }
         if (deploymentName == null) {
+            deploymentName = "capstone-schroedingers-rabbit-service-dev";
+        }
+        if (deploymentName == null) {
             throw new IllegalArgumentException("Could not find the deployment name in environment variables.  Make sure that you have set up your environment variables using the setupEnvironment.sh script.");
         }
         return deploymentName;
@@ -96,6 +99,7 @@ public class EndpointUtility {
                 .header("Accept", "application/json")
                 .GET()
                 .build();
+
         try {
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
