@@ -248,7 +248,7 @@ public class DrinkServiceTest {
         when(lambdaServiceClient.getAllDrinks()).thenReturn(List.of(drink,altDrink,secondDrink));
         //WHEN
 
-        List<Drink> filteredList = drinkService.getFilteredDrinks("Ingredient1");
+        List<Drink> filteredList = drinkService.getFilteredDrinks(List.of("Ingredient1"));
         //THEN
         Assertions.assertTrue(filteredList.contains(drink1));
         Assertions.assertTrue(filteredList.contains(drink3));
@@ -273,7 +273,7 @@ public class DrinkServiceTest {
         when(lambdaServiceClient.getAllDrinks()).thenReturn(List.of(drink,altDrink,secondDrink));
         //WHEN
 
-        List<Drink> filteredList = drinkService.getFilteredDrinks("Ingredient7");
+        List<Drink> filteredList = drinkService.getFilteredDrinks(List.of("Ingredient7"));
         //THEN
         Assertions.assertFalse(filteredList.contains(drink1));
         Assertions.assertFalse(filteredList.contains(drink2));

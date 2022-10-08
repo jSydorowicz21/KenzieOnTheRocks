@@ -95,14 +95,16 @@ class DrinkControllerTest {
         idsToBeDeleted.add(id);
         idsToBeDeleted.add(drink2.getId());
 
-        mvc.perform(get("/drinks/", persistedDrink.getIngredients())
-                        .accept(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/drinks", persistedDrink.getIngredients())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(persistedDrink.getIngredients())))
                 .andExpect(jsonPath("id")
                         .isString())
                 .andExpect(jsonPath("name")
                         .value(name))
                 .andExpect(jsonPath("ingredients")
-                        .value(ingredients.contains("Rum")));
+                                .hasJsonPath());
                 //.andExpect(status().is2xxSuccessful());
         }
     @Test

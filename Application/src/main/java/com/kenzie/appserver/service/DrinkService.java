@@ -96,7 +96,7 @@ public class DrinkService {
         return createDrinkFromLambda(updatedDrink);
     }
 
-    public List<Drink> getFilteredDrinks(String ingredients){
+    public List<Drink> getFilteredDrinks(List<String> ingredients){
         return lambdaServiceClient.getAllDrinks().stream()
                 .filter(drink -> new HashSet<>(drink.getIngredients()).contains(ingredients))
                 .map(drink -> new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId()))
