@@ -15,7 +15,7 @@ export default class DrinkClient extends BaseClass {
         super();
         const methodsToBind = ['clientLoaded', 'getHomeDrinks', 'createDrink', 'getDrinkById', 'deleteDrink', 'updateDrink'];
         this.bindClassMethods(methodsToBind, this);
-        this.props = props;+
+        this.props = props;
 
         this.clientLoaded(axios);
     }

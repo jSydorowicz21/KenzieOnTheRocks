@@ -1,5 +1,6 @@
 package com.kenzie.capstone.service;
 
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
 import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.model.DrinkRecord;
@@ -65,14 +66,14 @@ public class DrinkService {
         DrinkDao.deleteDrink(drinkRecord);
 
     }
-
+    @ExcludeFromJacocoGeneratedReport
     public List<LambdaDrink> getAllDrinks() {
         return DrinkDao.getAllDrinks().stream()
                 .map(drinkRecord ->
                     new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
     }
-
+    @ExcludeFromJacocoGeneratedReport
     public List<LambdaDrink> getDrinksByUserId(String userId) {
         return DrinkDao.getDrinksByUserId(userId).stream()
                 .map(drinkRecord ->

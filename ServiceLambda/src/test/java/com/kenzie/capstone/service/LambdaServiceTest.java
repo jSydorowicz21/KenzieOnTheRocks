@@ -1,21 +1,21 @@
 //package com.kenzie.capstone.service;
-
-import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
-import com.kenzie.capstone.service.model.DrinkRecord;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.mockito.ArgumentCaptor;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+//
+//import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
+//import com.kenzie.capstone.service.model.DrinkRecord;
+//import org.junit.jupiter.api.BeforeAll;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.TestInstance;
+//import org.mockito.ArgumentCaptor;
+//
+//import java.util.Arrays;
+//
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertNotNull;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.times;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
+//
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 //class LambdaServiceTest {
 //
@@ -80,7 +80,7 @@ import static org.mockito.Mockito.when;
 //        assertEquals(id, response.getId(), "The response id should match");
 //        assertEquals(data, response.getData(), "The response data should match");
 //    }
-
-    // Write additional tests here
+//
+//     Write additional tests here
 //
 //}
