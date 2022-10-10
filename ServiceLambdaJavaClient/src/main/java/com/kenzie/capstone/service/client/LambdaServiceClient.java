@@ -11,6 +11,8 @@ public class LambdaServiceClient {
 
     private static final String DRINKS_ENDPOINT = "drinks";
     private static final String DRINKS_ID_ENDPOINT = "drinks/{id}";
+    //possible endpoint for search filter??
+    private static final String DRINKS_INGREDIENTS_ENDPOINT = "drinks/{ingredients}";
 
     private static final String DRINKS_USER_ENDPOINT = "drinks/user/{id}";
 

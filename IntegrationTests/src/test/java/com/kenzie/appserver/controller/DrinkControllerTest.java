@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.nameContainsIgnoreCase;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -78,6 +79,33 @@ class DrinkControllerTest {
                 .andExpect(jsonPath("name")
                         .value(name))
                 .andExpect(status().is2xxSuccessful());
+        }
+    @Test
+    public void filteredSearch_returns_matching_drink() throws Exception {
+        String id = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
+        String userId = UUID.randomUUID().toString();
+
+
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey","Coke","Ice"),userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
+        Drink persistedDrink2 = drinkService.addDrink(drink2);
+
+        idsToBeDeleted.add(id);
+        idsToBeDeleted.add(drink2.getId());
+
+        mvc.perform(get("/drinks", persistedDrink.getIngredients())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(persistedDrink.getIngredients())))
+                .andExpect(jsonPath("id")
+                        .isString())
+                .andExpect(jsonPath("name")
+                        .value(name))
+                .andExpect(jsonPath("ingredients")
+                                .hasJsonPath());
+                //.andExpect(status().is2xxSuccessful());
         }
     @Test
     public void getDrink_DrinkDoesNotExist() throws Exception {
