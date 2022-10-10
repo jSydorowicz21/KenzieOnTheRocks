@@ -25,6 +25,8 @@ class LandingPage extends BaseClass {
         this.client = new DrinkClient();
 
         this.dataStore.addChangeListener(this.renderDrink)
+        await this.onGetAllDrinks();
+
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
@@ -74,6 +76,24 @@ class LandingPage extends BaseClass {
                     } else {
                         this.errorHandler("Error doing GET!  Try again...");
                     }
+        const appendPageNumber = (index) => {
+            const pageNumber = document.createElement("button");
+            pageNumber.className = "pagination-number";
+            pageNumber.innerHTML = index;
+            pageNumber.setAttribute("page-index", index);
+            pageNumber.setAttribute("aria-label", "Page " + index);
+
+            paginationNumbers.appendChild(pageNumber);
+        };
+
+        const getPaginationNumbers = () => {
+            for (let i = 1; i <= pageCount; i++) {
+                appendPageNumber(i);
+            }
+        };
+        window.addEventListener("load", () => {
+            getPaginationNumbers();
+        });
     }
 
     async onCreate(event) {
