@@ -70,7 +70,7 @@ class LandingPage extends BaseClass {
             let result = await this.client.getHomeDrinks();
             this.dataStore.set("drinks", result);
             if (result) {
-                        this.showMessage("Returned all drinks!")
+                        const paginatedList = document.getElementById("drink-list");
                     } else {
                         this.errorHandler("Error doing GET!  Try again...");
                     }
