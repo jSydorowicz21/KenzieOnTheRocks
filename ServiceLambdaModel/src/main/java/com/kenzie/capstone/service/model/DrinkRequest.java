@@ -16,6 +16,10 @@ public class DrinkRequest {
         this.userId = userId;
     }
 
+    public DrinkRequest() {
+
+    }
+
     public String getId() {
         return id;
     }
