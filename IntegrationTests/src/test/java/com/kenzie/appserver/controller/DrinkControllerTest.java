@@ -1,7 +1,10 @@
 package com.kenzie.appserver.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.Gson;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
+import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.model.Drink;
@@ -38,6 +41,8 @@ class DrinkControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    Gson gson = new Gson();
+
     @Autowired
     DrinkService drinkService;
 
@@ -67,18 +72,28 @@ class DrinkControllerTest {
         String userId = UUID.randomUUID().toString();
 
         Drink drink = new Drink(id, name, ingredients, userId);
+        Drink drink2 = new Drink("id2", "name2", List.of("nothing", "More nothing"), userId);
         Drink persistedDrink = drinkService.addDrink(drink);
+        drinkService.addDrink(drink2);
 
         idsToBeDeleted.add(id);
 
-        mvc.perform(get("/drinks", persistedDrink.getId())
-                        .content(String.valueOf(ingredients))
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("id")
-                        .isString())
-                .andExpect(jsonPath("name")
-                        .value(name))
+        ResultActions actions = mvc.perform(get("/drinks")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(String.valueOf(gson.toJson(ingredients)))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        });
+        assertThat(responses.size() == 1).as("There are responses");
+        for (DrinkResponse response : responses) {
+            assertThat(response.getId().equals(persistedDrink.getId())).as("Id matches");
+            assertThat(response.getName().equals(persistedDrink.getName())).as("The name matches");
+            assertThat(response.getIngredients().equals(persistedDrink.getIngredients())).as("Ingredients match");
+            assertThat(response.getUserId().equals(persistedDrink.getUserId())).as("User id matches");
+        }
     }
     @Test
     public void getById_Exists() throws Exception {
@@ -100,33 +115,38 @@ class DrinkControllerTest {
                         .value(name))
                 .andExpect(status().is2xxSuccessful());
         }
-    @Test
-    public void filteredSearch_returns_matching_drink() throws Exception {
-        String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        String userId = UUID.randomUUID().toString();
-
-
-        Drink drink = new Drink(id, name, ingredients, userId);
-        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey","Coke","Ice"),userId);
-        Drink persistedDrink = drinkService.addDrink(drink);
-        Drink persistedDrink2 = drinkService.addDrink(drink2);
-
-        idsToBeDeleted.add(id);
-        idsToBeDeleted.add(drink2.getId());
-
-        mvc.perform(get("/drinks", persistedDrink.getIngredients())
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(persistedDrink.getIngredients())))
-                .andExpect(jsonPath("id")
-                        .isString())
-                .andExpect(jsonPath("name")
-                        .value(name))
-                .andExpect(jsonPath("ingredients")
-                                .hasJsonPath());
-                //.andExpect(status().is2xxSuccessful());
-        }
+//    @Test
+//    public void filteredSearch_returns_matching_drink() throws Exception {
+//        String id = UUID.randomUUID().toString();
+//        String name = mockNeat.strings().valStr();
+//        String userId = UUID.randomUUID().toString();
+//
+//
+//        Drink drink = new Drink(id, name, ingredients, userId);
+//        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
+//        Drink persistedDrink = drinkService.addDrink(drink);
+//        Drink persistedDrink2 = drinkService.addDrink(drink2);
+//
+//        idsToBeDeleted.add(id);
+//        idsToBeDeleted.add(drink2.getId());
+//
+//        ResultActions actions = mvc.perform(get("/drinks")
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .content(String.valueOf(ingredients))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is2xxSuccessful());
+//
+//        String responseBody = actions.andReturn().getResponse().getContentAsString();
+//        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+//        });
+//        assertThat(responses.size()).isGreaterThan(0).as("There are responses");
+//        for (DrinkResponse response : responses) {
+//            assertThat(response.getId()).isNotEmpty().as("The ID is populated");
+//            assertThat(response.getName()).isNotEmpty().as("The name is populated");
+//            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
+//            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
+//        }
+//    }
     @Test
     public void getDrink_DrinkDoesNotExist() throws Exception {
         // GIVEN
