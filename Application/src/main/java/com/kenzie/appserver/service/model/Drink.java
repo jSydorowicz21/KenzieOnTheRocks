@@ -1,8 +1,10 @@
 package com.kenzie.appserver.service.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
 import java.util.List;
 import java.util.Objects;
-
+@DynamoDBDocument
 public class Drink {
     private String id;
     private String name;

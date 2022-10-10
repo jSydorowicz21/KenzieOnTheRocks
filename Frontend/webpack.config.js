@@ -28,7 +28,8 @@ module.exports = {
       {
         context: [
           '/drinks',
-          '/users'
+          '/users',
+          '/login'
         ],
         target: 'http://localhost:5001'
       }
@@ -38,6 +39,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/drink.html',
+      filename: 'drink.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/login.html',
+      filename: 'login.html',
       inject: false
     }),
     new CopyPlugin({

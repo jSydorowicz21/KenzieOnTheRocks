@@ -1,12 +1,10 @@
 package com.kenzie.appserver.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.kenzie.appserver.IntegrationTest;
-import com.kenzie.appserver.controller.model.AddDrinkRequest;
-import com.kenzie.appserver.controller.model.UserCreateRequest;
-import com.kenzie.appserver.controller.model.UserResponse;
-import com.kenzie.appserver.controller.model.UserUpdateRequest;
+import com.kenzie.appserver.controller.model.*;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.User;
 import com.kenzie.appserver.service.UserService;
@@ -124,19 +122,22 @@ class UserControllerTest {
 
         User userResponse = userService.addNewUser(userCreateRequest.getUserId());
 
-        userService.getUsersDrinks(userResponse);
+        List<Drink> drinkResponses = userService.addDrinkToList(userResponse, new Drink("test", "test", List.of("test"), userResponse.getUserId()));
+
+        System.out.println(gson.toJson(drinkResponses));
+
 
         ResultActions actions = mvc.perform(get("/users/drinks/{userId}", userResponse.getUserId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 //
-//        String responseBody = actions.andReturn().getResponse().getContentAsString();
-//        UserResponse response = mapper.readValue(responseBody, UserResponse.class);
-//
-//        assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
-//        assertThat(response.getDrinks()).isNotEmpty().as("The list is populated");
-//        System.out.println(responseBody);
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        });
+
+        assertThat(responses).isNotEmpty();
+        assertThat(responses.containsAll(drinkResponses));
     }
 
 }

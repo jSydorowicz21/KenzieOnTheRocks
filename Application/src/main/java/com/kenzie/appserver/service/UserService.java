@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.google.gson.Gson;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.Drink;
@@ -8,12 +9,15 @@ import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class UserService {
     private UserRepository userRepository;
+
+    Gson gson = new Gson();
     private LambdaServiceClient lambdaServiceClient;
 
     public UserService(UserRepository userRepository, LambdaServiceClient lambdaServiceClient) {
@@ -91,8 +95,10 @@ public class UserService {
 
         checkUserIsInDB(user);
 
+        System.out.println(gson.toJson(user));
 
-        return userRepository.findById(user.getUserId()).get().getDrinks();
+
+        return getUserById(user.getUserId()).getDrinks();
 
     }
 
@@ -104,10 +110,13 @@ public class UserService {
 
         checkUserIsInDB(user);
 
-        List<Drink> drinks = user.getDrinks();
+        List<Drink> drinks = new ArrayList<>(user.getDrinks());
+
         drinks.add(drink);
 
-        return updateUserDrinks(user, drinks).getDrinks();
+        updateUserDrinks(user, drinks);
+
+        return user.getDrinks();
     }
 
     private User createUserFromRecord(UserRecord record){
