@@ -58,7 +58,27 @@ class DrinkControllerTest {
         idsToBeDeleted.clear();
     }
 
+    @Test
+    public void getFilteredDrinks() throws Exception{
 
+        String id = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
+        String userId = UUID.randomUUID().toString();
+
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
+
+        idsToBeDeleted.add(id);
+
+        mvc.perform(get("/drinks", persistedDrink.getId())
+                        .content(String.valueOf(ingredients))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("id")
+                        .isString())
+                .andExpect(jsonPath("name")
+                        .value(name))
+                .andExpect(status().is2xxSuccessful());
+    }
     @Test
     public void getById_Exists() throws Exception {
         String id = UUID.randomUUID().toString();
@@ -136,7 +156,6 @@ class DrinkControllerTest {
         drinkUpdateRequest.setIngredients(List.of("Mojito", "long island"));
 
         idsToBeDeleted.add(id);
-
 
 
 //         WHEN
