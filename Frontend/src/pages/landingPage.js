@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import ExampleClient from "../api/exampleClient";
+import * as bootstrap from 'bootstrap';
 
 /**
  * Logic needed for the view playlist page of the website.
