@@ -13,7 +13,7 @@ export default class DrinkClient extends BaseClass {
 
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'getHomeDrinks', 'createDrink', 'getDrinkById', 'deleteDrink', 'updateDrink'];
+        const methodsToBind = ['clientLoaded', 'getHomeDrinks', 'createDrink', 'getDrinkById', 'deleteDrink', 'updateDrink', 'getFilteredDrink'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;+
 
@@ -101,7 +101,17 @@ export default class DrinkClient extends BaseClass {
 
     }
 
-    async getFilteredDrink(List<String> ingredients, errorCallBack) {
+    async getFilteredDrink(ingredients, errorCallBack) {
+
+        try {
+            const response = await this.client.get('/drinks', {
+                ingredients
+            });
+            return response.data;
+
+        } catch (error){
+            this.handleError("getFilteredDrink", error, errorCallBack);
+        }
 
     }
     //use as onGet for search button in landingPage

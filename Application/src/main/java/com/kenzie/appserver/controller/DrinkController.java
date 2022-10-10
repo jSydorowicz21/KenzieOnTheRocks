@@ -82,7 +82,6 @@ public class DrinkController {
 
     @PostMapping
     public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody DrinkCreateRequest drinkCreateRequest) {
-        System.out.println(gson.toJson(drinkCreateRequest));
 
 
         Drink drink = drinkService.addDrink(new Drink(drinkCreateRequest.getId(), drinkCreateRequest.getName(),

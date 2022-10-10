@@ -1,6 +1,6 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
-import ExampleClient from "../api/exampleClient";
+import DrinkClient from "../api/drinkClient";
 import * as bootstrap from 'bootstrap';
 
 /**
