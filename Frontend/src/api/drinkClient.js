@@ -49,9 +49,9 @@ export default class DrinkClient extends BaseClass {
     async createDrink(userId, name, ingredients, errorCallback) {
         try {
             const response = await this.client.post(`/drinks`, {
-                userId: userId,
+                ingredients: ingredients,
                 name: name,
-                ingredients: ingredients
+                userId: userId
             });
             return response.data;
         } catch (error) {
