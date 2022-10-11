@@ -19,6 +19,8 @@ public class DrinkService {
     public DrinkService(CachingDrinkDao DrinkDao) {
         this.DrinkDao = DrinkDao;
     }
+
+    @ExcludeFromJacocoGeneratedReport
     public LambdaDrink getDrink(String id) {
 
 
@@ -66,21 +68,21 @@ public class DrinkService {
         DrinkDao.deleteDrink(drinkRecord);
 
     }
-    @ExcludeFromJacocoGeneratedReport
+
     public List<LambdaDrink> getAllDrinks() {
         return DrinkDao.getAllDrinks().stream()
                 .map(drinkRecord ->
                     new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
     }
-    @ExcludeFromJacocoGeneratedReport
+
     public List<LambdaDrink> getDrinksByUserId(String userId) {
         return DrinkDao.getDrinksByUserId(userId).stream()
                 .map(drinkRecord ->
                         new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
                 .collect(Collectors.toList());
     }
-
+    @ExcludeFromJacocoGeneratedReport
     private LambdaDrink toDrink(DrinkRecord record){
         LambdaDrink rec = new LambdaDrink();
         rec.setId(record.getId());
