@@ -32,18 +32,16 @@ class LandingPage extends BaseClass {
     // Render Methods --------------------------------------------------------------------------------------------------
 
     async renderDrink() {
-        let resultArea = document.getElementsByClassName('drink')
+        let resultArea = Array.from(document.getElementsByClassName('drink'));
 
         const drink = this.dataStore.get("drink");
 
 
         if (drink) {
-            resultArea.innerHTML = `
-                <div>Drink Name: ${drink.name}</div>
-                <div>Ingredients: ${drink.ingredients}</div>
+            resultArea[1].innerHTML = `
+                <h4><b>Drink Name: ${drink.name}</b></h4>
+			    <p>Ingredients: ${drink.ingredients}</p>
             `
-        } else {
-            resultArea.innerHTML = "No Item";
         }
     }
 
@@ -122,6 +120,8 @@ class LandingPage extends BaseClass {
         } else {
             this.errorHandler("Error creating!  Try again...");
         }
+
+        await this.renderDrink();
     }
 }
 
