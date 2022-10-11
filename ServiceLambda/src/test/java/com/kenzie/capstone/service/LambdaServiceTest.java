@@ -22,8 +22,6 @@ import static org.mockito.Mockito.*;
 class LambdaServiceTest {
 
 
-
-    //    private NonCachingDrinkDao nonCachingDrinkDao;
     private CachingDrinkDao cachingDrinkDao;
     private DrinkService drinkService;
 
@@ -42,13 +40,13 @@ class LambdaServiceTest {
         String id = "drink_Id";
         String name = "drink_name";
 
-        //DrinkRequest request = new DrinkRequest();
-        //request.setId(id);
-        //request.setName(name);
+        DrinkRequest request = new DrinkRequest();
+        request.setId(id);
+        request.setName(name);
 
 
         // WHEN
-        //LambdaDrink response = this.drinkService.addDrink(request);
+        LambdaDrink response = this.drinkService.addDrink(request);
 
         // THEN
         verify(cachingDrinkDao, times(1)).addDrink(drinkCaptor.capture());
@@ -59,12 +57,13 @@ class LambdaServiceTest {
         assertEquals(name,record.getName(),"The drink name should match");
 
 
-        //assertNotNull(response, "A response is returned");
-       // assertEquals(id, response.getId(), "The response id should match");
-       // assertEquals(name,response.getName(),"The drink name should match");
+        assertNotNull(response, "A response is returned");
+        assertEquals(id, response.getId(), "The response id should match");
+        assertEquals(name,response.getName(),"The drink name should match");
 
 
     }
+
 
 //    @Test
 //    void addDrinkTest_no_drink_id() {
@@ -133,5 +132,82 @@ class LambdaServiceTest {
         verify(cachingDrinkDao, times(1)).deleteDrink(drinkCaptor.capture());
 
     }
+    @Test
+    void getAllDrinksTest() {
+        //Given
+
+
+        List<DrinkRecord> record = new ArrayList<>();
+
+        DrinkRecord record1 = new DrinkRecord();
+        record1.setId("drink1");
+        record1.setName("drink_n1");
+        record.add(record1);
+
+        DrinkRecord record2 = new DrinkRecord();
+        record2.setId("drink2");
+        record2.setName("drink_n2");
+        record.add(record2);
+
+        when(cachingDrinkDao.getAllDrinks()).thenReturn(record);
+
+        //when
+        List<LambdaDrink> drinks = this.drinkService.getAllDrinks();
+
+        //then
+        verify(cachingDrinkDao,times(1)).getAllDrinks();
+        assertEquals(2,drinks.size(),"drink has 2 items");
+
+    }
+
+    @Test
+    void getDrinkByUserId() {
+
+        //Given
+        String userId = "userId";
+        List<DrinkRecord> recordList = new ArrayList<>();
+
+        DrinkRecord record1 = new DrinkRecord();
+        record1.setId("drink1");
+        record1.setName("drink_n1");
+        record1.setUserId(userId);
+
+        DrinkRecord record2 = new DrinkRecord();
+        record2.setId("drink2");
+        record2.setName("drink_n2");
+        record2.setUserId(userId);
+
+        when(cachingDrinkDao.getDrinksByUserId(userId)).thenReturn(recordList);
+
+        //when
+        List<LambdaDrink> drinks = this.drinkService.getDrinksByUserId(userId);
+
+        //then
+        verify(cachingDrinkDao,times(1)).getDrinksByUserId(userId);
+        assertNotNull(drinks," drinks list will appear");
+
+    }
+//    @Test
+//    void getDrinkTest() {
+//
+//        // GIVEN
+//        String id = "drink_Id";
+//        String name = "drink_name";
+//
+//        DrinkRequest request = new DrinkRequest();
+//        request.setId(id);
+//        request.setName(name);
+//
+//
+//        // WHEN
+//        LambdaDrink response = this.drinkService.getDrink(id);
+//
+//        // THEN
+//        verify(cachingDrinkDao, times(1)).getDrink(id);
+//
+//        assertEquals(id, response.getId(), "The response id should match");
+//
+//    }
 
 }
+

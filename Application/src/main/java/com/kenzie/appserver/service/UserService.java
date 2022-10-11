@@ -6,6 +6,7 @@ import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.InvalidUserException;
 import com.kenzie.appserver.service.model.User;
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.springframework.stereotype.Service;
 
@@ -101,7 +102,7 @@ public class UserService {
         return getUserById(user.getUserId()).getDrinks();
 
     }
-
+    @ExcludeFromJacocoGeneratedReport
     public List<Drink> addDrinkToList(User user, Drink drink) {
 
         if (user == null || user.getUserId().isEmpty() || user.getUserId() == null ){

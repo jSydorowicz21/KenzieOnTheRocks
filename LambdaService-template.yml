@@ -314,7 +314,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /drinks
+            Path: /drinks/{id}
             Method: put
 
 
