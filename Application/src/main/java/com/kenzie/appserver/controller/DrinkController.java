@@ -16,6 +16,7 @@ import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/drinks")
@@ -82,6 +83,10 @@ public class DrinkController {
 
     @PostMapping
     public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody DrinkCreateRequest drinkCreateRequest) {
+
+        if(drinkCreateRequest.getId() == null){
+            drinkCreateRequest.setId(UUID.randomUUID().toString());
+        }
 
 
         Drink drink = drinkService.addDrink(new Drink(drinkCreateRequest.getId(), drinkCreateRequest.getName(),

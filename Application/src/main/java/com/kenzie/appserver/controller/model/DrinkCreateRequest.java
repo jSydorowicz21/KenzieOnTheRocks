@@ -15,7 +15,6 @@ public class DrinkCreateRequest {
     @JsonProperty("name")
     private String name;
 
-    @NotEmpty
     @JsonProperty("id")
     private String Id;
 
