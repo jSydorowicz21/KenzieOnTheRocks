@@ -6,22 +6,17 @@
     <p class="center">Usernames & Passwords are case-sensitive.</p>
     <div class="row">
       <div class="col offset-s1 s10 offset-m2 m8 offset-l3 l6 center">
-        <form method="POST" action="{{ url_for('login') }}" class="col s12">
+        <form class="col s12" id="get-userId-form" accept-charset=utf-8>
           <div class="row">
             <div class="input-field col s12">
               <input placeholder="Username" id="username" name="username" type="text" autocomplete="username" required>
             </div>
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input placeholder="Password" id="password" name="password" type="password" autocomplete="current-password" required>
-            </div>
-          </div>
           <button class="btn btn--black" type="submit">Log In</button>
+          <button class="btn btn--black" type="button" id="create">Create</button>
         </form>
       </div>
     </div>
-    <p class="center">Not got an account? Register <span class="info-label"><a href="{{ url_for('register') }}">here</a></span></p>
   </div>
 </section>
 </html>

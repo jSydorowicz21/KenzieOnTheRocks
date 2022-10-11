@@ -111,8 +111,8 @@ class DrinkControllerTest {
                 .andExpect(jsonPath("name")
                         .value(name))
                 .andExpect(status().is2xxSuccessful());
-        }
-//    @Test
+    }
+    //    @Test
 //    public void filteredSearch_returns_matching_drink() throws Exception {
 //        String id = UUID.randomUUID().toString();
 //        String name = mockNeat.strings().valStr();
@@ -172,9 +172,9 @@ class DrinkControllerTest {
 
         // WHEN
         mvc.perform(post("/drinks")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(drinkCreateRequest)))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(drinkCreateRequest)))
                 .andExpect(status().is2xxSuccessful());
     }
 
@@ -228,7 +228,6 @@ class DrinkControllerTest {
         DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
-        drinkCreateRequest.setId(id);
         drinkCreateRequest.setIngredients(ingredients);
         Drink drink = new Drink(id, name, ingredients, userId);
         Drink persistedDrink = drinkService.addDrink(drink);

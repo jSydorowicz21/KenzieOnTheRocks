@@ -43,7 +43,7 @@ export default class UserClient extends BaseClass {
             const response = await this.client.get(`/users/${id}`);
             return response.data;
         } catch (error){
-            this.handleError("getDrinkById", error, errorCallBack);
+            this.handleError("getUserById", error, errorCallBack);
         }
 
     }
@@ -55,7 +55,7 @@ export default class UserClient extends BaseClass {
             });
             return response.data;
         } catch (error) {
-            this.handleError("getConcert", error, errorCallback)
+            this.handleError("createUser", error, errorCallback)
         }
     }
 
@@ -67,7 +67,7 @@ export default class UserClient extends BaseClass {
             });
             return response.data;
         } catch (error) {
-            this.handleError("createExample", error, errorCallback);
+            this.handleError("updateUser", error, errorCallback);
         }
     }
 

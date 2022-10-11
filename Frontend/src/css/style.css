@@ -229,17 +229,25 @@
 }
 
 .sidebar {
-	height: 80%;
-	padding-top: 10%;
-	width: 10%;
-	float:right;
+    height:490px;
+    padding-top: 10%;
+    width: 10%;
+    float:right;
+    overflow-x:auto;
+    overflow-y:scroll;
 	
 }
+.hidden {
+    display: none;
+}
+
 .pagination-container {
+    width: calc(100% - 2rem);
     display: flex;
     align-items: center;
     position: absolute;
     bottom: 0;
+    padding: 1rem 0;
     justify-content: center;
 }
 
