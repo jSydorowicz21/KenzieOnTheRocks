@@ -68,7 +68,7 @@ class DrinkControllerTest {
         String userId = UUID.randomUUID().toString();
 
         Drink drink = new Drink(id, name, ingredients, userId);
-        Drink drink2 = new Drink("id2", "name2", List.of("nothing", "More nothing"), userId);
+        Drink drink2 = new Drink("id3", "name2", List.of("nothing", "More nothing"), userId);
         Drink persistedDrink = drinkService.addDrink(drink);
         drinkService.addDrink(drink2);
 

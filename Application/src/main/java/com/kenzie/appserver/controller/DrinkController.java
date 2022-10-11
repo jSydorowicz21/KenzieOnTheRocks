@@ -47,22 +47,22 @@ public class DrinkController {
         return ResponseEntity.ok(createDrinkResponse(drink));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<DrinkResponse>> getFilteredDrinks(@RequestBody List<String> ingredients) {
-//
-//        List<Drink> filteredDrinks = drinkService.getFilteredDrinks(ingredients);
-//
-//        if (filteredDrinks == null ||  filteredDrinks.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        }
-//
-//        List<DrinkResponse> response = new ArrayList<>();
-//        for (Drink drink : filteredDrinks) {
-//            response.add(this.createDrinkResponse(drink));
-//        }
-//
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping
+    public ResponseEntity<List<DrinkResponse>> getFilteredDrinks(@RequestBody List<String> ingredients) {
+
+        List<Drink> filteredDrinks = drinkService.getFilteredDrinks(ingredients);
+
+        if (filteredDrinks == null ||  filteredDrinks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        List<DrinkResponse> response = new ArrayList<>();
+        for (Drink drink : filteredDrinks) {
+            response.add(this.createDrinkResponse(drink));
+        }
+
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<DrinkResponse>> getAllDrinks() {

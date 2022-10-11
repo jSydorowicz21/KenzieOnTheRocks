@@ -28,7 +28,7 @@ class LoginPage extends BaseClass {
 
         let userId = document.getElementById("username");
 
-        let result = this.userClient.getUserById(userId.value);
+        let result = await this.userClient.getUserById(userId.value);
 
         if(result) {
             sessionStorage.setItem("userId", userId.value);
