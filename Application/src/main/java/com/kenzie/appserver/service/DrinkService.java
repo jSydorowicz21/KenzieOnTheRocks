@@ -42,6 +42,7 @@ public class DrinkService {
                 .collect(Collectors.toList());
     }
 
+    @ExcludeFromJacocoGeneratedReport
     public Drink getDrink(String name, String userId){
 
         if(name == null || userId == null){
