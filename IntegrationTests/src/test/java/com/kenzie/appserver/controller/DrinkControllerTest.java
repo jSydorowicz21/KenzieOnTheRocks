@@ -73,6 +73,7 @@ class DrinkControllerTest {
         drinkService.addDrink(drink2);
 
         idsToBeDeleted.add(id);
+        idsToBeDeleted.add("id2");
 
         ResultActions actions = mvc.perform(get("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
