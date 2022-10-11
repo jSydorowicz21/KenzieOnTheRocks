@@ -18,28 +18,33 @@ class LoginPage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the restaurant/review list.
      */
     mount() {
-        document.getElementById('get-userId-form').addEventListener('submit', this.login);
+        //document.getElementById('get-userId-form').addEventListener('click', this.login);
         document.getElementById('create-button').addEventListener('click', this.create);
+        document.getElementById('login-button').addEventListener('click', this.login);
+
+        this.dataStore.addChangeListener(this.login)
+        await this.login()
 
     }
 
     async login(event) {
         event.preventDefault();
 
-        let userId = document.getElementById("username").value;
+        let userId = document.getElementById("username-field").value;
 
         let result = await this.userClient.getUserById(userId);
 
         if(result) {
             sessionStorage.setItem("userId", userId);
             console.log("User logged in");
-        }
+
 
         if (sessionStorage.getItem("userId") != null) {
             this.showMessage(`Welcome ${sessionStorage.getItem("userId")}!`)
             window.location.href = "index.html";
         } else {
             this.errorHandler("Error logging in!  Try again...");
+        }
         }
     }
 
