@@ -19,19 +19,20 @@ class LoginPage extends BaseClass {
      */
     mount() {
         document.getElementById('get-userId-form').addEventListener('submit', this.login);
-        document.getElementById('create').addEventListener("click", this.create);
+        document.getElementById('create-button').addEventListener('click', this.create);
 
     }
 
     async login(event) {
         event.preventDefault();
 
-        let userId = document.getElementById("username");
+        let userId = document.getElementById("username").value;
 
-        let result = await this.userClient.getUserById(userId.value);
+        let result = await this.userClient.getUserById(userId);
 
         if(result) {
             sessionStorage.setItem("userId", userId.value);
+            console.log("User logged in");
         }
 
         if (sessionStorage.getItem("userId") != null) {
@@ -45,15 +46,19 @@ class LoginPage extends BaseClass {
     async create(event) {
         event.preventDefault();
 
-        let userId = document.getElementById("username");
+        let userId = document.getElementById("username").value;
 
-        let result = this.userClient.createUser(userId.value);
+        let result = this.userClient.createUser(userId);
 
         if(result) {
+            console.log("User created");
             sessionStorage.setItem("userId", userId.value);
+            window.location.href = "index.html";
+        }
+        else {
+            this.errorHandler("Error creating user!  Try again...");
         }
 
-        await this.login(event);
     }
 
 }

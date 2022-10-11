@@ -69,17 +69,16 @@ class LandingPage extends BaseClass {
     }
 
     async onGetAllDrinks() {
-        event.preventDefault();
 
-            let result = await this.client.getHomeDrinks();
-            this.dataStore.set("drinks", result);
-            if (result) {
-                const paginatedList = document.getElementById("drink-list");
-            } else {
-                this.errorHandler("Error doing GET!  Try again...");
-            }
+        let result = await this.client.getHomeDrinks();
+        this.dataStore.set("drinks", result);
+        if (result) {
+
+        } else {
+            this.errorHandler("Error doing GET!  Try again...");
+        }
         const paginationNumbers = document.getElementById("pagination-numbers");
-        const listItems = Array.of(result);
+        const listItems = Array.from(result);
         const nextButton = document.getElementById("next-button");
         const prevButton = document.getElementById("prev-button");
 
@@ -115,7 +114,7 @@ class LandingPage extends BaseClass {
             document.querySelectorAll(".pagination-number").forEach((button) => {
                 button.classList.remove("active");
                 const pageIndex = Number(button.getAttribute("page-index"));
-                if (pageIndex == currentPage) {
+                if (pageIndex === currentPage) {
                     button.classList.add("active");
                 }
             });
@@ -234,11 +233,11 @@ class LandingPage extends BaseClass {
 const main = async () => {
     const landingPage = new LandingPage();
 
-    if (sessionStorage.getItem("userId") == null) {
-        window.location.href = "login.html";
-    }
+    // if (sessionStorage.getItem("userId") == null) {
+    //     window.location.href = "login.html";
+    // }
 
-    landingPage.mount();
+    await landingPage.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

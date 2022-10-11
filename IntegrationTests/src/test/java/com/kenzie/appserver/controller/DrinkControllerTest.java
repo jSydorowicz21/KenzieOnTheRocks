@@ -68,12 +68,12 @@ class DrinkControllerTest {
         String userId = UUID.randomUUID().toString();
 
         Drink drink = new Drink(id, name, ingredients, userId);
-        Drink drink2 = new Drink("id3", "name2", List.of("nothing", "More nothing"), userId);
+        Drink drink2 = new Drink(UUID.randomUUID().toString(), "name2", List.of("nothing", "More nothing"), userId);
         Drink persistedDrink = drinkService.addDrink(drink);
         drinkService.addDrink(drink2);
 
         idsToBeDeleted.add(id);
-        idsToBeDeleted.add("id2");
+        idsToBeDeleted.add(drink2.getId());
 
         ResultActions actions = mvc.perform(get("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
