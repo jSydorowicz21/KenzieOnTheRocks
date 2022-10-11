@@ -28,7 +28,8 @@ module.exports = {
       {
         context: [
           '/drinks',
-          '/users'
+          '/users',
+          '/login'
         ],
         target: 'http://localhost:5001'
       }
@@ -40,6 +41,16 @@ module.exports = {
       filename: 'index.html',
       inject: false
     }),
+    new HtmlWebpackPlugin({
+      template: './src/drink.html',
+      filename: 'drink.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/login.html',
+      filename: 'login.html',
+      inject: false
+    }),
     new CopyPlugin({
       patterns: [
         {
@@ -49,5 +60,33 @@ module.exports = {
       ]
     }),
     new CleanWebpackPlugin()
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(scss)$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: () => [
+                  require('autoprefixer')
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      }
+    ]
+  }
 }

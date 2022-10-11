@@ -112,6 +112,10 @@ public class UserController {
             drinkResponses.add(createDrinkResponse(drink));
         }
 
+        if (drinkResponses.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(drinkResponses);
 
     }

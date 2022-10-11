@@ -122,7 +122,7 @@
 	<div class="card" id="result">
 		<h2><span class="createClass">My Drinks:</span></h2>
 		<p id="result-info"></p>
-		<div class="wrapper">
+		<div class="wrapper" id="drink-list">
 
 		<div class="drink">
 			<h4><b>Drink Name</b></h4>
@@ -155,6 +155,22 @@
 			</div>
 		</div>
 	</div>
+	<ul id="paginated-list" aria-live="polite">
+		//placeholder for now
+	</ul>
+	<nav class="pagination-container">
+		<button class="pagination-button" id="prev-button" title="Previous page" aria-label="Previous page">
+			&lt;
+		</button>
+
+		<div id="pagination-numbers">
+
+		</div>
+
+		<button class="pagination-button" id="next-button" title="Next page" aria-label="Next page">
+			&gt;
+		</button>
+	</nav>
 </div>
 <div class="sidebar">
 

@@ -1,7 +1,10 @@
 package com.kenzie.appserver.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.Gson;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
+import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.model.Drink;
@@ -17,12 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -36,6 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class DrinkControllerTest {
     @Autowired
     private MockMvc mvc;
+
+    Gson gson = new Gson();
 
     @Autowired
     DrinkService drinkService;
@@ -58,7 +60,37 @@ class DrinkControllerTest {
         idsToBeDeleted.clear();
     }
 
+    @Test
+    public void getFilteredDrinks() throws Exception{
 
+        String id = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
+        String userId = UUID.randomUUID().toString();
+
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink drink2 = new Drink("id2", "name2", List.of("nothing", "More nothing"), userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
+        drinkService.addDrink(drink2);
+
+        idsToBeDeleted.add(id);
+
+        ResultActions actions = mvc.perform(get("/drinks")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(String.valueOf(gson.toJson(ingredients)))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        });
+        assertThat(responses.size() == 1).as("There are responses");
+        for (DrinkResponse response : responses) {
+            assertThat(response.getId().equals(persistedDrink.getId())).as("Id matches");
+            assertThat(response.getName().equals(persistedDrink.getName())).as("The name matches");
+            assertThat(response.getIngredients().equals(persistedDrink.getIngredients())).as("Ingredients match");
+            assertThat(response.getUserId().equals(persistedDrink.getUserId())).as("User id matches");
+        }
+    }
     @Test
     public void getById_Exists() throws Exception {
         String id = UUID.randomUUID().toString();
@@ -79,6 +111,38 @@ class DrinkControllerTest {
                         .value(name))
                 .andExpect(status().is2xxSuccessful());
         }
+//    @Test
+//    public void filteredSearch_returns_matching_drink() throws Exception {
+//        String id = UUID.randomUUID().toString();
+//        String name = mockNeat.strings().valStr();
+//        String userId = UUID.randomUUID().toString();
+//
+//
+//        Drink drink = new Drink(id, name, ingredients, userId);
+//        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
+//        Drink persistedDrink = drinkService.addDrink(drink);
+//        Drink persistedDrink2 = drinkService.addDrink(drink2);
+//
+//        idsToBeDeleted.add(id);
+//        idsToBeDeleted.add(drink2.getId());
+//
+//        ResultActions actions = mvc.perform(get("/drinks")
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .content(String.valueOf(ingredients))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is2xxSuccessful());
+//
+//        String responseBody = actions.andReturn().getResponse().getContentAsString();
+//        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+//        });
+//        assertThat(responses.size()).isGreaterThan(0).as("There are responses");
+//        for (DrinkResponse response : responses) {
+//            assertThat(response.getId()).isNotEmpty().as("The ID is populated");
+//            assertThat(response.getName()).isNotEmpty().as("The name is populated");
+//            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
+//            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
+//        }
+//    }
     @Test
     public void getDrink_DrinkDoesNotExist() throws Exception {
         // GIVEN
@@ -136,7 +200,6 @@ class DrinkControllerTest {
         drinkUpdateRequest.setIngredients(List.of("Mojito", "long island"));
 
         idsToBeDeleted.add(id);
-
 
 
 //         WHEN

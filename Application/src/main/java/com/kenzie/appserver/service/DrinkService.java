@@ -3,7 +3,6 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
-import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.model.LambdaDrink;
 
@@ -13,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,9 +85,8 @@ public class DrinkService {
             drinkFromLambda = findById(request.getId());
         }
         catch (IllegalArgumentException e){
-            throw new UserHasNoExistingDrinkException("Invalid drink id");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid drink id");
         }
-
 
         drinkFromLambda.setIngredients(request.getIngredients());
 
@@ -100,14 +95,14 @@ public class DrinkService {
 
         return createDrinkFromLambda(updatedDrink);
     }
-    @ExcludeFromJacocoGeneratedReport
+
     public List<Drink> getFilteredDrinks(List<String> ingredients){
         return lambdaServiceClient.getAllDrinks().stream()
                 .filter(drink -> new HashSet<>(drink.getIngredients()).containsAll(ingredients))
                 .map(drink -> new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId()))
                 .collect(Collectors.toList());
     }
-    @ExcludeFromJacocoGeneratedReport
+
     public void delete(String id){
 
         try{
@@ -125,10 +120,11 @@ public class DrinkService {
         }
         return new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
     }
-//    private DrinkRecord createRecordFromRequest(Drink request) {
-//        DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getIngredients(), request.getId());
-//        record.setId(UUID.randomUUID().toString());
-//        record.setName(record.getName());
-//        return record;
-//    }
+    @ExcludeFromJacocoGeneratedReport
+    private DrinkRecord createRecordFromRequest(Drink request) {
+        DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getIngredients(), request.getId());
+        record.setId(UUID.randomUUID().toString());
+        record.setName(record.getName());
+        return record;
+    }
 }
