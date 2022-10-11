@@ -105,13 +105,7 @@ class LandingPage extends BaseClass {
 
         let userId = "validUserId"
 
-        let alcohol = document.querySelectorAll("[name=Alcohol]:checked");
-
-        let mixer = document.querySelectorAll("[name=Mixer]:checked");
-
-        let finisher = document.querySelectorAll("[name=Finisher]:checked");
-
-        let ingredients = [alcohol, mixer, finisher];
+        let ingredients = document.querySelectorAll('input[type=”checkbox”]:checked');
 
         const createdDrink = await this.client.createDrink(userId, name, ingredients, this.errorHandler);
         this.dataStore.set("drink", createdDrink);

@@ -1,4 +1,5 @@
 import Toastify from "toastify-js";
+import * as bootstrap from 'bootstrap';
 
 export default class BaseClass {
     /**
