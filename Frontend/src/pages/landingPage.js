@@ -111,7 +111,7 @@ class LandingPage extends BaseClass {
 
         let finisher = document.querySelectorAll("[name=Finisher]:checked");
 
-        let ingredients = [alcohol, mixer, finisher];
+        let ingredients = [alcohol, mixer, finisher]
 
         const createdDrink = await this.client.createDrink(userId, name, ingredients, this.errorHandler);
         this.dataStore.set("drink", createdDrink);
