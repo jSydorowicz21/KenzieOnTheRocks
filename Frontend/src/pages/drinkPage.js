@@ -5,7 +5,7 @@ import UserClient from "../api/userClient";
 /**
  * Logic needed for the view playlist page of the website.
  */
-class LoginPage extends BaseClass {
+class DrinkPage extends BaseClass {
 
     constructor() {
         super();
@@ -13,6 +13,9 @@ class LoginPage extends BaseClass {
         this.dataStore = new DataStore();
         this.drinkClient = new DrinkClient();
         this.userClient = new UserClient();
+
+        document.getElementById('add').addEventListener('click', this.addToList);
+        document.getElementById('delete').addEventListener('click', this.delete);
 
     }
 
@@ -29,8 +32,9 @@ class LoginPage extends BaseClass {
         event.preventDefault();
 
         let userId = sessionStorage.getItem('userId');
+        let drink = sessionStorage.getItem('drink');
 
-        let result = await this.drinkClient.updateDrink();
+        let result = await this.drinkClient.updateDrink(drink.id, drink.name, drink.ingredients, userId);
 
         if(result.status === 200) {
             this.showMessage('Drink updated successfully');
@@ -44,17 +48,15 @@ class LoginPage extends BaseClass {
     async delete(event) {
         event.preventDefault();
 
-        let userId = document.getElementById("username").value;
+        let drink = sessionStorage.getItem('drink');
 
-        let result = this.userClient.createUser(userId);
+        let result = await this.drinkClient.deleteDrink(drink.id);
 
-        if(result) {
-            console.log("User created");
-            sessionStorage.setItem("userId", userId.value);
-            window.location.href = "index.html";
+        if(result.status === 200) {
+            this.showMessage('Drink deleted successfully');
         }
         else {
-            this.errorHandler("Error creating user!  Try again...");
+            this.errorHandler("Error deleting drink");
         }
 
     }
@@ -62,9 +64,11 @@ class LoginPage extends BaseClass {
     async addToList(event) {
         event.preventDefault();
 
-        let userId = document.getElementById("username").value;
+        let userId = sessionStorage.getItem('userId');
+        let drink = sessionStorage.getItem('drink');
 
-        let result = this.userClient.createUser(userId);
+
+        let result = this.userClient.addToList(userId, drink);
 
         if(result) {
             console.log("User created");

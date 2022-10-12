@@ -92,6 +92,18 @@ export default class UserClient extends BaseClass {
         }
     }
 
+    async addToList(userId, drink, errorCallBack){
+        try{
+            const response = await this.client.post(`/users/drinks`,{
+                "userId": userId,
+                "drink": drink
+            });
+            return response.data;
+        } catch (error){
+            this.handleError("getUsersDrinks", error, errorCallBack);
+        }
+    }
+
     /**
      * Helper method to log the error and run any error functions.
      * @param error The error received from the server.

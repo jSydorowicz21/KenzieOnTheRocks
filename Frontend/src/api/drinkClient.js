@@ -70,13 +70,10 @@ export default class DrinkClient extends BaseClass {
 
     }
 
-    async deleteDrink(userId, name, id, errorCallBack) {
+    async deleteDrink(id, errorCallBack) {
 
         try {
-            const response = await this.client.delete(`/drinks/`, {
-                "userId": userId,
-                "name": name,
-                "id": id
+            const response = await this.client.delete(`/drinks/${id}`, {
             });
             return response.data;
         } catch (error){
