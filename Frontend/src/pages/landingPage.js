@@ -77,17 +77,24 @@ class LandingPage extends BaseClass {
             console.log("step 1");
             document.getElementById("result").innerHTML = `
         `
-            for (let i = 0; i < drinks.length; i++) {
-                let drink = drinks[i];
-                ` <div class="drink" id="drink${i.toString()}">
-                <h4><b>Drink Name: ${drink.name}</b></h4>
-                <p>Ingredients: ${drink.ingredients}</p>
-            </div>
-            `
-                document.getElementById("drink" + String(i)).addEventListener('click', await this.storeShit(drink.id, drink.name, drink.ingredients));
-            }
-            `
-        `
+            // for (let i = 0; i < drinks.length; i++) {
+            //     let drink = drinks[i];
+            //     ` <div class="drink" id="drink${i.toString()}">
+            //     <h4><b>Drink Name: ${drink.name}</b></h4>
+            //     <p>Ingredients: ${drink.ingredients}</p>
+            // </div>
+            // `
+
+            drinks.forEach(function (drink, index){
+                `<div class="drink" id="drink${index}">
+                 <h4><b>Drink Name: ${drink.name}</b></h4>
+                 <p>Ingredients: ${drink.ingredients}</p>
+             </div>`
+                drink.addEventListener('click', function() {this.storeShit(drink.id, drink.name, drink.ingredients)});
+            })
+
+
+
         } else {
             this.errorHandler("Error doing GET!  Try again...");
         }
