@@ -233,9 +233,9 @@ class LandingPage extends BaseClass {
 const main = async () => {
     const landingPage = new LandingPage();
 
-    // if (sessionStorage.getItem("userId") == null) {
-    //     window.location.href = "login.html";
-    // }
+    if (sessionStorage.getItem("userId") == null) {
+        window.location.href = "login.html";
+    }
 
     await landingPage.mount();
 };

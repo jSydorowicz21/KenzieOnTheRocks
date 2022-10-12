@@ -9,6 +9,7 @@ module.exports = {
   },
   entry: {
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
+    loginPage: path.resolve(__dirname, 'src', 'pages', 'loginPage.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
