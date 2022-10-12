@@ -74,19 +74,29 @@ class LandingPage extends BaseClass {
         let drinks = Array.from(result);
         if (result) {
             console.log("step 1");
-            document.getElementById("result").innerHTML = `
-        `
-            for (let i = 0; i < drinks.length; i++) {
-                let drink = drinks[i];
-                ` <div class="drink" id="drink${i.toString()}">
+            var htmlToinsert = "";
+
+            drinks.forEach(function (drink) {
+                htmlToinsert += `<div class="drink">
                 <h4><b>Drink Name: ${drink.name}</b></h4>
                 <p>Ingredients: ${drink.ingredients}</p>
-            </div>
-            `
-                document.getElementById("drink" + i.toString()).addEventListener('click', await this.storeShit(drink.id, drink.name, drink.ingredients));
-            }
-            `
-        `
+            </div>`
+            });
+            document.getElementById("result").innerHTML = htmlToinsert;
+
+            var drinkCards = Array.from(document.getElementsByClassName('drink'));
+
+            drinkCards.forEach(function (drinkCard) {
+                drinks.forEach(function (drink) {
+                    drinkCard.addEventListener('click', function () {
+                        sessionStorage.setItem("drinkId", drink.id);
+                        sessionStorage.setItem("drinkName", drink.name);
+                        sessionStorage.setItem("ingredients", drink.ingredients);
+                        window.location.href = "/drink.html";
+                        });
+                    });
+                })
+
         } else {
             this.errorHandler("Error doing GET!  Try again...");
         }
@@ -162,6 +172,12 @@ const main = async () => {
 
     if (sessionStorage.getItem("userId") == null) {
         window.location.href = "login.html";
+    }
+
+    if (sessionStorage.getItem("drinkId") != null){
+        sessionStorage.removeItem("drinkId");
+        sessionStorage.removeItem("drinkName");
+        sessionStorage.removeItem("ingredients");
     }
 
     await landingPage.mount();
