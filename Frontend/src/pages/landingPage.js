@@ -31,6 +31,7 @@ class LandingPage extends BaseClass {
         await this.onGetUserDrinks();
 
 
+
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
@@ -106,19 +107,28 @@ class LandingPage extends BaseClass {
     async onGetUserDrinks() {
         let drinks = this.userClient.getUsersDrinks(sessionStorage.getItem("userId"));
 
-        document.getElementById("sidebar").innerHTML = `
-        `
-        for (let i = 0; i < drinks.length; i++) {
-           let drink = drinks[i];
-           ` <div class="side-drink" id="${i}">
+        var htmlToinsert = "";
+
+        drinks.forEach(function (drink) {
+            htmlToinsert += `<div class="side-drink">
                 <h4><b>Drink Name: ${drink.name}</b></h4>
                 <p>Ingredients: ${drink.ingredients}</p>
-            </div>
-            `
-            document.getElementById(i.toString()).addEventListener('click', await this.storeShit(drink.id, drink.name, drink.ingredients));
-        }
-        `
-        `
+            </div>`
+        });
+        document.getElementById("sidebar").innerHTML = htmlToinsert;
+
+        var drinkCards = Array.from(document.getElementsByClassName('side-drink'));
+
+        drinkCards.forEach(function (drinkCard) {
+            drinks.forEach(function (drink) {
+                drinkCard.addEventListener('click', function () {
+                    sessionStorage.setItem("drinkId", drink.id);
+                    sessionStorage.setItem("drinkName", drink.name);
+                    sessionStorage.setItem("ingredients", drink.ingredients);
+                    window.location.href = "/drink.html";
+                });
+            });
+        })
     }
 
     async storeShit(id, name, ingredients) {
