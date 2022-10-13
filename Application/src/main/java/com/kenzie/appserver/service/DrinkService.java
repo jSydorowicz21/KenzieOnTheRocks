@@ -60,7 +60,6 @@ public class DrinkService {
 
     //add drink
     public Drink addDrink(Drink request) {
-        System.out.println(request.getId());
         LambdaDrink drinkExists = null;
         try {
             drinkExists = lambdaServiceClient.getDrink(request.getId());
