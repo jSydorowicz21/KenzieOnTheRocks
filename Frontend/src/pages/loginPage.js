@@ -31,7 +31,7 @@ class LoginPage extends BaseClass {
         let result = await this.userClient.getUserById(userId);
 
         if(result) {
-            sessionStorage.setItem("userId", userId.value);
+            sessionStorage.setItem("userId", userId);
             console.log("User logged in");
         }
 
@@ -48,11 +48,11 @@ class LoginPage extends BaseClass {
 
         let userId = document.getElementById("username").value;
 
-        let result = this.userClient.createUser(userId);
+        let result = await this.userClient.createUser(userId);
 
         if(result) {
             console.log("User created");
-            sessionStorage.setItem("userId", userId.value);
+            sessionStorage.setItem("userId", userId);
             window.location.href = "index.html";
         }
         else {

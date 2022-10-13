@@ -94,7 +94,7 @@ export default class UserClient extends BaseClass {
 
     async addToList(userId, drink, errorCallBack){
         try{
-            const response = await this.client.post(`/users/drinks`,{
+            const response = await this.client.post(`/users/drinks`, {
                 "userId": userId,
                 "drink": drink
             });

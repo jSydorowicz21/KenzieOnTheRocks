@@ -2,7 +2,9 @@ package com.kenzie.appserver;
 
 
 import com.google.gson.Gson;
+import com.kenzie.appserver.controller.model.AddDrinkRequest;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
+import com.kenzie.appserver.service.model.Drink;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.List;
 public class CreateJsonForTesting {
 
     public static void main(String[] args){
-        DrinkCreateRequest request = new DrinkCreateRequest();
-        request.setName("test");
-        request.setId("testId");
-        request.setIngredients(List.of("testIngredient", "testIngredient2"));
-        request.setUserId("testUserId");
+        AddDrinkRequest request = new AddDrinkRequest("testUserId", new Drink("test", "test", List.of("1", "2", "3"), "testID"));
+//        request.setName("test");
+//        request.setId("testId");
+//        request.setIngredients(List.of("testIngredient", "testIngredient2"));
+//        request.setUserId("testUserId");
 
 
         Gson gson = new Gson();

@@ -29,7 +29,7 @@ class DrinkPage extends BaseClass {
                 <h1>Drink Name</h1>
                 <h1>${drinkName}</h1>
                 <p><label>Ingredients</label></p>
-                <div id="drinkvalues">${ingredients}</div>
+                <div id="drinkvalues">${ingredients.split(",")}</div>
                 
                 <button id="delete">Delete</button>
                 <button id="add">Add to my list</button>`
@@ -84,9 +84,9 @@ class DrinkPage extends BaseClass {
 
         var drink = {
             userId: userId,
-            drinkId: drinkId,
-            drinkName: drinkName,
-            ingredients: ingredients
+            id: drinkId,
+            name: drinkName,
+            ingredients: ingredients.split(',')
         }
 
 

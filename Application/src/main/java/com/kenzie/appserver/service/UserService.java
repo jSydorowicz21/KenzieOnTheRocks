@@ -18,7 +18,6 @@ import java.util.List;
 public class UserService {
     private UserRepository userRepository;
 
-    Gson gson = new Gson();
     private LambdaServiceClient lambdaServiceClient;
 
     public UserService(UserRepository userRepository, LambdaServiceClient lambdaServiceClient) {
@@ -44,7 +43,13 @@ public class UserService {
 
     public User getUserById(String userId){
 
-        if (userId == null || userRepository.findById(userId).isEmpty()){
+        if (userId == null || userId.isEmpty()){
+            throw new InvalidUserException("User " + userId + " does not exist.");
+        }
+
+        try {
+            userRepository.findById(userId).get();
+        }catch (NullPointerException e){
             throw new InvalidUserException("User " + userId + " does not exist.");
         }
 
@@ -96,7 +101,6 @@ public class UserService {
 
         checkUserIsInDB(user);
 
-        System.out.println(gson.toJson(user));
 
 
         return getUserById(user.getUserId()).getDrinks();

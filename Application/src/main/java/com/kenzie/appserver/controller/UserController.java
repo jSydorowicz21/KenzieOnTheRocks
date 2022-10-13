@@ -1,7 +1,6 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.*;
-import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.User;
@@ -9,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
