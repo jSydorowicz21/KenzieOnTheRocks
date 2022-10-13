@@ -29,11 +29,11 @@ class DrinkPage extends BaseClass {
                 <h1>Drink Name</h1>
                 <h1>${drinkName}</h1>
                 <p><label>Ingredients</label></p>
-                <div id="drinkvalues">${ingredients.split(",")}</div>
-                
+                <div id="drinkvalues">${ingredients}</div>
+                <button id="update"> Edit</button>
                 <button id="delete">Delete</button>
                 <button id="add">Add to my list</button>`
-
+        document.getElementById('update').addEventListener('click', this.edit);
         document.getElementById('delete').addEventListener('click', this.delete);
         document.getElementById('add').addEventListener('click', this.addToList);
 
