@@ -88,7 +88,7 @@
     color: brown;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    height: 500px;
+    height: 400px;
     width: 50%;
     margin: 20px;
     padding: 10px 20px;
@@ -177,7 +177,7 @@
 
 #search-card {
     float: right;
-    width: 38%
+    width: 30%
 }
 
 #create-name-field{
@@ -204,6 +204,7 @@
     transition: 0.3s;
     width: 100%;
     float: left;
+    cursor: pointer;
 
 }
 

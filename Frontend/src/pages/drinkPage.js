@@ -33,7 +33,7 @@ class DrinkPage extends BaseClass {
                 <button id="update"> Edit</button>
                 <button id="delete">Delete</button>
                 <button id="add">Add to my list</button>`
-        document.getElementById('update').addEventListener('click', this.edit);
+        document.getElementById('update').addEventListener('click', this.update);
         document.getElementById('delete').addEventListener('click', this.delete);
         document.getElementById('add').addEventListener('click', this.addToList);
 
@@ -44,10 +44,18 @@ class DrinkPage extends BaseClass {
 
         let userId = sessionStorage.getItem('userId');
         let drinkId = sessionStorage.getItem('drinkId');
-        let drinkName = sessionStorage.getItem('drinkName');
-        let ingredients = sessionStorage.getItem('ingredients');
+        let drinkName = document.getElementById('update-name-field');
+        let ingredients = document.querySelectorAll('input:checked');
 
-        let result = await this.drinkClient.updateDrink(drinkId, drinkName, ingredients, userId);
+        //toggle the update window
+
+                let ingredientsArray = [];
+
+                for (let i = 0; i < ingredients.length; i++) {
+                    ingredientsArray = Array.from(ingredients).map(ingredient => String(" " + ingredient.value));
+                }
+
+        let result = await this.drinkClient.updateDrink(drinkId, drinkName, ingredientsArray, userId);
 
         if(result.status === 200) {
             this.showMessage('Drink updated successfully');
@@ -94,6 +102,7 @@ class DrinkPage extends BaseClass {
 
         if(result) {
             console.log("Drink added");
+            window.location.href = "index.html"
         }
         else {
             this.errorHandler("Error adding drink to list!  Try again...");
