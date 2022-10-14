@@ -59,12 +59,12 @@ class DrinkPage extends BaseClass {
 
         if(result.status === 200) {
             this.showMessage('Drink updated successfully');
-            window.location.href = "index.html"
+
         }
         else {
             this.errorHandler("Error updating drink");
         }
-
+            window.location.href = "index.html"
     }
 
     async delete(event) {
@@ -76,6 +76,7 @@ class DrinkPage extends BaseClass {
 
         if(result.status === 200) {
             this.showMessage('Drink deleted successfully');
+            window.location.href = "index.html"
         }
         else {
             this.errorHandler("Error deleting drink");
@@ -95,7 +96,7 @@ class DrinkPage extends BaseClass {
             userId: userId,
             id: drinkId,
             name: drinkName,
-            ingredients: ingredients.split(',')
+            ingredients: ingredients
         }
 
 

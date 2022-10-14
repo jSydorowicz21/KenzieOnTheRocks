@@ -101,8 +101,8 @@ export default class DrinkClient extends BaseClass {
     async getFilteredDrink(ingredients, errorCallBack) {
 
         try {
-            const response = await this.client.get('/drinks', {
-                ingredients
+            const response = await this.client.get(`/drinks`, {
+                ingredients: ingredients
             });
             return response.data;
 
