@@ -44,7 +44,7 @@ class DrinkPage extends BaseClass {
 
         let userId = sessionStorage.getItem('userId');
         let drinkId = sessionStorage.getItem('drinkId');
-        let drinkName = document.getElementById('update-name-field');
+        let drinkName = document.getElementById('update-name-field').value;
         let ingredients = document.querySelectorAll('input:checked');
 
         //toggle the update window
@@ -59,6 +59,7 @@ class DrinkPage extends BaseClass {
 
         if(result.status === 200) {
             this.showMessage('Drink updated successfully');
+            window.location.href = "index.html"
         }
         else {
             this.errorHandler("Error updating drink");
