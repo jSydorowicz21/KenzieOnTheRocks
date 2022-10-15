@@ -42,10 +42,10 @@ class DrinkPage extends BaseClass {
     async update(event) {
         event.preventDefault();
 
-        let userId = sessionStorage.getItem('userId');
-        let drinkId = sessionStorage.getItem('drinkId');
+        let userId = sessionStorage.getItem("userId");
+        let drinkId = sessionStorage.getItem("drinkId");
         let drinkName = document.getElementById('update-name-field').value;
-        let ingredients = document.querySelectorAll('input:checked');
+        let ingredients = document.querySelectorAll("#update-card input[type=checkbox]:checked");
 
         //toggle the update window
 
@@ -57,24 +57,45 @@ class DrinkPage extends BaseClass {
 
         let result = await this.drinkClient.updateDrink(drinkId, drinkName, ingredientsArray, userId);
 
-        if(result.status === 200) {
-            this.showMessage('Drink updated successfully');
-            window.location.href = "index.html"
-        }
-        else {
-            this.errorHandler("Error updating drink");
-        }
+//        if(result.status === 200) {
+//            let drinkName = sessionStorage.getItem('drinkName');
+//            this.displayMessage('Drink updated successfully');
+//            window.prompt()
+//            window.location.href = "index.html"
+//        }
+//        else {
+//            let drinkName = sessionStorage.getItem('drinkName');
+//            this.errorHandler("Error updating drink");
+//        }
+         const updatedDrink = await this.drinkClient.updateDrink(drinkId, drinkName, ingredientsArray, userId);
+                this.dataStore.set("drink", updatedDrink);
+
+                if (updatedDrink) {
+                    this.showMessage(`Updated ${updatedDrink.name}!`)
+
+                } else {
+                    this.errorHandler("Error creating!  Try again...");
+                }
+
+                document.getElementById("card").innerHTML = `
+                <h1>Drink Name</h1>
+                <h1>${updatedDrink.name}</h1>
+                <p><label>Ingredients</label></p>
+                <div id="drinkvalues">${updatedDrink.ingredients}</div>
+                <button id="update"> Edit</button>
+                <button id="delete">Delete</button>
+                <button id="add">Add to my list</button>`
 
     }
 
     async delete(event) {
         event.preventDefault();
 
-        let drinkId = sessionStorage.getItem('drinkId');
+        let drinkId = sessionStorage.getItem("drinkId");
 
         let result = await this.drinkClient.deleteDrink(drinkId);
 
-        if(result.status === 200) {
+        if(result === 200) {
             this.showMessage('Drink deleted successfully');
         }
         else {

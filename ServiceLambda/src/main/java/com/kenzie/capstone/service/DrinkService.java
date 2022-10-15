@@ -64,6 +64,7 @@ public class DrinkService {
 
         DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
+//        DrinkRecord drinkRecord =  DrinkDao.getDrink(id);
 
         DrinkDao.deleteDrink(drinkRecord);
 
