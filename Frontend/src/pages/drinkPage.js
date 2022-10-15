@@ -96,11 +96,11 @@ class DrinkPage extends BaseClass {
             userId: userId,
             id: drinkId,
             name: drinkName,
-            ingredients: ingredients
+            ingredients: ingredients.split(',')
         }
 
 
-        let result = this.userClient.addToList(userId, drink);
+        let result = await this.userClient.addToList(userId, drink);
 
         if(result) {
             console.log("Drink added");

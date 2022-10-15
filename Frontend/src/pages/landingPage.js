@@ -27,10 +27,6 @@ class LandingPage extends BaseClass {
 
         await this.onGetAllDrinks();
         await this.onGetUserDrinks();
-        await this.onGet();
-
-
-
 
     }
 
