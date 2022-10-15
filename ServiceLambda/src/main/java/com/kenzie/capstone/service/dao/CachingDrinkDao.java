@@ -24,6 +24,7 @@ public class CachingDrinkDao implements DrinkDao{
     public CachingDrinkDao(CacheClient cacheClient, NonCachingDrinkDao drinkDao) {
         this.cacheClient = cacheClient;
         this.drinkDao = drinkDao;
+        populateCache();
     }
     @Override
     public DrinkRecord addDrink(DrinkRecord drink) {
@@ -70,6 +71,11 @@ public class CachingDrinkDao implements DrinkDao{
         }
 
         return drinkDao.getAllDrinks();
+    }
+    public void populateCache() {
+
+        drinkDao.getAllDrinks().forEach(this::addToCache);
+
     }
 
     @Override

@@ -95,8 +95,9 @@ class DrinkPage extends BaseClass {
 
         let result = await this.drinkClient.deleteDrink(drinkId);
 
-        if(result.status === 200) {
-            this.showMessage('Drink deleted successfully');
+        if(result != null) {
+            this.showMessage('Drink deleted successfully, redirecting to home page...');
+            await new Promise(r => setTimeout(r, 3000))
             window.location.href = "index.html"
         }
         else {
@@ -121,7 +122,7 @@ class DrinkPage extends BaseClass {
         }
 
 
-        let result = this.userClient.addToList(userId, drink);
+        let result = await this.userClient.addToList(userId, drink);
 
         if(result) {
             console.log("Drink added");
