@@ -27,6 +27,8 @@ class LandingPage extends BaseClass {
 
         await this.onGetAllDrinks();
         await this.onGetUserDrinks();
+        await this.onGet();
+
 
 
 
@@ -39,17 +41,21 @@ class LandingPage extends BaseClass {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
 
-        let filter = document.querySelector("[name=filter]:checked").value;
-        let ingredients = document.getElementById("searchFilter").value;
-//        this.dataStore.set("drinks", null);
+        let ingredients = document.getElementById("ingredient-string").value;
+        //this.dataStore.set("drinks", null);
 
-        let result = await this.client.getDrink(id, this.errorHandler);
+        let result = await this.client.getFilteredDrink(ingredients, this.errorHandler);
         this.dataStore.set("drinks", result);
         if (result) {
             this.showMessage(`Got ${result.name}!`)
+
         } else {
             this.errorHandler("Error doing GET!  Try again...");
+
+
         }
+        document.querySelector('input[name="filter"]:checked').checked = false;
+
     }
 
     async onGetAllDrinks() {
