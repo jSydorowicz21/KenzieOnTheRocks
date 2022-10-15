@@ -57,14 +57,35 @@ class DrinkPage extends BaseClass {
 
         let result = await this.drinkClient.updateDrink(drinkId, drinkName, ingredientsArray, userId);
 
-        if(result.status === 200) {
-            this.showMessage('Drink updated successfully');
+//        if(result.status === 200) {
+//            let drinkName = sessionStorage.getItem('drinkName');
+//            this.displayMessage('Drink updated successfully');
+//            window.prompt()
+//            window.location.href = "index.html"
+//        }
+//        else {
+//            let drinkName = sessionStorage.getItem('drinkName');
+//            this.errorHandler("Error updating drink");
+//        }
+         const updatedDrink = await this.drinkClient.updateDrink(drinkId, drinkName, ingredientsArray, userId);
+                this.dataStore.set("drink", updatedDrink);
 
-        }
-        else {
-            this.errorHandler("Error updating drink");
-        }
-            window.location.href = "index.html"
+                if (updatedDrink) {
+                    this.showMessage(`Updated ${updatedDrink.name}!`)
+
+                } else {
+                    this.errorHandler("Error creating!  Try again...");
+                }
+
+                document.getElementById("card").innerHTML = `
+                <h1>Drink Name</h1>
+                <h1>${updatedDrink.name}</h1>
+                <p><label>Ingredients</label></p>
+                <div id="drinkvalues">${updatedDrink.ingredients}</div>
+                <button id="update"> Edit</button>
+                <button id="delete">Delete</button>
+                <button id="add">Add to my list</button>`
+
     }
 
     async delete(event) {
@@ -100,7 +121,7 @@ class DrinkPage extends BaseClass {
         }
 
 
-        let result = await this.userClient.addToList(userId, drink);
+        let result = this.userClient.addToList(userId, drink);
 
         if(result) {
             console.log("Drink added");
