@@ -133,7 +133,7 @@ Resources:
   AddDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/16b4b31a51834bfa3bddcea37a0566d4
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/3c63ecd10470aff511654c5ff84d634d
       Handler: com.kenzie.capstone.service.lambda.AddDrink
       Runtime: java11
       Description: Add drink for given id
@@ -169,7 +169,7 @@ Resources:
   DeleteDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/16b4b31a51834bfa3bddcea37a0566d4
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/3c63ecd10470aff511654c5ff84d634d
       Handler: com.kenzie.capstone.service.lambda.DeleteDrink
       Runtime: java11
       Description: Delete given drink
@@ -205,7 +205,7 @@ Resources:
   GetAllDrinksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/16b4b31a51834bfa3bddcea37a0566d4
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/3c63ecd10470aff511654c5ff84d634d
       Handler: com.kenzie.capstone.service.lambda.GetAllDrinks
       Runtime: java11
       Description: Get all drinks
@@ -241,7 +241,7 @@ Resources:
   GetDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/16b4b31a51834bfa3bddcea37a0566d4
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/3c63ecd10470aff511654c5ff84d634d
       Handler: com.kenzie.capstone.service.lambda.GetDrink
       Runtime: java11
       Description: Get specific drink
@@ -277,7 +277,7 @@ Resources:
   GetDrinksByUserIdFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/16b4b31a51834bfa3bddcea37a0566d4
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/3c63ecd10470aff511654c5ff84d634d
       Handler: com.kenzie.capstone.service.lambda.GetDrinksByUserId
       Runtime: java11
       Description: Gets userId specific drinks
@@ -313,7 +313,7 @@ Resources:
   UpdateDrinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/16b4b31a51834bfa3bddcea37a0566d4
+      CodeUri: s3://capstone-schroedingers-rabbit-artifacts/3c63ecd10470aff511654c5ff84d634d
       Handler: com.kenzie.capstone.service.lambda.UpdateDrink
       Runtime: java11
       Description: Updates given drink

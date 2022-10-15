@@ -71,7 +71,9 @@ class DrinkPage extends BaseClass {
                 this.dataStore.set("drink", updatedDrink);
 
                 if (updatedDrink) {
-                    this.showMessage(`Updated ${updatedDrink.name}!`)
+                    this.showMessage('Drink updated successfully, redirecting to home page...');
+                    await new Promise(r => setTimeout(r, 3000))
+                    window.location.href = "index.html"
 
                 } else {
                     this.errorHandler("Error creating!  Try again...");
@@ -125,7 +127,8 @@ class DrinkPage extends BaseClass {
         let result = await this.userClient.addToList(userId, drink);
 
         if(result) {
-            console.log("Drink added");
+            this.showMessage('Drink added successfully, redirecting to home page...');
+            await new Promise(r => setTimeout(r, 3000))
             window.location.href = "index.html"
         }
         else {

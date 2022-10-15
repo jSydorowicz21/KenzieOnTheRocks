@@ -91,26 +91,32 @@ class LandingPage extends BaseClass {
         console.log(sessionStorage.getItem("userId"));
         let drinks = await this.userClient.getUsersDrinks(sessionStorage.getItem("userId"));
 
-        var htmlToinsert = "";
+        if (drinks == null){
+            document.getElementById("sidebar").innerHTML = "";
+        }
+        else {
+            var htmlToinsert = "";
 
-        drinks.forEach(function (drink) {
-            htmlToinsert += `<div class="side-drink">
+            drinks.forEach(function (drink) {
+                htmlToinsert += `<div class="side-drink">
                 <h4><b>Drink Name: ${drink.name}</b></h4>
                 <p>Ingredients: ${drink.ingredients}</p>
             </div>`
-        });
-        document.getElementById("sidebar").innerHTML = htmlToinsert;
-
-        var drinkCards = Array.from(document.getElementsByClassName('side-drink'));
-
-        drinkCards.forEach(function (drinkCard, index) {
-            drinkCard.addEventListener('click', function () {
-                sessionStorage.setItem("drinkId", drinks[index].id);
-                sessionStorage.setItem("drinkName", drinks[index].name);
-                sessionStorage.setItem("ingredients", drinks[index].ingredients);
-                window.location.href = "/drink.html";
             });
-        });
+            document.getElementById("sidebar").innerHTML = htmlToinsert;
+
+            var drinkCards = Array.from(document.getElementsByClassName('side-drink'));
+
+            drinkCards.forEach(function (drinkCard, index) {
+                drinkCard.addEventListener('click', function () {
+                    sessionStorage.setItem("drinkId", drinks[index].id);
+                    sessionStorage.setItem("drinkName", drinks[index].name);
+                    sessionStorage.setItem("ingredients", drinks[index].ingredients);
+                    window.location.href = "/drink.html";
+                });
+            });
+        }
+
     }
 
     async onCreate(event) {
