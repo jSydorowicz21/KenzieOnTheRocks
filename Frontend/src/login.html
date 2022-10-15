@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <head>
   <script type="text/javascript" src="loginPage.js"></script>
+  <style>
+    body {
+      background-image: url('https://img.freepik.com/free-photo/concept-fresh-alcohol-drink-aperol-spritz-space-text_185193-85275.jpg?w=2000');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+  </style>
 
 </head>
-<html lang="en">
-<section class="v-center-wrapper">
-  <div class="page-container v-center-content log-reg-wrapper">
-    <h3 class="center">Log in to your account.</h3>
-    <p class="center">Usernames are case-sensitive.</p>
-    <div class="row">
-      <div class="col offset-s1 s10 offset-m2 m8 offset-l3 l6 center">
-        <form class="col s12" id="get-userId-form" accept-charset=utf-8>
-          <div class="row">
-            <div class="input-field col s12">
-              <input placeholder="Username" id="username" name="username" type="text" autocomplete="username" required>
+<body>
+  <html lang="en">
+  <section class="v-center-wrapper">
+    <div class="page-container v-center-content log-reg-wrapper">
+      <h3 class="center">Log in to your account.</h3>
+      <p class="center">Usernames are case-sensitive.</p>
+      <div class="row">
+        <div class="col offset-s1 s10 offset-m2 m8 offset-l3 l6 center">
+          <form class="col s12" id="get-userId-form" accept-charset=utf-8>
+            <div class="row">
+              <div class="input-field col s12">
+                <input placeholder="Username" id="username" name="username" type="text" autocomplete="username" required>
+              </div>
             </div>
-          </div>
-          <button class="btn btn--black" type="submit">Log In</button>
+            <button class="btn btn--black" type="submit">Log In</button>
 
-        </form>
-        <button class="btn btn--black" type="button" id="create-button">Create account</button>
+          </form>
+          <button class="btn btn--black" type="button" id="create-button">Create account</button>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  </body>
 </html>

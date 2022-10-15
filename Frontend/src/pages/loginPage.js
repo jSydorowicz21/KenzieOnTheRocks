@@ -32,7 +32,9 @@ class LoginPage extends BaseClass {
 
         if(result) {
             sessionStorage.setItem("userId", userId);
-            console.log("User logged in");
+            this.showMessage('Logged in successfully, redirecting to home page...');
+            await new Promise(r => setTimeout(r, 3000))
+            window.location.href = "index.html"
         }
 
         if (sessionStorage.getItem("userId") != null) {
@@ -53,7 +55,9 @@ class LoginPage extends BaseClass {
         if(result) {
             console.log("User created");
             sessionStorage.setItem("userId", userId);
-            window.location.href = "index.html";
+            this.showMessage('Created account successfully, redirecting to home page...');
+            await new Promise(r => setTimeout(r, 3000))
+            window.location.href = "index.html"
         }
         else {
             this.errorHandler("Error creating user!  Try again...");
