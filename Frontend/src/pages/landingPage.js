@@ -2,7 +2,6 @@ import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
-import * as bootstrap from 'bootstrap';
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -11,7 +10,7 @@ class LandingPage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onGet', 'onGetAllDrinks', 'onCreate',  'onGetUserDrinks'], this);
+        this.bindClassMethods(['onGet', 'onGetAllDrinks', 'onCreate',  'onGetUserDrinks', 'onGetFiltered'], this);
         this.dataStore = new DataStore();
     }
 
@@ -57,33 +56,7 @@ class LandingPage extends BaseClass {
     async onGetAllDrinks() {
 
         let result = await this.client.getHomeDrinks();
-        let drinks = Array.from(result);
-        document.getElementById("result").innerHTML = "";
-        if (result) {
-            var htmlToinsert = "";
-
-            drinks.forEach(function (drink) {
-                htmlToinsert += `<div class="drink">
-                <h4><b>Drink Name: ${drink.name}</b></h4>
-                <p>Ingredients: ${drink.ingredients}</p>
-            </div>`
-            });
-            document.getElementById("result").innerHTML = htmlToinsert;
-
-            var drinkCards = Array.from(document.getElementsByClassName('drink'));
-
-            drinkCards.forEach(function (drinkCard, index) {
-                    drinkCard.addEventListener('click', function () {
-                        sessionStorage.setItem("drinkId", drinks[index].id);
-                        sessionStorage.setItem("drinkName", drinks[index].name);
-                        sessionStorage.setItem("ingredients", drinks[index].ingredients);
-                        window.location.href = "/drink.html";
-                    });
-                });
-
-        } else {
-            this.errorHandler("Error doing GET!  Try again...");
-        }
+        this.renderDrinks(result);
 
     }
 
@@ -128,7 +101,7 @@ class LandingPage extends BaseClass {
 
         let userId = sessionStorage.getItem("userId");
 
-        let ingredients = document.querySelectorAll('input:checked');
+        let ingredients = document.getElementById("create-form").querySelectorAll('input:checked');
 
         let ingredientsArray = [];
 
@@ -149,7 +122,64 @@ class LandingPage extends BaseClass {
         await this.onGetAllDrinks();
     }
 
+    async onGetFiltered(event) {
+        // Prevent the page from refreshing on form submit
+        event.preventDefault();
+        this.dataStore.set("drink", null);
+
+        let ingredients = document.getElementById("filter-form").querySelectorAll('input:checked');
+
+        let ingredientsArray = [];
+
+        for (let i = 0; i < ingredients.length; i++) {
+            ingredientsArray = Array.from(ingredients).map(ingredient => String(" " + ingredient.value));
+        }
+
+        const drinks = await this.client.getFilteredDrink(ingredientsArray, this.errorHandler);
+
+        if (drinks) {
+            this.showMessage(`Searching for matches...`)
+
+        } else {
+            this.errorHandler("Unable to find matches, please refine search.");
+        }
+
+        this.renderDrinks(drinks);
+    }
+
+    renderDrinks(result){
+        let drinks = Array.from(result);
+        document.getElementById("result").innerHTML = "";
+        if (result) {
+            var htmlToinsert = "";
+
+            drinks.forEach(function (drink) {
+                htmlToinsert += `<div class="drink">
+                <h4><b>Drink Name: ${drink.name}</b></h4>
+                <p>Ingredients: ${drink.ingredients}</p>
+            </div>`
+            });
+            document.getElementById("result").innerHTML = htmlToinsert;
+
+            var drinkCards = Array.from(document.getElementsByClassName('drink'));
+
+            drinkCards.forEach(function (drinkCard, index) {
+                drinkCard.addEventListener('click', function () {
+                    sessionStorage.setItem("drinkId", drinks[index].id);
+                    sessionStorage.setItem("drinkName", drinks[index].name);
+                    sessionStorage.setItem("ingredients", drinks[index].ingredients);
+                    window.location.href = "/drink.html";
+                });
+            });
+
+        } else {
+            this.errorHandler("Error doing GET!  Try again...");
+        }
+    }
+
 }
+
+
 
 /**
  * Main method to run when the page contents have loaded.
