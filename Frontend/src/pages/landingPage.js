@@ -109,6 +109,7 @@ class LandingPage extends BaseClass {
             ingredientsArray = Array.from(ingredients).map(ingredient => String(" " + ingredient.value));
         }
 
+        this.showMessage(`Creating ${name}!`);
         const createdDrink = await this.client.createDrink(userId, name, ingredientsArray, this.errorHandler);
         this.dataStore.set("drink", createdDrink);
 
