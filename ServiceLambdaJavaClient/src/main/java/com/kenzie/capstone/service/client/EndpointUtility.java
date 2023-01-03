@@ -51,7 +51,6 @@ public class EndpointUtility {
 
         String endpointId = null;
         for (RestApi restApi : result.getItems()) {
-            System.out.println(restApi.getName());
             if (restApi.getName().equals(deploymentName)) {
                 endpointId = restApi.getId();
                 break;
