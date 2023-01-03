@@ -20,9 +20,9 @@ public class EndpointUtility {
     }
 
     public static String getStackName() {
-        String deploymentName = System.getenv("CAPSTONE_SERVICE_STACK_DEV");
+        String deploymentName = System.getenv("CAPSTONE_SERVICE_STACK");
         if (deploymentName == null) {
-            deploymentName = System.getenv("SERVICE_STACK_NAME");
+            deploymentName = System.getenv("CAPSTONE_SERVICE_STACK_DEV");
         }
         if (deploymentName == null) {
             deploymentName = System.getenv("STACK_NAME");

@@ -5,10 +5,6 @@ phases:
     commands:
       - echo "build phase"
       - ./buildScripts/runIntegrationTests.sh
-  post_build:
-    commands:
-      - aws cloudformation delete-stack --stack-name $SERVICE_STACK_NAME
-      - aws cloudformation delete-stack --stack-name $STACK_NAME
 reports:
   run-integration-tests-report:
     files:
