@@ -136,11 +136,12 @@ class LandingPage extends BaseClass {
             ingredientsArray = Array.from(ingredients).map(ingredient => String(" " + ingredient.value));
         }
 
+        this.showMessage(`Searching for matches...`);
+
         const drinks = await this.client.getFilteredDrink(ingredientsArray, this.errorHandler);
 
         if (drinks) {
-            this.showMessage(`Searching for matches...`)
-
+            this.showMessage(`Matches found, see drinks box!`);
         } else {
             this.errorHandler("Unable to find matches, please refine search.");
         }
