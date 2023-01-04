@@ -13,10 +13,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class EndpointUtility {
-    private String apiEndpoint;
 
     public EndpointUtility() {
-        this.apiEndpoint = getApiEndpint();
+        getApiEndpint();
     }
 
     public static String getStackName() {
@@ -29,9 +28,6 @@ public class EndpointUtility {
         }
         if (deploymentName == null) {
             deploymentName = "capstone-schroedingers-rabbit-service-dev";
-        }
-        if (deploymentName == null) {
-            throw new IllegalArgumentException("Could not find the deployment name in environment variables.  Make sure that you have set up your environment variables using the setupEnvironment.sh script.");
         }
         return deploymentName;
     }
@@ -74,18 +70,7 @@ public class EndpointUtility {
                 .header("Accept", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(data))
                 .build();
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                return httpResponse.body();
-            } else {
-                throw new ApiGatewayException("GET request failed: " + statusCode + " status code received");
-            }
-        } catch (IOException | InterruptedException e) {
-            return e.getMessage();
-        }
+        return handleRequest(client, request);
     }
 
     public String getEndpoint(String endpoint) {
@@ -100,18 +85,7 @@ public class EndpointUtility {
                 .GET()
                 .build();
 
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                return httpResponse.body();
-            } else {
-                throw new ApiGatewayException("GET request failed: " + statusCode + " status code received");
-            }
-        } catch (IOException | InterruptedException e) {
-            return e.getMessage();
-        }
+        return handleRequest(client, request);
     }
 
     public String putEndpoint(String endpoint, String data) {
@@ -126,21 +100,10 @@ public class EndpointUtility {
                 .header("Accept", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(data))
                 .build();
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                return httpResponse.body();
-            } else {
-                throw new ApiGatewayException("GET request failed: " + statusCode + " status code received");
-            }
-        } catch (IOException | InterruptedException e) {
-            return e.getMessage();
-        }
+        return handleRequest(client, request);
     }
 
-    public String deleteEndpoint(String endpoint) {
+    public void deleteEndpoint(String endpoint) {
         String api = getApiEndpint();
         String url = api + endpoint;
 
@@ -151,6 +114,10 @@ public class EndpointUtility {
                 .header("Accept", "application/json")
                 .DELETE()
                 .build();
+        handleRequest(client, request);
+    }
+
+    private String handleRequest(HttpClient client, HttpRequest request) {
         try {
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
