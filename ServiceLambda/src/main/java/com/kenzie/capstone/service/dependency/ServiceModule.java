@@ -2,7 +2,6 @@ package com.kenzie.capstone.service.dependency;
 
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
-import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
 
 import dagger.Module;
 import dagger.Provides;

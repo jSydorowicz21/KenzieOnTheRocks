@@ -31,7 +31,7 @@ public class DaoModule {
     @Provides
     @Named("NonCachingDao")
     @Inject
-    public NonCachingDrinkDao provideExampleDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
+    public NonCachingDrinkDao provideNonCachingDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
         return new NonCachingDrinkDao(mapper);
     }
 

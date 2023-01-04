@@ -18,9 +18,9 @@ class LandingPage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-        document.getElementById('searchButton').addEventListener('click', this.onGet);
         document.getElementById('createButton').addEventListener('click', this.onCreate);
         document.getElementById('homeButton').addEventListener('click', this.onGetAllDrinks);
+        document.getElementById('filterButton').addEventListener('click', this.onGetFiltered);
         this.client = new DrinkClient();
         this.userClient = new UserClient();
 
@@ -136,11 +136,12 @@ class LandingPage extends BaseClass {
             ingredientsArray = Array.from(ingredients).map(ingredient => String(" " + ingredient.value));
         }
 
+        this.showMessage(`Searching for matches...`);
+
         const drinks = await this.client.getFilteredDrink(ingredientsArray, this.errorHandler);
 
         if (drinks) {
-            this.showMessage(`Searching for matches...`)
-
+            this.showMessage(`Matches found, see drinks box!`);
         } else {
             this.errorHandler("Unable to find matches, please refine search.");
         }
