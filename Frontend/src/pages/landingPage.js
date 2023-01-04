@@ -18,9 +18,9 @@ class LandingPage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the concert list.
      */
     async mount() {
-        document.getElementById('searchButton').addEventListener('click', this.onGet);
         document.getElementById('createButton').addEventListener('click', this.onCreate);
         document.getElementById('homeButton').addEventListener('click', this.onGetAllDrinks);
+        document.getElementById('filterButton').addEventListener('click', this.onGetFiltered);
         this.client = new DrinkClient();
         this.userClient = new UserClient();
 
