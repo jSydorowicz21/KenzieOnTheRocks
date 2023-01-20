@@ -25,7 +25,6 @@ public class CachingModule {
         String redisUrl = System.getenv("JEDIS_URL");
         if (redisUrl != null && redisUrl.length() > 0) {
             // Connect to AWS
-            System.out.println("Providing redis " + redisUrl);
             return new Jedis(redisUrl, 6379, 20000);
         } else if ("true".equals(System.getenv("AWS_SAM_LOCAL"))) {
             // Connect to local Docker redis
@@ -39,7 +38,6 @@ public class CachingModule {
             }
         } else {
             // Run Locally
-            System.out.println("Providing local redis");
             return new JedisPool(new JedisPoolConfig(), "localhost", 6379, 20000).getResource();
         }
     }

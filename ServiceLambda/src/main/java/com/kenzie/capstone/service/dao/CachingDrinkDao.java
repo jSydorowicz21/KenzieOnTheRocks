@@ -1,7 +1,6 @@
 package com.kenzie.capstone.service.dao;
 
 import com.google.gson.Gson;
-import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.model.DrinkRecord;
 
@@ -15,10 +14,10 @@ public class CachingDrinkDao implements DrinkDao{
 
     private static final int DRINK_READ_TTL = 60 * 60;
     private static final String DRINK_KEY = "DrinkKey::%s";
-    private CacheClient cacheClient;
-    private DrinkDao drinkDao;
+    private final CacheClient cacheClient;
+    private final DrinkDao drinkDao;
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Inject
     public CachingDrinkDao(CacheClient cacheClient, NonCachingDrinkDao drinkDao) {
@@ -66,7 +65,6 @@ public class CachingDrinkDao implements DrinkDao{
 
 
         if (cacheRecords != null && cacheRecords.isPresent()) {
-            System.out.println("Cache hit");
             return cacheRecords.get().stream().filter(Objects::nonNull).map(this::cacheToRecord).collect(Collectors.toList());
         }
 
