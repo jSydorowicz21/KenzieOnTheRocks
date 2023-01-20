@@ -62,6 +62,14 @@ module.exports = {
         }
       ]
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/util/images'),
+          to: path.resolve("dist/images")
+        }
+      ]
+    }),
     new CleanWebpackPlugin()
   ],
   module: {

@@ -1,10 +1,11 @@
 body {
-    background-image: url('../util/images/login-page-drinks.jpg');
+    background-image: url('/images/login-page-drinks.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
 }
 
 #loginSection {
-    background: rgba(179, 28, 28, 0.1);
+    padding: 25px;
+    background: rgba(20, 57, 131, 0.2);
 }
