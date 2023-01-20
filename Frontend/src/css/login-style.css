@@ -6,5 +6,6 @@ body {
 }
 
 #loginSection {
-    background: rgba(179, 28, 28, 0.1);
+    padding: 25px;
+    background: rgba(20, 57, 131, 0.2);
 }
