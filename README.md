@@ -1,5 +1,5 @@
 # Overview
-This service can be deployed to any AWS Account, it uses user provided AWS Credentials and generic scripts to accomplish this task. TOCO: Add more indepth steps
+This service can be deployed to any AWS Account, it uses user provided AWS Credentials and generic scripts to accomplish this task. TODO: Add more indepth steps
 
 ### To deploy the Development Environment
 
