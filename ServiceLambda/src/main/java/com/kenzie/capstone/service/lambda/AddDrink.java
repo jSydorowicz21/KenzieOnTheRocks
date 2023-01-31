@@ -10,8 +10,8 @@ import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.exceptions.InvalidDataException;
-import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.model.DrinkRequest;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,8 +50,7 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            DrinkRequest drinkRequest = gson.fromJson(body, DrinkRequest.class);
-            return drinkRequest;
+            return gson.fromJson(body, DrinkRequest.class);
         } catch (Exception e) {
             throw new InvalidDataException("Referral could not be deserialized");
         }

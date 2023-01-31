@@ -2,17 +2,14 @@ package com.kenzie.appserver.controller;
 
 import com.google.gson.Gson;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
-import com.kenzie.appserver.controller.model.DrinkDeleteRequest;
 import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
-
 import com.kenzie.appserver.service.model.Drink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +19,8 @@ import java.util.UUID;
 @RequestMapping("/drinks")
 public class DrinkController {
 
-    private DrinkService drinkService;
-    private Gson gson = new Gson();
+    private final DrinkService drinkService;
+    private final Gson gson = new Gson();
 
 
     @Autowired

@@ -68,15 +68,15 @@ class LandingPage extends BaseClass {
             document.getElementById("sidebar").innerHTML = "";
         }
         else {
-            var htmlToinsert = "";
+            let htmlToInsert = "";
 
             drinks.forEach(function (drink) {
-                htmlToinsert += `<div class="side-drink">
+                htmlToInsert += `<div class="side-drink">
                 <h4><b>Drink Name: ${drink.name}</b></h4>
                 <p>Ingredients: ${drink.ingredients}</p>
             </div>`
             });
-            document.getElementById("sidebar").innerHTML = htmlToinsert;
+            document.getElementById("sidebar").innerHTML = htmlToInsert;
 
             var drinkCards = Array.from(document.getElementsByClassName('side-drink'));
 
@@ -153,15 +153,15 @@ class LandingPage extends BaseClass {
         let drinks = Array.from(result);
         document.getElementById("result").innerHTML = "";
         if (result) {
-            var htmlToinsert = "";
+            var htmlToInsert = "";
 
             drinks.forEach(function (drink) {
-                htmlToinsert += `<div class="drink">
+                htmlToInsert += `<div class="drink">
                 <h4><b>Drink Name: ${drink.name}</b></h4>
                 <p>Ingredients: ${drink.ingredients}</p>
             </div>`
             });
-            document.getElementById("result").innerHTML = htmlToinsert;
+            document.getElementById("result").innerHTML = htmlToInsert;
 
             var drinkCards = Array.from(document.getElementsByClassName('drink'));
 

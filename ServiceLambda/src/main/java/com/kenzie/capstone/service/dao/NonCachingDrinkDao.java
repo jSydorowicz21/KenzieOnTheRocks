@@ -1,19 +1,18 @@
 package com.kenzie.capstone.service.dao;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.kenzie.capstone.service.model.DrinkRecord;
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
+import com.kenzie.capstone.service.model.DrinkRecord;
 
 import java.util.List;
 
 public class NonCachingDrinkDao implements DrinkDao {
-    private DynamoDBMapper mapper;
+    private final DynamoDBMapper mapper;
 
     /**
      * Allows access to and manipulation of Match objects from the data store.

@@ -2,18 +2,17 @@ package com.kenzie.capstone.service;
 
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
-import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import com.kenzie.capstone.service.model.DrinkRequest;
+import com.kenzie.capstone.service.model.LambdaDrink;
 
 import javax.inject.Inject;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DrinkService {
 
-    private CachingDrinkDao DrinkDao;
+    private final CachingDrinkDao DrinkDao;
 
     @Inject
     public DrinkService(CachingDrinkDao DrinkDao) {
@@ -44,8 +43,7 @@ public class DrinkService {
         drinkRecord.setUserId(drinkRequest.getUserId());
 
         DrinkDao.addDrink(drinkRecord);
-        LambdaDrink lambdaDrink = toDrink(drinkRecord);
-        return lambdaDrink;
+        return toDrink(drinkRecord);
     }
 
     public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {

@@ -3,20 +3,16 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
-import com.kenzie.appserver.service.model.UserHasNoExistingDrinkException;
-import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
+import com.kenzie.capstone.service.model.LambdaDrink;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import com.kenzie.capstone.service.model.LambdaDrink;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,7 +24,6 @@ public class DrinkServiceTest {
 
     //constant testing values
     public static final String TEST_USERID = "test userid";
-    public static final String TEST_USERID_ALT = "other test userid";
     public static final String TEST_DRINK_ID ="test drinkId";
     public static final String TEST_DRINK_ID_ALT = "other test drink id";
     public static final String TEST_DRINK_NAME =" test drink name";
@@ -64,25 +59,9 @@ public class DrinkServiceTest {
         Assertions.assertEquals(returnedDrink.getId(), drink.getId(), "The id matches");
         Assertions.assertEquals(returnedDrink.getName(), drink.getName(), "The name matches");
     }
-//
-//    @Test
-//    void findByConcertId_invalid() {
-//        // GIVEN
-//        String id = randomUUID().toString();
-//
-//        when(drinkRepository.findById(id)).thenReturn(Optional.empty());
-//
-//        // WHEN
-//        Drink drink = drinkService.findById(id);
-//
-//        // THEN
-//        Assertions.assertNull(drink, "The example is null when not found");
-//    }
     /** ------------------------------------------------------------------------
      *  drinkService.getDrinks
      *  ------------------------------------------------------------------------ **/
-
-    //Todo Fix to throw exception
     @Test
     void getDrink_noMatchingDrink_Throws_Exception() {
 
@@ -295,18 +274,14 @@ public class DrinkServiceTest {
     @Test
     public void getDrink_null_name_throwsException(){
 
-        String name = null;
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> drinkService.getDrink(name,"id"),"name cannot be null");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> drinkService.getDrink(null,"id"),"name cannot be null");
 
     }
 
     @Test
     public void getDrink_null_id_throwsException(){
 
-        String id = null;
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> drinkService.getDrink("name",id),"id cannot be null");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> drinkService.getDrink("name",null),"id cannot be null");
 
     }
     private DrinkRecord createRecord(String id, String name, String userId){

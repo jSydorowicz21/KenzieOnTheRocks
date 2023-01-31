@@ -1,6 +1,5 @@
 package com.kenzie.appserver.service;
 
-import com.google.gson.Gson;
 import com.kenzie.appserver.repositories.UserRepository;
 import com.kenzie.appserver.repositories.model.UserRecord;
 import com.kenzie.appserver.service.model.Drink;
@@ -16,13 +15,10 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-
-    private LambdaServiceClient lambdaServiceClient;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository, LambdaServiceClient lambdaServiceClient) {
         this.userRepository = userRepository;
-        this.lambdaServiceClient = lambdaServiceClient;
     }
 
     public User addNewUser(String userId){

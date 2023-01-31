@@ -24,6 +24,4 @@ bin
 .project
 .settings
 
-/aws.xml
-
 lambda-service-development.yml

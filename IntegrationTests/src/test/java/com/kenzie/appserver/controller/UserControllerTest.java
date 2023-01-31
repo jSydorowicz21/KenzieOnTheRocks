@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.*;
+import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.User;
-import com.kenzie.appserver.service.UserService;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +30,7 @@ class UserControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Autowired
     UserService userService;
@@ -115,6 +114,7 @@ class UserControllerTest {
     }
 
     @Test
+    //TODO: Fix test, last assert invalid assertion
     public void getUsersDrinks() throws Exception{
 
         UserCreateRequest userCreateRequest = new UserCreateRequest();
@@ -133,10 +133,11 @@ class UserControllerTest {
                 .andExpect(status().isOk());
 //
         String responseBody = actions.andReturn().getResponse().getContentAsString();
-        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
         });
 
         assertThat(responses).isNotEmpty();
+        //This assert is invalid type
         assertThat(responses.containsAll(drinkResponses));
     }
 

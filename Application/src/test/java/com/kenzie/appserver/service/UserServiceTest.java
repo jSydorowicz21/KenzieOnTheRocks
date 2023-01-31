@@ -1,18 +1,20 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.controller.model.DrinkCreateRequest;
-import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.repositories.UserRepository;
-import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.repositories.model.UserRecord;
-import com.kenzie.appserver.service.model.*;
+import com.kenzie.appserver.service.model.Drink;
+import com.kenzie.appserver.service.model.InvalidUserException;
+import com.kenzie.appserver.service.model.User;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
@@ -20,13 +22,12 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
     private UserRepository userRepository;
     private UserService userService;
-    private LambdaServiceClient lambdaServiceClient;
 
 
     @BeforeEach
     void setup() {
         userRepository = mock(UserRepository.class);
-        lambdaServiceClient = mock(LambdaServiceClient.class);
+        LambdaServiceClient lambdaServiceClient = mock(LambdaServiceClient.class);
         userService = new UserService(userRepository, lambdaServiceClient);
     }
 
@@ -204,9 +205,7 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = null;
-
-        User user = new User(id, drinks);
+        User user = new User(id, null);
 
         // WHEN
 
@@ -302,15 +301,14 @@ public class UserServiceTest {
         // GIVEN
         String id = randomUUID().toString();
 
-        List<Drink> drinks = null;
 
-        User user = new User(id, drinks);
+        User user = new User(id, null);
 
         // WHEN
 
         // THEN
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.updateUserDrinks(user, drinks), "Exception should be thrown when no drinks are passed in.");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> userService.updateUserDrinks(user, null), "Exception should be thrown when no drinks are passed in.");
 
     }
 

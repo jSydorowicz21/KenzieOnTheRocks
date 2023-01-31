@@ -1,6 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
@@ -8,9 +9,6 @@ import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
 import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.model.Drink;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -23,10 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +33,7 @@ class DrinkControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Autowired
     DrinkService drinkService;
@@ -48,7 +44,7 @@ class DrinkControllerTest {
 
     private final List<String> ingredients = List.of("Rum","Coke","Ice");
 
-    List<String> idsToBeDeleted = new ArrayList<>();
+    private final List<String> idsToBeDeleted = new ArrayList<>();
 
 
 
@@ -84,7 +80,7 @@ class DrinkControllerTest {
                 .andExpect(status().is2xxSuccessful());
 
         String responseBody = actions.andReturn().getResponse().getContentAsString();
-        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
         });
         assertThat(responses.size() == 1).as("There are responses");
         for (DrinkResponse response : responses) {
@@ -114,38 +110,38 @@ class DrinkControllerTest {
                         .value(name))
                 .andExpect(status().is2xxSuccessful());
     }
-    //    @Test
-//    public void filteredSearch_returns_matching_drink() throws Exception {
-//        String id = UUID.randomUUID().toString();
-//        String name = mockNeat.strings().valStr();
-//        String userId = UUID.randomUUID().toString();
-//
-//
-//        Drink drink = new Drink(id, name, ingredients, userId);
-//        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
-//        Drink persistedDrink = drinkService.addDrink(drink);
-//        Drink persistedDrink2 = drinkService.addDrink(drink2);
-//
-//        idsToBeDeleted.add(id);
-//        idsToBeDeleted.add(drink2.getId());
-//
-//        ResultActions actions = mvc.perform(get("/drinks")
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .content(String.valueOf(ingredients))
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().is2xxSuccessful());
-//
-//        String responseBody = actions.andReturn().getResponse().getContentAsString();
-//        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
-//        });
-//        assertThat(responses.size()).isGreaterThan(0).as("There are responses");
-//        for (DrinkResponse response : responses) {
-//            assertThat(response.getId()).isNotEmpty().as("The ID is populated");
-//            assertThat(response.getName()).isNotEmpty().as("The name is populated");
-//            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
-//            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
-//        }
-//    }
+    @Test
+    public void filteredSearch_returns_matching_drink() throws Exception {
+        String id = UUID.randomUUID().toString();
+        String name = mockNeat.strings().valStr();
+        String userId = UUID.randomUUID().toString();
+
+
+        Drink drink = new Drink(id, name, ingredients, userId);
+        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
+        Drink persistedDrink = drinkService.addDrink(drink);
+        Drink persistedDrink2 = drinkService.addDrink(drink2);
+
+        idsToBeDeleted.add(id);
+        idsToBeDeleted.add(drink2.getId());
+
+        ResultActions actions = mvc.perform(get("/drinks")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(String.valueOf(ingredients))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        String responseBody = actions.andReturn().getResponse().getContentAsString();
+        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        });
+        assertThat(responses.size()).isGreaterThan(0).as("There are responses");
+        for (DrinkResponse response : responses) {
+            assertThat(response.getId()).isNotEmpty().as("The ID is populated");
+            assertThat(response.getName()).isNotEmpty().as("The name is populated");
+            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
+            assertThat(response.getIngredients()).isNotEmpty().as("Ingredients are populated");
+        }
+    }
     @Test
     public void getDrink_DrinkDoesNotExist() throws Exception {
         // GIVEN

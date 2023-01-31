@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import UserClient from "../api/userClient";
+
 /**
  * Logic needed for the view playlist page of the website.
  */
