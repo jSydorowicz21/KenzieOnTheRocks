@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller;
 
-import com.google.gson.Gson;
 import com.kenzie.appserver.controller.model.DrinkCreateRequest;
 import com.kenzie.appserver.controller.model.DrinkResponse;
 import com.kenzie.appserver.controller.model.DrinkUpdateRequest;
@@ -8,7 +7,15 @@ import com.kenzie.appserver.service.DrinkService;
 import com.kenzie.appserver.service.model.Drink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,7 +27,6 @@ import java.util.UUID;
 public class DrinkController {
 
     private final DrinkService drinkService;
-    private final Gson gson = new Gson();
 
 
     @Autowired

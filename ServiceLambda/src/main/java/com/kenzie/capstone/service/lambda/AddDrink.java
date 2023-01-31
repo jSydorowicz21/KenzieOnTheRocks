@@ -21,10 +21,10 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
-
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        // Logging the request json to make debugging easier.
+        DrinkRequest drinkRequest;
+
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
@@ -33,16 +33,16 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 
         try {
-            DrinkRequest drinkRequest = this.convert(input.getBody());
-            LambdaDrink lambdaDrink = drinkService.addDrink(drinkRequest);
-            return response
-                    .withStatusCode(200)
-                    .withBody(gson.toJson(lambdaDrink));
+            drinkRequest = this.convert(input.getBody());
         } catch (InvalidDataException e) {
             return response
                     .withStatusCode(400)
                     .withBody(gson.toJson(e.errorPayload()));
         }
+        LambdaDrink lambdaDrink = drinkService.addDrink(drinkRequest);
+        return response
+                .withStatusCode(200)
+                .withBody(gson.toJson(lambdaDrink));
     }
 
 

@@ -24,7 +24,8 @@ public class DeleteDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        // Logging the request json to make debugging easier.
+        String id;
+
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
@@ -35,16 +36,16 @@ public class DeleteDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
+        id = input.getPathParameters().get("id");
 
-        try {
-            drinkService.deleteDrink(id);
+        if (drinkService.deleteDrink(id) != null) {
             return response
                     .withStatusCode(200);
-        } catch (InvalidDataException e) {
+        }
+        else {
             return response
                     .withStatusCode(400)
-                    .withBody(gson.toJson(e.errorPayload()));
+                    .withBody("Unable to delete drink with ID: " + id);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
@@ -25,6 +26,7 @@ public class GetAllDrinks implements RequestHandler<APIGatewayProxyRequestEvent,
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
+        String output;
 
         log.info(gson.toJson(input));
 
@@ -36,19 +38,17 @@ public class GetAllDrinks implements RequestHandler<APIGatewayProxyRequestEvent,
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-
         try {
             List<LambdaDrink> drinksFromLambda = lambdaService.getAllDrinks();
-            String output = gson.toJson(drinksFromLambda);
+            output = gson.toJson(drinksFromLambda);
 
-            return response
-                    .withStatusCode(200)
-                    .withBody(output);
-
-        } catch (Exception e) {
+        } catch (NullPointerException | JsonIOException e) {
             return response
                     .withStatusCode(400)
                     .withBody(gson.toJson(e.getMessage()));
         }
+        return response
+                .withStatusCode(200)
+                .withBody(output);
     }
 }

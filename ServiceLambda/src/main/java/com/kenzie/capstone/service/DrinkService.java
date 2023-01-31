@@ -58,13 +58,14 @@ public class DrinkService {
         return lambdaDrink;
     }
 
-    public void deleteDrink(String id) {
+    public String deleteDrink(String id) {
 
         DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
-//        DrinkRecord drinkRecord =  DrinkDao.getDrink(id);
 
         DrinkDao.deleteDrink(drinkRecord);
+
+        return id;
 
     }
 

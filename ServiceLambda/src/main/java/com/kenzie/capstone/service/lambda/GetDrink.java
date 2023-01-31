@@ -25,6 +25,8 @@ public class GetDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
+        String output;
+        String id;
 
         log.info(gson.toJson(input));
 
@@ -36,20 +38,19 @@ public class GetDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
+        id = input.getPathParameters().get("id");
 
         try {
             LambdaDrink lambdaDrink = drinkService.getDrink(id);
-            String output = gson.toJson(lambdaDrink);
+            output = gson.toJson(lambdaDrink);
 
-            return response
-                    .withStatusCode(200)
-                    .withBody(output);
-
-        }  catch (InvalidDataException e) {
+        } catch (InvalidDataException e) {
             return response
                     .withStatusCode(400)
                     .withBody(gson.toJson(e.errorPayload()));
         }
+        return response
+                .withStatusCode(200)
+                .withBody(output);
     }
 }

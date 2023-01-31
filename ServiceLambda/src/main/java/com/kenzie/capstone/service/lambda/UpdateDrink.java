@@ -24,6 +24,7 @@ public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
+        String output;
 
         log.info(gson.toJson(input));
 
@@ -46,7 +47,7 @@ public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, 
 
         try {
             LambdaDrink lambdaDrinkFromLambda = lambdaService.updateDrink(lambdaDrink);
-            String output = gson.toJson(lambdaDrinkFromLambda);
+            output = gson.toJson(lambdaDrinkFromLambda);
 
             return response
                     .withStatusCode(200)

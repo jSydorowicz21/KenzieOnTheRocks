@@ -25,6 +25,8 @@ public class GetDrinksByUserId implements RequestHandler<APIGatewayProxyRequestE
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
+        String output;
+        String userId;
 
         log.info(gson.toJson(input));
 
@@ -36,7 +38,7 @@ public class GetDrinksByUserId implements RequestHandler<APIGatewayProxyRequestE
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String userId = input.getBody();
+        userId = input.getBody();
 
         if (userId == null) {
             return response
@@ -46,7 +48,7 @@ public class GetDrinksByUserId implements RequestHandler<APIGatewayProxyRequestE
 
         try {
             List<LambdaDrink> lambdaDrinkFromLambda = lambdaService.getDrinksByUserId(userId);
-            String output = gson.toJson(lambdaDrinkFromLambda);
+            output = gson.toJson(lambdaDrinkFromLambda);
 
             return response
                     .withStatusCode(200)

@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service;
 
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
+import com.kenzie.capstone.service.exceptions.InvalidDataException;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import com.kenzie.capstone.service.model.DrinkRequest;
 import com.kenzie.capstone.service.model.LambdaDrink;
@@ -14,7 +15,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LambdaServiceTest {
@@ -63,21 +68,21 @@ class LambdaServiceTest {
     }
 
 
-//    @Test
-//    void addDrinkTest_no_drink_id() {
-//
-//        // GIVEN
-//        String id = "";
-//        String name ="";
-//
-//        DrinkRequest request = new DrinkRequest();
-//        request.setId(id);
-//        request.setName(name);
-//
-//        //when then
-//        assertThrows(InvalidDataException.class, ()->this.drinkService.addDrink(request));
-//
-//    }
+    @Test
+    void addDrinkTest_no_drink_id() {
+
+        // GIVEN
+        String id = "";
+        String name ="";
+
+        DrinkRequest request = new DrinkRequest();
+        request.setId(id);
+        request.setName(name);
+
+        //when then
+        assertThrows(InvalidDataException.class, ()->this.drinkService.addDrink(request));
+
+    }
 
     @Test
     void updateDrinkTest() {
@@ -125,9 +130,10 @@ class LambdaServiceTest {
         request.setId(id);
 
         //when
-        drinkService.deleteDrink(id);
+        String returnedID = drinkService.deleteDrink(id);
         //then
         verify(cachingDrinkDao, times(1)).deleteDrink(drinkCaptor.capture());
+        assertEquals(id, returnedID);
 
     }
     @Test

@@ -8,7 +8,6 @@ import com.kenzie.appserver.controller.model.*;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.User;
-import net.andreinc.mockneat.MockNeat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,8 +33,6 @@ class UserControllerTest {
 
     @Autowired
     UserService userService;
-
-    private final MockNeat mockNeat = MockNeat.threadLocal();
 
     private final ObjectMapper mapper = new ObjectMapper();
 
