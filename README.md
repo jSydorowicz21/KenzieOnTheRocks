@@ -15,3 +15,8 @@ team member who is maintaining the repo. Confirm that the team member has added 
 Run `./createPipeline.sh`
 
 To teardown the pipeline, run `./cleanupPipeline.sh`
+
+## Current Backlog
+Convert login page to Amazon cognito - aabdyrak001
+Transition Cache from AWS to local - JSydorowicz21
+QOL ui improvements - ericbec
