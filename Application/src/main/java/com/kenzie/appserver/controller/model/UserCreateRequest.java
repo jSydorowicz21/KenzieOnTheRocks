@@ -9,7 +9,6 @@ public class UserCreateRequest {
     @JsonProperty("userId")
     private String userId;
 
-
     public String getUserId() {
         return userId;
     }
@@ -17,5 +16,4 @@ public class UserCreateRequest {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
 }

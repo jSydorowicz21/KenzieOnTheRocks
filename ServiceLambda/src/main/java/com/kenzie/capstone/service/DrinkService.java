@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DrinkService {
-
     private final CachingDrinkDao DrinkDao;
 
     @Inject
@@ -21,21 +20,16 @@ public class DrinkService {
 
     @ExcludeFromJacocoGeneratedReport
     public LambdaDrink getDrink(String id) {
-
-
         DrinkRecord drinkRecord = DrinkDao.getDrink(id);
-
 
         if (drinkRecord == null){
             return null;
         }
 
         return new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId());
-
     }
 
     public LambdaDrink addDrink(DrinkRequest drinkRequest) {
-
         DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(drinkRequest.getId());
         drinkRecord.setName(drinkRequest.getName());
@@ -59,14 +53,12 @@ public class DrinkService {
     }
 
     public String deleteDrink(String id) {
-
         DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
 
         DrinkDao.deleteDrink(drinkRecord);
 
         return id;
-
     }
 
     public List<LambdaDrink> getAllDrinks() {

@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
     static final Logger log = LogManager.getLogger();
 
     @Override
@@ -44,7 +43,6 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
                 .withStatusCode(200)
                 .withBody(gson.toJson(lambdaDrink));
     }
-
 
     public DrinkRequest convert(String body) {
         try {

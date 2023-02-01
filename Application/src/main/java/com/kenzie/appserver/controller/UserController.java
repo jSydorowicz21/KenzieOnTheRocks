@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     private final UserService userService;
 
     UserController(UserService userService) {
@@ -28,7 +27,6 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("userId") String userId) {
-
         User user = userService.getUserById(userId);
 
         if (user == null) {
@@ -38,10 +36,8 @@ public class UserController {
         return ResponseEntity.ok(createUserResponse(user));
     }
 
-
     @PostMapping
     public ResponseEntity<UserResponse> addNewUser(@RequestBody UserCreateRequest userCreateRequest){
-
         if (userCreateRequest == null || userCreateRequest.getUserId() == null){
             return ResponseEntity.badRequest().build();
         }
@@ -49,26 +45,23 @@ public class UserController {
         User user = userService.addNewUser(userCreateRequest.getUserId());
 
         return ResponseEntity.ok(createUserResponse(user));
-
     }
 
     @PostMapping("/drinks")
     public ResponseEntity<List<DrinkResponse>> addNewDrink(@RequestBody AddDrinkRequest addDrinkRequest){
+        List<DrinkResponse> drinkResponses = new ArrayList<>();
 
         if (addDrinkRequest == null || addDrinkRequest.getUserId() == null){
             return ResponseEntity.badRequest().build();
         }
 
-
         List<Drink> drinks = userService.addDrinkToList(userService.getUserById(addDrinkRequest.getUserId()), addDrinkRequest.getDrink());
 
-        List<DrinkResponse> drinkResponses = new ArrayList<>();
         for (Drink drink : drinks){
             drinkResponses.add(createDrinkResponse(drink));
         }
 
         return ResponseEntity.ok(drinkResponses);
-
     }
 
     @PutMapping
@@ -80,7 +73,6 @@ public class UserController {
         User user = userService.updateUser(new User(userUpdateRequest.getUserId(), userUpdateRequest.getDrinks()));
 
         return ResponseEntity.ok(createUserResponse(user));
-
     }
 
     @PutMapping("/drinks")
@@ -96,10 +88,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-
-
         return ResponseEntity.ok(createUserResponse(userService.updateUserDrinks(user, userUpdateRequest.getDrinks())));
-
     }
 
     @GetMapping("/drinks/{userId}")
@@ -120,11 +109,9 @@ public class UserController {
         }
 
         return ResponseEntity.ok(drinkResponses);
-
     }
 
     private UserResponse createUserResponse(User user) {
-
         UserResponse userResponse = new UserResponse();
         userResponse.setUserId(user.getUserId());
         userResponse.setDrinks(user.getDrinks());

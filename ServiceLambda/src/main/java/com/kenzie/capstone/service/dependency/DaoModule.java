@@ -1,6 +1,5 @@
 package com.kenzie.capstone.service.dependency;
 
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
@@ -43,5 +42,4 @@ public class DaoModule {
             @Named("NonCachingDao") NonCachingDrinkDao  nonCachingDrinkDao) {
         return new CachingDrinkDao(cacheClient, nonCachingDrinkDao);
     }
-
 }

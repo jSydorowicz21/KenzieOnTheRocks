@@ -13,7 +13,6 @@ import javax.inject.Singleton;
     includes = DaoModule.class
 )
 public class ServiceModule {
-
     @Singleton
     @Provides
     @Inject

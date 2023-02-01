@@ -6,7 +6,4 @@ import org.springframework.data.repository.CrudRepository;
 
 @EnableScan
 public interface UserRepository extends CrudRepository<UserRecord, String> {
-
-
-
 }

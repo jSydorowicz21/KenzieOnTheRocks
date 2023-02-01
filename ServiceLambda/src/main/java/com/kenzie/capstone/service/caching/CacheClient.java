@@ -1,6 +1,5 @@
 package com.kenzie.capstone.service.caching;
 
-
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import redis.clients.jedis.Jedis;
 
@@ -9,68 +8,45 @@ import java.util.Optional;
 import java.util.Set;
 
 public class CacheClient {
-
     private Jedis jedis;
 
-
     public void setValue(String key, int seconds, String value) {
-
         this.jedis = DaggerServiceComponent.create().provideJedis();
-
         checkNullKey(key);
-
         jedis.setex(key, seconds, value);
-
         jedis.close();
-
     }
 
     public Optional<String> getValue(String key) {
-
         this.jedis = DaggerServiceComponent.create().provideJedis();
-
         checkNullKey(key);
-
         Optional<String> value = Optional.ofNullable(jedis.get(key));
-
         jedis.close();
-
         return value;
-
     }
 
     public Optional<List<String>> getAll() {
-
         this.jedis = DaggerServiceComponent.create().provideJedis();
-
         Set<String> keys = jedis.keys("*");
 
         try {
             List<String> values = jedis.mget(keys.toArray(new String[keys.size()]));
+            jedis.close();
             return Optional.ofNullable(values);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         jedis.close();
-
         return Optional.empty();
-
     }
 
     public boolean invalidate(String key) {
-
         this.jedis = DaggerServiceComponent.create().provideJedis();
-
         checkNullKey(key);
-
         boolean bool = jedis.del(key) > 0;
-
         jedis.close();
-
         return bool;
-
     }
 
     private void checkNullKey(String key){

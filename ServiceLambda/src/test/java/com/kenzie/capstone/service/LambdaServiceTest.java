@@ -23,8 +23,6 @@ import static org.mockito.Mockito.times;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LambdaServiceTest {
-
-
     private CachingDrinkDao cachingDrinkDao;
     private DrinkService drinkService;
 
@@ -36,10 +34,7 @@ class LambdaServiceTest {
 
     @Test
     void addDrinkTest() {
-        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
-
-
-        // GIVEN
+        //GIVEN
         String id = "drink_Id";
         String name = "drink_name";
 
@@ -47,11 +42,11 @@ class LambdaServiceTest {
         request.setId(id);
         request.setName(name);
 
-
-        // WHEN
+        //WHEN
+        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
         LambdaDrink response = this.drinkService.addDrink(request);
 
-        // THEN
+        //THEN
         verify(cachingDrinkDao, times(1)).addDrink(drinkCaptor.capture());
         DrinkRecord record = drinkCaptor.getValue();
 
@@ -63,14 +58,10 @@ class LambdaServiceTest {
         assertNotNull(response, "A response is returned");
         assertEquals(id, response.getId(), "The response id should match");
         assertEquals(name,response.getName(),"The drink name should match");
-
-
     }
-
 
     @Test
     void addDrinkTest_no_drink_id() {
-
         // GIVEN
         String id = "";
         String name ="";
@@ -79,30 +70,27 @@ class LambdaServiceTest {
         request.setId(id);
         request.setName(name);
 
-        //when then
+        //WHEN THEN
         assertThrows(InvalidDataException.class, ()->this.drinkService.addDrink(request));
-
     }
 
     @Test
     void updateDrinkTest() {
-        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
-        // GIVEN
+        //GIVEN
         String id = "drink_Id";
         String name = "drink_name";
         List<String>ingredients = new ArrayList<>();
-
 
         LambdaDrink request = new LambdaDrink();
         request.setId(id);
         request.setName(name);
         request.setIngredients(ingredients);
 
-
-        // WHEN
+        //WHEN
+        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
         LambdaDrink response = this.drinkService.updateDrink(request);
 
-        // THEN
+        //THEN
         verify(cachingDrinkDao, times(1)).updateDrink(drinkCaptor.capture());
         DrinkRecord record = drinkCaptor.getValue();
 
@@ -111,36 +99,29 @@ class LambdaServiceTest {
         assertEquals(name,record.getName(),"The drink name should match");
         assertEquals(ingredients,record.getIngredients(),"Ingredients should match");
 
-
         assertNotNull(response, "A response is returned");
         assertEquals(id, response.getId(), "The response id should match");
         assertEquals(name,response.getName(),"The drink name should match");
         assertEquals(ingredients,response.getIngredients(),"ingredients should match");
-
-
     }
 
     @Test
     void deleteDrinkTest() {
-        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
-        // GIVEN
+        //GIVEN
         String id = "drink_Id";
-
         LambdaDrink request = new LambdaDrink();
         request.setId(id);
 
-        //when
+        //WHEN
+        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
         String returnedID = drinkService.deleteDrink(id);
-        //then
+        //THEN
         verify(cachingDrinkDao, times(1)).deleteDrink(drinkCaptor.capture());
         assertEquals(id, returnedID);
-
     }
     @Test
     void getAllDrinksTest() {
-        //Given
-
-
+        //GIVEN
         List<DrinkRecord> record = new ArrayList<>();
 
         DrinkRecord record1 = new DrinkRecord();
@@ -153,21 +134,18 @@ class LambdaServiceTest {
         record2.setName("drink_n2");
         record.add(record2);
 
+        //WHEN
         when(cachingDrinkDao.getAllDrinks()).thenReturn(record);
-
-        //when
         List<LambdaDrink> drinks = this.drinkService.getAllDrinks();
 
-        //then
+        //THEN
         verify(cachingDrinkDao,times(1)).getAllDrinks();
         assertEquals(2,drinks.size(),"drink has 2 items");
-
     }
 
     @Test
     void getDrinkByUserId() {
-
-        //Given
+        //GIVEN
         String userId = "userId";
         List<DrinkRecord> recordList = new ArrayList<>();
 
@@ -181,20 +159,18 @@ class LambdaServiceTest {
         record2.setName("drink_n2");
         record2.setUserId(userId);
 
+        //WHEN
         when(cachingDrinkDao.getDrinksByUserId(userId)).thenReturn(recordList);
-
-        //when
         List<LambdaDrink> drinks = this.drinkService.getDrinksByUserId(userId);
 
-        //then
+        //THEN
         verify(cachingDrinkDao,times(1)).getDrinksByUserId(userId);
         assertNotNull(drinks," drinks list will appear");
-
     }
 //    @Test
 //    void getDrinkTest() {
 //
-//        // GIVEN
+//        //GIVEN
 //        String id = "drink_Id";
 //        String name = "drink_name";
 //
@@ -203,15 +179,11 @@ class LambdaServiceTest {
 //        request.setName(name);
 //
 //
-//        // WHEN
+//        //WHEN
 //        LambdaDrink response = this.drinkService.getDrink(id);
 //
-//        // THEN
+//        //THEN
 //        verify(cachingDrinkDao, times(1)).getDrink(id);
-//
 //        assertEquals(id, response.getId(), "The response id should match");
-//
 //    }
-
 }
-

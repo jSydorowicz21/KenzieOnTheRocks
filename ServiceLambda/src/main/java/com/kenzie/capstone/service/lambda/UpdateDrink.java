@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateDrink implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
     static final Logger log = LogManager.getLogger();
 
     @Override

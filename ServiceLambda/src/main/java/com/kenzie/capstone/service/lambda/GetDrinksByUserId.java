@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GetDrinksByUserId implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
     static final Logger log = LogManager.getLogger();
 
     @Override

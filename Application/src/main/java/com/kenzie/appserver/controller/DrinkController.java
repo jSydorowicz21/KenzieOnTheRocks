@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/drinks")
 public class DrinkController {
-
     private final DrinkService drinkService;
-
 
     @Autowired
     DrinkController(DrinkService drinkService) {
@@ -37,23 +34,22 @@ public class DrinkController {
     @GetMapping("/{id}")
     public ResponseEntity<DrinkResponse> get(@PathVariable("id") String id) {
         Drink drink;
+
         try {
              drink = drinkService.findById(id);
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
-        if (drink == null) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
 
+        if (drink == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.ok(createDrinkResponse(drink));
     }
 
     @PostMapping("/filter")
     public ResponseEntity<List<DrinkResponse>> getFilteredDrinks(@RequestBody List<String> ingredients) {
-
         List<Drink> filteredDrinks = drinkService.getFilteredDrinks(ingredients);
 
         if (filteredDrinks == null ||  filteredDrinks.isEmpty()) {
@@ -82,20 +78,16 @@ public class DrinkController {
         }
 
         return ResponseEntity.ok(response);
-
     }
 
     @PostMapping
     public ResponseEntity<DrinkResponse> addNewDrink(@RequestBody DrinkCreateRequest drinkCreateRequest) {
-
         if(drinkCreateRequest.getId() == null){
             drinkCreateRequest.setId(UUID.randomUUID().toString());
         }
 
-
         Drink drink = drinkService.addDrink(new Drink(drinkCreateRequest.getId(), drinkCreateRequest.getName(),
                 drinkCreateRequest.getIngredients(), drinkCreateRequest.getUserId()));
-
 
         return ResponseEntity.created(URI.create("/drinks/" + drink.getId())).body(this.createDrinkResponse(drink));
     }
@@ -104,8 +96,7 @@ public class DrinkController {
     public ResponseEntity<DrinkResponse> deleteDrink(@PathVariable("id") String id) {
         try {
             drinkService.delete(id);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
 

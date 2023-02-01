@@ -1,6 +1,5 @@
 package com.kenzie.capstone.service.model;
 
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexRangeKey;

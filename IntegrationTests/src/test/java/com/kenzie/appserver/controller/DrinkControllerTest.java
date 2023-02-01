@@ -29,8 +29,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-
 @IntegrationTest
 class DrinkControllerTest {
     @Autowired
@@ -42,14 +40,9 @@ class DrinkControllerTest {
     DrinkService drinkService;
 
     private final MockNeat mockNeat = MockNeat.threadLocal();
-
     private final ObjectMapper mapper = new ObjectMapper();
-
     private final List<String> ingredients = List.of("Rum","Coke","Ice");
-
     private final List<String> idsToBeDeleted = new ArrayList<>();
-
-
 
     @AfterEach
     public void tearDown() {
@@ -63,7 +56,7 @@ class DrinkControllerTest {
 
     @Test
     public void getFilteredDrinks() throws Exception{
-
+        //GIVEN
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
@@ -76,6 +69,7 @@ class DrinkControllerTest {
         idsToBeDeleted.add(id);
         idsToBeDeleted.add(drink2.getId());
 
+        //WHEN
         ResultActions actions = mvc.perform(get("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(String.valueOf(gson.toJson(ingredients)))
@@ -85,6 +79,8 @@ class DrinkControllerTest {
         String responseBody = actions.andReturn().getResponse().getContentAsString();
         List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
         });
+
+        //THEN
         assertThat(responses.size() == 1).as("There are responses");
         for (DrinkResponse response : responses) {
             assertThat(response.getId().equals(persistedDrink.getId())).as("Id matches");
@@ -95,18 +91,20 @@ class DrinkControllerTest {
     }
     @Test
     public void getById_Exists() throws Exception {
+        //GIVEN
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
-
 
         Drink drink = new Drink(id, name, ingredients, userId);
         Drink persistedDrink = drinkService.addDrink(drink);
 
         idsToBeDeleted.add(id);
 
+        //WHEN
         mvc.perform(get("/drinks/{id}", persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(jsonPath("id")
                         .isString())
                 .andExpect(jsonPath("name")
@@ -115,19 +113,16 @@ class DrinkControllerTest {
     }
     @Test
     public void filteredSearch_returns_matching_drink() throws Exception {
+        //GIVEN
         String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
 
-
-        Drink drink = new Drink(id, name, ingredients, userId);
         Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
-        Drink persistedDrink = drinkService.addDrink(drink);
-        Drink persistedDrink2 = drinkService.addDrink(drink2);
 
         idsToBeDeleted.add(id);
         idsToBeDeleted.add(drink2.getId());
 
+        //WHEN
         ResultActions actions = mvc.perform(get("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(String.valueOf(ingredients))
@@ -137,6 +132,8 @@ class DrinkControllerTest {
         String responseBody = actions.andReturn().getResponse().getContentAsString();
         List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
         });
+
+        //THEN
         assertThat(responses.size()).isGreaterThan(0).as("There are responses");
         for (DrinkResponse response : responses) {
             assertThat(response.getId()).isNotEmpty().as("The ID is populated");
@@ -147,18 +144,18 @@ class DrinkControllerTest {
     }
     @Test
     public void getDrink_DrinkDoesNotExist() throws Exception {
-        // GIVEN
+        //GIVEN
         String id = UUID.randomUUID().toString();
-        // WHEN
+        //WHEN
         mvc.perform(get("/drinks/{id}", id)
                         .accept(MediaType.APPLICATION_JSON))
-                // THEN
+                //THEN
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void createDrink_CreateSuccessful() throws Exception {
-        // GIVEN
+        //GIVEN
         String userId = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String id = UUID.randomUUID().toString();
@@ -171,17 +168,18 @@ class DrinkControllerTest {
 
         idsToBeDeleted.add(id);
 
-        // WHEN
+        //WHEN
         mvc.perform(post("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(drinkCreateRequest)))
+                //THEN
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void updateDrink_PutSuccessful() throws Exception {
-        // GIVEN
+        //GIVEN
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
@@ -203,13 +201,12 @@ class DrinkControllerTest {
 
         idsToBeDeleted.add(id);
 
-
-//         WHEN
+        //WHEN
         mvc.perform(put("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(drinkUpdateRequest)))
-                // THEN
+                //THEN
                 .andExpect(jsonPath("userId")
                         .exists())
                 .andExpect(jsonPath("name")
@@ -221,7 +218,7 @@ class DrinkControllerTest {
 
     @Test
     public void deleteDrink_DeleteSuccessful() throws Exception {
-        // GIVEN
+        //GIVEN
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
         String userId = UUID.randomUUID().toString();
@@ -233,10 +230,10 @@ class DrinkControllerTest {
         Drink drink = new Drink(id, name, ingredients, userId);
         Drink persistedDrink = drinkService.addDrink(drink);
 
-        // WHEN
+        //WHEN
         mvc.perform(delete("/drinks/" + persistedDrink.getId())
                         .accept(MediaType.APPLICATION_JSON))
-                // THEN
+                //THEN
                 .andExpect(status().isOk());
     }
 

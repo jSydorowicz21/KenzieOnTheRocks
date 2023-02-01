@@ -9,13 +9,8 @@ import java.util.List;
 
 @DynamoDBTable(tableName = "Users")
 public class UserRecord {
-
     private String userId;
-
     private List<Drink> drinks;
-
-
-
 
     @DynamoDBHashKey(attributeName = "UserId")
     public String getUserId() {

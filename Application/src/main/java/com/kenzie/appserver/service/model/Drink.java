@@ -11,9 +11,7 @@ public class Drink {
     private List<String> ingredients;
     private String userId;
 
-
     public Drink(){}
-
 
     public Drink(String id, String name, List<String> ingredients, String userId) {
         this.id = id;

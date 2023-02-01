@@ -1,6 +1,5 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.repositories.model.DrinkRecord;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
@@ -13,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +24,6 @@ public class DrinkService {
     }
 
     public Drink findById(String id) {
-
         LambdaDrink drink = lambdaServiceClient.getDrink(id);
 
         if (id == null || drink == null) {
@@ -45,7 +42,6 @@ public class DrinkService {
 
     @ExcludeFromJacocoGeneratedReport
     public Drink getDrink(String name, String userId){
-
         if(name == null || userId == null){
             throw new IllegalArgumentException("Invalid drink name or user id");
         }
@@ -55,8 +51,8 @@ public class DrinkService {
         if (drink == null){
             throw new IllegalArgumentException("Drink not found");
         }
-        return drink;
 
+        return drink;
     }
 
     //add drink
@@ -64,15 +60,14 @@ public class DrinkService {
         LambdaDrink drinkExists = null;
         try {
             drinkExists = lambdaServiceClient.getDrink(request.getId());
-        }
-        catch (IllegalArgumentException e){{
+        } catch (IllegalArgumentException e){{
             // do nothing
         }}
-
 
         if(drinkExists != null) {
             throw new UserHasExistingDrinkException("Drink should be updated instead");
         }
+
         LambdaDrink drink = new LambdaDrink(request.getId(), request.getName(), request.getIngredients(), request.getUserId());
         lambdaServiceClient.addDrink(drink);
 
@@ -84,8 +79,7 @@ public class DrinkService {
 
         try {
             drinkFromLambda = findById(request.getId());
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid drink id");
         }
 
@@ -105,7 +99,6 @@ public class DrinkService {
     }
 
     public void delete(String id){
-
         try{
             findById(id);
             lambdaServiceClient.deleteDrink(id);
@@ -121,11 +114,5 @@ public class DrinkService {
         }
         return new Drink(drink.getId(), drink.getName(), drink.getIngredients(), drink.getUserId());
     }
-    @ExcludeFromJacocoGeneratedReport
-    private DrinkRecord createRecordFromRequest(Drink request) {
-        DrinkRecord record = new DrinkRecord(request.getName(), request.getUserId(), request.getIngredients(), request.getId());
-        record.setId(UUID.randomUUID().toString());
-        record.setName(record.getName());
-        return record;
-    }
+
 }

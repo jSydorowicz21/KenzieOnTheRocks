@@ -23,8 +23,6 @@ public class NonCachingDrinkDao implements DrinkDao {
     }
 
     public DrinkRecord addDrink(DrinkRecord drink) {
-
-
         try {
             mapper.save(drink, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(

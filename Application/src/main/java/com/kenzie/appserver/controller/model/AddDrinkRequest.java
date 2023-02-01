@@ -6,7 +6,6 @@ import com.kenzie.appserver.service.model.Drink;
 import javax.validation.constraints.NotEmpty;
 
 public class AddDrinkRequest {
-
     @NotEmpty
     @JsonProperty("userId")
     private String userId;
@@ -19,7 +18,6 @@ public class AddDrinkRequest {
         this.userId = userId;
         this.drink = drink;
     }
-
 
     public String getUserId() {
         return userId;

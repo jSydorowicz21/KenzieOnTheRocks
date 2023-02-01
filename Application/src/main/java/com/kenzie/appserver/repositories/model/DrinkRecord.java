@@ -5,7 +5,6 @@ import java.util.Objects;
 
 //@DynamoDBTable(tableName = "Drinks")
 public class DrinkRecord {
-
     private String id;
     private String name;
     private List<String> ingredients;
@@ -21,7 +20,6 @@ public class DrinkRecord {
     public DrinkRecord() {
 
     }
-
 
 //    @DynamoDBAttribute(attributeName = "userId")
     public String getUserId() {

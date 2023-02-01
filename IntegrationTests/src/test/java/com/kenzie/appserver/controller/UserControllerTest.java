@@ -8,12 +8,14 @@ import com.kenzie.appserver.controller.model.*;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.User;
+import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @IntegrationTest
 class UserControllerTest {
-
-
     @Autowired
     private MockMvc mvc;
 
@@ -38,9 +38,11 @@ class UserControllerTest {
 
     @Test
     public void addUser() throws Exception {
+        //GIVEN
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
+        //WHEN
         ResultActions actions = mvc.perform(post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(userCreateRequest))
@@ -49,11 +51,13 @@ class UserControllerTest {
 
         String responseBody = actions.andReturn().getResponse().getContentAsString();
         UserResponse response = mapper.readValue(responseBody, UserResponse.class);
+        //THEN
         assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
     }
 
     @Test
     public void addNewDrink() throws Exception {
+        //GIVEN
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
@@ -63,15 +67,18 @@ class UserControllerTest {
 
         userService.addDrinkToList(userResponse, addDrinkRequest.getDrink());
 
+        //WHEN
         mvc.perform(post("/users/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(addDrinkRequest))
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     public void updateUser() throws Exception{
+        //GIVEN
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
@@ -85,8 +92,8 @@ class UserControllerTest {
                         .content(mapper.writeValueAsString(updateRequest))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().is2xxSuccessful());
-
     }
 
 
@@ -96,7 +103,6 @@ class UserControllerTest {
     }
 
     @Test
-
     public void getUser() throws Exception{
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
@@ -107,35 +113,44 @@ class UserControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
     }
 
     @Test
-    //TODO: Fix test, last assert invalid assertion
     public void getUsersDrinks() throws Exception{
-
+        //GIVEN
         UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
         User userResponse = userService.addNewUser(userCreateRequest.getUserId());
 
-        List<Drink> drinkResponses = userService.addDrinkToList(userResponse, new Drink("test", "test", List.of("test"), userResponse.getUserId()));
-
-        System.out.println(gson.toJson(drinkResponses));
-
-
+        List<Drink> drinks = userService.addDrinkToList(userResponse, new Drink("test", "test", List.of("test"), userResponse.getUserId()));
+        //WHEN
         ResultActions actions = mvc.perform(get("/users/drinks/{userId}", userResponse.getUserId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
+                //THEN
                 .andExpect(status().isOk());
-//
+
         String responseBody = actions.andReturn().getResponse().getContentAsString();
         List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
         });
 
         assertThat(responses).isNotEmpty();
-        //This assert is invalid type
-        assertThat(responses.containsAll(drinkResponses));
+        assertThat(responses).containsAll(convertToResponses(drinks));
+    }
+
+    @ExcludeFromJacocoGeneratedReport
+    private List<DrinkResponse> convertToResponses(List<Drink> drinks){
+        List<DrinkResponse> drinkResponses = new ArrayList<>();
+        for (Drink drink : drinks){
+            DrinkResponse drinkResponse = new DrinkResponse();
+            drinkResponse.setId(drink.getId());
+            drinkResponse.setName(drink.getName());
+            drinkResponse.setIngredients(drink.getIngredients());
+            drinkResponse.setUserId(drink.getUserId());
+            drinkResponses.add(drinkResponse);
+        }
+        return drinkResponses;
     }
 
 }
