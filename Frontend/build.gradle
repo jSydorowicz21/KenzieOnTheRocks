@@ -2,6 +2,11 @@ plugins {
     id("com.github.node-gradle.node") version "3.5.1"
 }
 
+node {
+    version.set("16.14.0")
+    download.set(true)
+}
+
 yarn_build {
     dependsOn("yarn_install")
 }
