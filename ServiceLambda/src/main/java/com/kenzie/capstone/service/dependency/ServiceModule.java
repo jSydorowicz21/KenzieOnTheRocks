@@ -2,7 +2,6 @@ package com.kenzie.capstone.service.dependency;
 
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,7 +13,6 @@ import javax.inject.Singleton;
     includes = DaoModule.class
 )
 public class ServiceModule {
-
     @Singleton
     @Provides
     @Inject

@@ -8,7 +8,6 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DrinkResponse {
-
     @JsonProperty("id")
     private String id;
 
@@ -25,32 +24,38 @@ public class DrinkResponse {
     public String getUserId(){
         return userId;
     }
+
     public void setUserId(String userId){
         this.userId = userId;
     }
+
 
     public String getId() {
         return id;
     }
 
+
     public void setId(String id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }
+
 
     public List<String> getIngredients() {
         return ingredients;
     }
 
+
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
-        //add strIngredient objects into list here
     }
 }

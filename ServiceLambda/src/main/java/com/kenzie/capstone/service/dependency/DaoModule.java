@@ -1,12 +1,10 @@
 package com.kenzie.capstone.service.dependency;
 
-
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
 import com.kenzie.capstone.service.dao.NonCachingDrinkDao;
 import com.kenzie.capstone.service.util.DynamoDbClientProvider;
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import dagger.Module;
 import dagger.Provides;
 
@@ -44,5 +42,4 @@ public class DaoModule {
             @Named("NonCachingDao") NonCachingDrinkDao  nonCachingDrinkDao) {
         return new CachingDrinkDao(cacheClient, nonCachingDrinkDao);
     }
-
 }

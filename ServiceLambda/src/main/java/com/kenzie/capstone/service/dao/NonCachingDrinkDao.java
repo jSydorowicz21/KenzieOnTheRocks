@@ -1,19 +1,18 @@
 package com.kenzie.capstone.service.dao;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.kenzie.capstone.service.model.DrinkRecord;
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
+import com.kenzie.capstone.service.model.DrinkRecord;
 
 import java.util.List;
 
 public class NonCachingDrinkDao implements DrinkDao {
-    private DynamoDBMapper mapper;
+    private final DynamoDBMapper mapper;
 
     /**
      * Allows access to and manipulation of Match objects from the data store.
@@ -24,8 +23,6 @@ public class NonCachingDrinkDao implements DrinkDao {
     }
 
     public DrinkRecord addDrink(DrinkRecord drink) {
-
-
         try {
             mapper.save(drink, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
@@ -40,24 +37,22 @@ public class NonCachingDrinkDao implements DrinkDao {
     }
 
     public DrinkRecord getDrink(String id) {
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
 
-        DynamoDBQueryExpression<DrinkRecord> queryExpression = new DynamoDBQueryExpression<DrinkRecord>()
+        final DynamoDBQueryExpression<DrinkRecord> queryExpression = new DynamoDBQueryExpression<DrinkRecord>()
                 .withHashKeyValues(drinkRecord)
                 .withConsistentRead(false);
 
         try {
             return mapper.query(DrinkRecord.class, queryExpression).get(0);
-        }
-        catch (Exception e){
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
         return null;
     }
 
     public DrinkRecord updateDrink(DrinkRecord drink) {
-
         try {
             mapper.save(drink, new DynamoDBSaveExpression());
         } catch (ConditionalCheckFailedException e) {
@@ -72,10 +67,10 @@ public class NonCachingDrinkDao implements DrinkDao {
     }
 
     public List<DrinkRecord> getDrinksByUserId(String userId) {
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setUserId(userId);
 
-        DynamoDBQueryExpression<DrinkRecord> queryExpression = new DynamoDBQueryExpression<DrinkRecord>()
+        final DynamoDBQueryExpression<DrinkRecord> queryExpression = new DynamoDBQueryExpression<DrinkRecord>()
                 .withHashKeyValues(drinkRecord)
                 .withConsistentRead(false);
 

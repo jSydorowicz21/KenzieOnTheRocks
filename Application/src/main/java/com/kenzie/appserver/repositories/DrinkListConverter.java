@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.kenzie.appserver.service.model.Drink;
 
 public class DrinkListConverter implements DynamoDBTypeConverter {
-    Gson gson = new Gson();
+    private final Gson gson = new Gson();
     /**
      * Turns an object of type T into an object of type S.
      *

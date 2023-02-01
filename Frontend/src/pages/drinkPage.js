@@ -2,6 +2,7 @@ import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
+
 /**
  * Logic needed for the view playlist page of the website.
  */
@@ -116,12 +117,12 @@ class DrinkPage extends BaseClass {
         let drinkName = sessionStorage.getItem('drinkName');
         let ingredients = sessionStorage.getItem('ingredients');
 
-        var drink = {
+        const drink = {
             userId: userId,
             id: drinkId,
             name: drinkName,
             ingredients: ingredients.split(',')
-        }
+        };
 
 
         let result = await this.userClient.addToList(userId, drink);
