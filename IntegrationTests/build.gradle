@@ -3,7 +3,7 @@ plugins {
     id 'ata-curriculum.integration-test-conventions'
 }
 configurations {
-    all {
+    configureEach {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }
@@ -12,7 +12,7 @@ dependencies {
     implementation project(":Application")
     testImplementation('org.springframework.boot:spring-boot-starter-web:2.6.3')
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.6.3')
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.16.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'

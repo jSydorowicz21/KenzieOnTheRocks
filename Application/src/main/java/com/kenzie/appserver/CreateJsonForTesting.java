@@ -3,10 +3,8 @@ package com.kenzie.appserver;
 
 import com.google.gson.Gson;
 import com.kenzie.appserver.controller.model.AddDrinkRequest;
-import com.kenzie.appserver.controller.model.DrinkCreateRequest;
 import com.kenzie.appserver.service.model.Drink;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CreateJsonForTesting {

@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
@@ -18,25 +17,25 @@ import java.util.List;
 import java.util.Map;
 
 public class GetDrinksByUserId implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
     static final Logger log = LogManager.getLogger();
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        final Gson gson = new Gson();
+        final String output;
+        final String userId;
 
         log.info(gson.toJson(input));
 
-        ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        DrinkService lambdaService = serviceComponent.provideDrinkService();
-        Map<String, String> headers = new HashMap<>();
+        final ServiceComponent serviceComponent = DaggerServiceComponent.create();
+        final DrinkService lambdaService = serviceComponent.provideDrinkService();
+        final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
+        final APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String userId = input.getBody();
+        userId = input.getBody();
 
         if (userId == null) {
             return response
@@ -45,13 +44,11 @@ public class GetDrinksByUserId implements RequestHandler<APIGatewayProxyRequestE
         }
 
         try {
-            List<LambdaDrink> lambdaDrinkFromLambda = lambdaService.getDrinksByUserId(userId);
-            String output = gson.toJson(lambdaDrinkFromLambda);
-
+            final List<LambdaDrink> lambdaDrinkFromLambda = lambdaService.getDrinksByUserId(userId);
+            output = gson.toJson(lambdaDrinkFromLambda);
             return response
                     .withStatusCode(200)
                     .withBody(output);
-
         } catch (Exception e) {
             return response
                     .withStatusCode(400)

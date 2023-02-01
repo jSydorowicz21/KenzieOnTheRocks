@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
@@ -18,38 +17,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GetDrink implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-
     static final Logger log = LogManager.getLogger();
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        final Gson gson = new Gson();
+        final String output;
+        final String id;
 
         log.info(gson.toJson(input));
 
-        ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        DrinkService drinkService = serviceComponent.provideDrinkService();
-        Map<String, String> headers = new HashMap<>();
+        final ServiceComponent serviceComponent = DaggerServiceComponent.create();
+        final DrinkService drinkService = serviceComponent.provideDrinkService();
+        final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
+        final APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
+        id = input.getPathParameters().get("id");
 
         try {
-            LambdaDrink lambdaDrink = drinkService.getDrink(id);
-            String output = gson.toJson(lambdaDrink);
+            final LambdaDrink lambdaDrink = drinkService.getDrink(id);
+            output = gson.toJson(lambdaDrink);
 
-            return response
-                    .withStatusCode(200)
-                    .withBody(output);
-
-        }  catch (InvalidDataException e) {
+        } catch (InvalidDataException e) {
             return response
                     .withStatusCode(400)
                     .withBody(gson.toJson(e.errorPayload()));
         }
+        return response
+                .withStatusCode(200)
+                .withBody(output);
     }
 }

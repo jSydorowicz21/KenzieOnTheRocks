@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="English">
 
 <head>
     <script type="text/javascript" src="landingPage.js"></script>
@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Della+Respira:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dawning+of+a+New+Day&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Shalimar&display=swap" rel="stylesheet">
+	<title>Liquid Library</title>
 </head>
 
 <body class="background">
@@ -27,24 +28,38 @@
 		<form class="card-content" id="create-form">
 			<p class="form-field">
 				<label>Drink Name</label>
-				<input type="text" required class="validated-field" id="create-name-field">
+				<label for="create-name-field"></label><input type="text" required class="validated-field" id="create-name-field">
 			</p>
 			<div id="list1" class="dropdown-check-list" tabindex="100">
 				<span class="anchor" id="anchor1">Select Alcohol</span>
 				<ul class="items">
-					<li><input type="checkbox" value="rum" name="Alcohol"/>Rum</li>
-					<li><input type="checkbox" value="scotch" name="Alcohol"/>Scotch</li>
-					<li><input type="checkbox" value="whiskey" name="Alcohol"/>Whiskey</li>
-					<li><input type="checkbox" value="schnapps" name="Alcohol"/>Schnapps</li>
-					<li><input type="checkbox" value="vodka" name="Alcohol"/>Vodka</li>
-					<li><input type="checkbox" value="tequila" name="Alcohol"/>Tequila</li>
-					<li><input type="checkbox" value="champagne" name="Alcohol"/>Champagne</li>
+					<li><label>
+						<input type="checkbox" value="rum" name="Alcohol"/>
+					</label>Rum</li>
+					<li><label>
+						<input type="checkbox" value="scotch" name="Alcohol"/>
+					</label>Scotch</li>
+					<li><label>
+						<input type="checkbox" value="whiskey" name="Alcohol"/>
+					</label>Whiskey</li>
+					<li><label>
+						<input type="checkbox" value="schnapps" name="Alcohol"/>
+					</label>Schnapps</li>
+					<li><label>
+						<input type="checkbox" value="vodka" name="Alcohol"/>
+					</label>Vodka</li>
+					<li><label>
+						<input type="checkbox" value="tequila" name="Alcohol"/>
+					</label>Tequila</li>
+					<li><label>
+						<input type="checkbox" value="champagne" name="Alcohol"/>
+					</label>Champagne</li>
 				</ul>
 			</div>
 			<script type="text/javascript">
 
-			var checkList = document.getElementById('list1');
-			checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
+				const checkList = document.getElementById('list1');
+				checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
 				if (checkList.classList.contains('visible'))
 					checkList.classList.remove('visible');
 				else
@@ -55,25 +70,51 @@
 			<div id="list2" class="dropdown-check-list" tabindex="100">
 				<span class="anchor" id="anchor2">Select Mixer</span>
 				<ul class="items">
-					<li><input type="checkbox" value="applejuice" name="Mixer"/>Apple(J)</li>
-					<li><input type="checkbox" value="orangejuice" name="Mixer"/>Orange(J)</li>
-					<li><input type="checkbox" value="grapejuice" name="Mixer"/>Grape(J)</li>
-					<li><input type="checkbox" value="pineapplejuice" name="Mixer"/>Pineapple(J)</li>
-					<li><input type="checkbox" value="mangojuice" name="Mixer"/>Mango(J)</li>
-					<li><input type="checkbox" value="peachjuice" name="Mixer"/>Peach(J)</li>
-					<li><input type="checkbox" value="tomatojuice" name="Mixer"/>Tomato(J)</li>
-					<li><input type="checkbox" value="lemonjuice" name="Mixer"/>Lemon(J)</li>
-					<li><input type="checkbox" value="limejuice" name="Mixer"/>Lime(J)</li>
-					<li><input type="checkbox" value="coke" name="Mixer"/>Coke(S)</li>
-					<li><input type="checkbox" value="rootbeer" name="Mixer"/>Root Beer(S)</li>
-					<li><input type="checkbox" value="sprite" name="Mixer"/>Sprite(S)</li>
-					<li><input type="checkbox" value="tonic" name="Mixer"/>Tonic Water(S)</li>
+					<li><label>
+						<input type="checkbox" value="applejuice" name="Mixer"/>
+					</label>Apple(J)</li>
+					<li><label>
+						<input type="checkbox" value="orangejuice" name="Mixer"/>
+					</label>Orange(J)</li>
+					<li><label>
+						<input type="checkbox" value="grapejuice" name="Mixer"/>
+					</label>Grape(J)</li>
+					<li><label>
+						<input type="checkbox" value="pineapplejuice" name="Mixer"/>
+					</label>Pineapple(J)</li>
+					<li><label>
+						<input type="checkbox" value="mangojuice" name="Mixer"/>
+					</label>Mango(J)</li>
+					<li><label>
+						<input type="checkbox" value="peachjuice" name="Mixer"/>
+					</label>Peach(J)</li>
+					<li><label>
+						<input type="checkbox" value="tomatojuice" name="Mixer"/>
+					</label>Tomato(J)</li>
+					<li><label>
+						<input type="checkbox" value="lemonjuice" name="Mixer"/>
+					</label>Lemon(J)</li>
+					<li><label>
+						<input type="checkbox" value="limejuice" name="Mixer"/>
+					</label>Lime(J)</li>
+					<li><label>
+						<input type="checkbox" value="coke" name="Mixer"/>
+					</label>Coke(S)</li>
+					<li><label>
+						<input type="checkbox" value="rootbeer" name="Mixer"/>
+					</label>Root Beer(S)</li>
+					<li><label>
+						<input type="checkbox" value="sprite" name="Mixer"/>
+					</label>Sprite(S)</li>
+					<li><label>
+						<input type="checkbox" value="tonic" name="Mixer"/>
+					</label>Tonic Water(S)</li>
 				</ul>
 			</div>
 			<script type="text/javascript">
 
-			var checkList2 = document.getElementById('list2');
-			checkList2.getElementsByClassName('anchor')[0].onclick = function (evt) {
+				const checkList2 = document.getElementById('list2');
+				checkList2.getElementsByClassName('anchor')[0].onclick = function (evt) {
 				if (checkList2.classList.contains('visible'))
 					checkList2.classList.remove('visible');
 				else
@@ -85,19 +126,33 @@
 			<div id="list3" class="dropdown-check-list" tabindex="100">
 				<span class="anchor" id="anchor3">Select Finisher</span>
 				<ul class="items">
-					<li><input type="checkbox" value="ice" name="Finisher"/>Ice</li>
-					<li><input type="checkbox" value="milk" name="Finisher"/>Milk</li>
-					<li><input type="checkbox" value="salt" name="Finisher"/>Salt</li>
-					<li><input type="checkbox" value="sugar" name="Finisher"/>Sugar</li>
-					<li><input type="checkbox" value="mintleaves" name="Finisher"/>Mint Leaves</li>
-					<li><input type="checkbox" value="grenadine" name="Finisher"/>Grenadine</li>
-					<li><input type="checkbox" value="citrustwist" name="Finisher"/>Citrus Twist</li>
+					<li><label>
+						<input type="checkbox" value="ice" name="Finisher"/>
+					</label>Ice</li>
+					<li><label>
+						<input type="checkbox" value="milk" name="Finisher"/>
+					</label>Milk</li>
+					<li><label>
+						<input type="checkbox" value="salt" name="Finisher"/>
+					</label>Salt</li>
+					<li><label>
+						<input type="checkbox" value="sugar" name="Finisher"/>
+					</label>Sugar</li>
+					<li><label>
+						<input type="checkbox" value="mintleaves" name="Finisher"/>
+					</label>Mint Leaves</li>
+					<li><label>
+						<input type="checkbox" value="grenadine" name="Finisher"/>
+					</label>Grenadine</li>
+					<li><label>
+						<input type="checkbox" value="citrustwist" name="Finisher"/>
+					</label>Citrus Twist</li>
 				</ul>
 			</div>
 			<script type="text/javascript">
 
-			var checkList3 = document.getElementById('list3');
-			checkList3.getElementsByClassName('anchor')[0].onclick = function (evt) {
+				const checkList3 = document.getElementById('list3');
+				checkList3.getElementsByClassName('anchor')[0].onclick = function (evt) {
 				if (checkList3.classList.contains('visible'))
 					checkList3.classList.remove('visible');
 				else
@@ -114,18 +169,32 @@
 			<div id="filter-alcohol" class="dropdown-check-list" tabindex="100">
 				<span class="anchor" id="filter-anchor1">Select Alcohol</span>
 				<ul class="items">
-					<li><input type="checkbox" value="rum" name="Alcohol"/>Rum</li>
-					<li><input type="checkbox" value="scotch" name="Alcohol"/>Scotch</li>
-					<li><input type="checkbox" value="whiskey" name="Alcohol"/>Whiskey</li>
-					<li><input type="checkbox" value="schnapps" name="Alcohol"/>Schnapps</li>
-					<li><input type="checkbox" value="vodka" name="Alcohol"/>Vodka</li>
-					<li><input type="checkbox" value="tequila" name="Alcohol"/>Tequila</li>
-					<li><input type="checkbox" value="champagne" name="Alcohol"/>Champagne</li>
+					<li><label>
+						<input type="checkbox" value="rum" name="Alcohol"/>
+					</label>Rum</li>
+					<li><label>
+						<input type="checkbox" value="scotch" name="Alcohol"/>
+					</label>Scotch</li>
+					<li><label>
+						<input type="checkbox" value="whiskey" name="Alcohol"/>
+					</label>Whiskey</li>
+					<li><label>
+						<input type="checkbox" value="schnapps" name="Alcohol"/>
+					</label>Schnapps</li>
+					<li><label>
+						<input type="checkbox" value="vodka" name="Alcohol"/>
+					</label>Vodka</li>
+					<li><label>
+						<input type="checkbox" value="tequila" name="Alcohol"/>
+					</label>Tequila</li>
+					<li><label>
+						<input type="checkbox" value="champagne" name="Alcohol"/>
+					</label>Champagne</li>
 				</ul>
 			</div>
 			<script type="text/javascript">
 
-				var checkList4 = document.getElementById('filter-alcohol');
+				const checkList4 = document.getElementById('filter-alcohol');
 				checkList4.getElementsByClassName('anchor')[0].onclick = function (evt) {
 					if (checkList4.classList.contains('visible'))
 						checkList4.classList.remove('visible');
@@ -137,24 +206,50 @@
 			<div id="filter-mixer" class="dropdown-check-list" tabindex="100">
 				<span class="anchor" id="filter-anchor2">Select Mixer</span>
 				<ul class="items">
-					<li><input type="checkbox" value="applejuice" name="Mixer"/>Apple(J)</li>
-					<li><input type="checkbox" value="orangejuice" name="Mixer"/>Orange(J)</li>
-					<li><input type="checkbox" value="grapejuice" name="Mixer"/>Grape(J)</li>
-					<li><input type="checkbox" value="pineapplejuice" name="Mixer"/>Pineapple(J)</li>
-					<li><input type="checkbox" value="mangojuice" name="Mixer"/>Mango(J)</li>
-					<li><input type="checkbox" value="peachjuice" name="Mixer"/>Peach(J)</li>
-					<li><input type="checkbox" value="tomatojuice" name="Mixer"/>Tomato(J)</li>
-					<li><input type="checkbox" value="lemonjuice" name="Mixer"/>Lemon(J)</li>
-					<li><input type="checkbox" value="limejuice" name="Mixer"/>Lime(J)</li>
-					<li><input type="checkbox" value="coke" name="Mixer"/>Coke(S)</li>
-					<li><input type="checkbox" value="rootbeer" name="Mixer"/>Root Beer(S)</li>
-					<li><input type="checkbox" value="sprite" name="Mixer"/>Sprite(S)</li>
-					<li><input type="checkbox" value="tonic" name="Mixer"/>Tonic Water(S)</li>
+					<li><label>
+						<input type="checkbox" value="applejuice" name="Mixer"/>
+					</label>Apple(J)</li>
+					<li><label>
+						<input type="checkbox" value="orangejuice" name="Mixer"/>
+					</label>Orange(J)</li>
+					<li><label>
+						<input type="checkbox" value="grapejuice" name="Mixer"/>
+					</label>Grape(J)</li>
+					<li><label>
+						<input type="checkbox" value="pineapplejuice" name="Mixer"/>
+					</label>Pineapple(J)</li>
+					<li><label>
+						<input type="checkbox" value="mangojuice" name="Mixer"/>
+					</label>Mango(J)</li>
+					<li><label>
+						<input type="checkbox" value="peachjuice" name="Mixer"/>
+					</label>Peach(J)</li>
+					<li><label>
+						<input type="checkbox" value="tomatojuice" name="Mixer"/>
+					</label>Tomato(J)</li>
+					<li><label>
+						<input type="checkbox" value="lemonjuice" name="Mixer"/>
+					</label>Lemon(J)</li>
+					<li><label>
+						<input type="checkbox" value="limejuice" name="Mixer"/>
+					</label>Lime(J)</li>
+					<li><label>
+						<input type="checkbox" value="coke" name="Mixer"/>
+					</label>Coke(S)</li>
+					<li><label>
+						<input type="checkbox" value="rootbeer" name="Mixer"/>
+					</label>Root Beer(S)</li>
+					<li><label>
+						<input type="checkbox" value="sprite" name="Mixer"/>
+					</label>Sprite(S)</li>
+					<li><label>
+						<input type="checkbox" value="tonic" name="Mixer"/>
+					</label>Tonic Water(S)</li>
 				</ul>
 			</div>
 			<script type="text/javascript">
 
-				var checkList5 = document.getElementById('filter-mixer');
+				const checkList5 = document.getElementById('filter-mixer');
 				checkList5.getElementsByClassName('anchor')[0].onclick = function (evt) {
 					if (checkList5.classList.contains('visible'))
 						checkList5.classList.remove('visible');
@@ -167,18 +262,32 @@
 			<div id="filter-finisher" class="dropdown-check-list" tabindex="100">
 				<span class="anchor" id="filter-anchor3">Select Finisher</span>
 				<ul class="items">
-					<li><input type="checkbox" value="ice" name="Finisher"/>Ice</li>
-					<li><input type="checkbox" value="milk" name="Finisher"/>Milk</li>
-					<li><input type="checkbox" value="salt" name="Finisher"/>Salt</li>
-					<li><input type="checkbox" value="sugar" name="Finisher"/>Sugar</li>
-					<li><input type="checkbox" value="mintleaves" name="Finisher"/>Mint Leaves</li>
-					<li><input type="checkbox" value="grenadine" name="Finisher"/>Grenadine</li>
-					<li><input type="checkbox" value="citrustwist" name="Finisher"/>Citrus Twist</li>
+					<li><label>
+						<input type="checkbox" value="ice" name="Finisher"/>
+					</label>Ice</li>
+					<li><label>
+						<input type="checkbox" value="milk" name="Finisher"/>
+					</label>Milk</li>
+					<li><label>
+						<input type="checkbox" value="salt" name="Finisher"/>
+					</label>Salt</li>
+					<li><label>
+						<input type="checkbox" value="sugar" name="Finisher"/>
+					</label>Sugar</li>
+					<li><label>
+						<input type="checkbox" value="mintleaves" name="Finisher"/>
+					</label>Mint Leaves</li>
+					<li><label>
+						<input type="checkbox" value="grenadine" name="Finisher"/>
+					</label>Grenadine</li>
+					<li><label>
+						<input type="checkbox" value="citrustwist" name="Finisher"/>
+					</label>Citrus Twist</li>
 				</ul>
 			</div>
 			<script type="text/javascript">
 
-				var checkList6 = document.getElementById('filter-finisher');
+				const checkList6 = document.getElementById('filter-finisher');
 				checkList6.getElementsByClassName('anchor')[0].onclick = function (evt) {
 					if (checkList6.classList.contains('visible'))
 						checkList6.classList.remove('visible');

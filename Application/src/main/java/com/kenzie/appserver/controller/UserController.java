@@ -5,7 +5,13 @@ import com.kenzie.appserver.service.UserService;
 import com.kenzie.appserver.service.model.Drink;
 import com.kenzie.appserver.service.model.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    private UserService userService;
+    private final UserService userService;
 
     UserController(UserService userService) {
         this.userService = userService;
@@ -22,8 +27,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("userId") String userId) {
-
-        User user = userService.getUserById(userId);
+        final User user = userService.getUserById(userId);
 
         if (user == null) {
             return ResponseEntity.notFound().build();
@@ -32,37 +36,32 @@ public class UserController {
         return ResponseEntity.ok(createUserResponse(user));
     }
 
-
     @PostMapping
     public ResponseEntity<UserResponse> addNewUser(@RequestBody UserCreateRequest userCreateRequest){
-
         if (userCreateRequest == null || userCreateRequest.getUserId() == null){
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.addNewUser(userCreateRequest.getUserId());
+        final User user = userService.addNewUser(userCreateRequest.getUserId());
 
         return ResponseEntity.ok(createUserResponse(user));
-
     }
 
     @PostMapping("/drinks")
     public ResponseEntity<List<DrinkResponse>> addNewDrink(@RequestBody AddDrinkRequest addDrinkRequest){
+        List<DrinkResponse> drinkResponses = new ArrayList<>();
 
         if (addDrinkRequest == null || addDrinkRequest.getUserId() == null){
             return ResponseEntity.badRequest().build();
         }
 
+        final List<Drink> drinks = userService.addDrinkToList(userService.getUserById(addDrinkRequest.getUserId()), addDrinkRequest.getDrink());
 
-        List<Drink> drinks = userService.addDrinkToList(userService.getUserById(addDrinkRequest.getUserId()), addDrinkRequest.getDrink());
-
-        List<DrinkResponse> drinkResponses = new ArrayList<>();
         for (Drink drink : drinks){
             drinkResponses.add(createDrinkResponse(drink));
         }
 
         return ResponseEntity.ok(drinkResponses);
-
     }
 
     @PutMapping
@@ -71,10 +70,9 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.updateUser(new User(userUpdateRequest.getUserId(), userUpdateRequest.getDrinks()));
+        final User user = userService.updateUser(new User(userUpdateRequest.getUserId(), userUpdateRequest.getDrinks()));
 
         return ResponseEntity.ok(createUserResponse(user));
-
     }
 
     @PutMapping("/drinks")
@@ -84,16 +82,13 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.getUserById(userUpdateRequest.getUserId());
+        final User user = userService.getUserById(userUpdateRequest.getUserId());
 
         if (user == null || user.getUserId() == null){
             return ResponseEntity.badRequest().build();
         }
 
-
-
         return ResponseEntity.ok(createUserResponse(userService.updateUserDrinks(user, userUpdateRequest.getDrinks())));
-
     }
 
     @GetMapping("/drinks/{userId}")
@@ -102,9 +97,10 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Drink> drinks = userService.getUsersDrinks(userService.getUserById(userId));
+        final List<Drink> drinks = userService.getUsersDrinks(userService.getUserById(userId));
 
-        List<DrinkResponse> drinkResponses = new ArrayList<>();
+        final List<DrinkResponse> drinkResponses = new ArrayList<>();
+
         for (Drink drink : drinks){
             drinkResponses.add(createDrinkResponse(drink));
         }
@@ -114,12 +110,10 @@ public class UserController {
         }
 
         return ResponseEntity.ok(drinkResponses);
-
     }
 
     private UserResponse createUserResponse(User user) {
-
-        UserResponse userResponse = new UserResponse();
+        final UserResponse userResponse = new UserResponse();
         userResponse.setUserId(user.getUserId());
         userResponse.setDrinks(user.getDrinks());
 
@@ -127,7 +121,7 @@ public class UserController {
     }
 
     private DrinkResponse createDrinkResponse(Drink drink) {
-        DrinkResponse drinkResponse = new DrinkResponse();
+        final DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
         drinkResponse.setName(drink.getName());
         drinkResponse.setUserId(drink.getUserId());

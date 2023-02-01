@@ -16,13 +16,13 @@ public class LambdaServiceClient {
 
     private static final String DRINKS_USER_ENDPOINT = "drinks/user/{id}";
 
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     public LambdaServiceClient() {
         this.mapper = new ObjectMapper();
     }
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     public LambdaDrink getDrink(String id) {
 

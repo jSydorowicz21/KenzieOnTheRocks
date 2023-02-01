@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CachingDrinkDao implements DrinkDao{
-
     private static final int DRINK_READ_TTL = 60 * 60;
     private static final String DRINK_KEY = "DrinkKey::%s";
     private final CacheClient cacheClient;
@@ -25,6 +24,7 @@ public class CachingDrinkDao implements DrinkDao{
         this.drinkDao = drinkDao;
         populateCache();
     }
+
     @Override
     public DrinkRecord addDrink(DrinkRecord drink) {
         cacheClient.invalidate(keyMaker(drink.getId()));
@@ -37,10 +37,13 @@ public class CachingDrinkDao implements DrinkDao{
         if (id != null && cacheClient.getValue(keyMaker(id)) != null && cacheClient.getValue(keyMaker(id)).isPresent()) {
             return cacheToRecord(cacheClient.getValue(keyMaker(id)).get());
         }
-        DrinkRecord drink = drinkDao.getDrink(id);
+
+        final DrinkRecord drink = drinkDao.getDrink(id);
+
         if (drink != null) {
             addToCache(drink);
         }
+
         return drink;
     }
 
@@ -59,8 +62,7 @@ public class CachingDrinkDao implements DrinkDao{
 
     @Override
     public List<DrinkRecord> getAllDrinks() {
-
-        Optional<List<String>> cacheRecords = cacheClient.getAll();
+        final Optional<List<String>> cacheRecords = cacheClient.getAll();
 
         if (cacheRecords != null && cacheRecords.isPresent()) {
             return cacheRecords.get().stream().filter(Objects::nonNull).map(this::cacheToRecord).collect(Collectors.toList());
@@ -69,15 +71,12 @@ public class CachingDrinkDao implements DrinkDao{
         return drinkDao.getAllDrinks();
     }
     public void populateCache() {
-
         drinkDao.getAllDrinks().forEach(this::addToCache);
-
     }
 
     @Override
     public List<DrinkRecord> getDrinksByUserId(String userId) {
-
-        List<DrinkRecord> cachedDrinks = getAllDrinks();
+        final List<DrinkRecord> cachedDrinks = getAllDrinks();
         if (cachedDrinks != null) {
             return cachedDrinks.stream().filter(drink -> drink.getUserId().equals(userId)).collect(Collectors.toList());
         }

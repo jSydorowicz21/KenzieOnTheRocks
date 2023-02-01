@@ -2,18 +2,16 @@ package com.kenzie.capstone.service;
 
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.dao.CachingDrinkDao;
-import com.kenzie.capstone.service.model.LambdaDrink;
 import com.kenzie.capstone.service.model.DrinkRecord;
 import com.kenzie.capstone.service.model.DrinkRequest;
+import com.kenzie.capstone.service.model.LambdaDrink;
 
 import javax.inject.Inject;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DrinkService {
-
-    private CachingDrinkDao DrinkDao;
+    private final CachingDrinkDao DrinkDao;
 
     @Inject
     public DrinkService(CachingDrinkDao DrinkDao) {
@@ -22,34 +20,28 @@ public class DrinkService {
 
     @ExcludeFromJacocoGeneratedReport
     public LambdaDrink getDrink(String id) {
-
-
-        DrinkRecord drinkRecord = DrinkDao.getDrink(id);
-
+        final DrinkRecord drinkRecord = DrinkDao.getDrink(id);
 
         if (drinkRecord == null){
             return null;
         }
 
         return new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId());
-
     }
 
     public LambdaDrink addDrink(DrinkRequest drinkRequest) {
-
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(drinkRequest.getId());
         drinkRecord.setName(drinkRequest.getName());
         drinkRecord.setIngredients(drinkRequest.getIngredients());
         drinkRecord.setUserId(drinkRequest.getUserId());
 
         DrinkDao.addDrink(drinkRecord);
-        LambdaDrink lambdaDrink = toDrink(drinkRecord);
-        return lambdaDrink;
+        return toDrink(drinkRecord);
     }
 
     public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(lambdaDrink.getId());
         drinkRecord.setName(lambdaDrink.getName());
         drinkRecord.setIngredients(lambdaDrink.getIngredients());
@@ -60,14 +52,13 @@ public class DrinkService {
         return lambdaDrink;
     }
 
-    public void deleteDrink(String id) {
-
-        DrinkRecord drinkRecord = new DrinkRecord();
+    public String deleteDrink(String id) {
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
-//        DrinkRecord drinkRecord =  DrinkDao.getDrink(id);
 
         DrinkDao.deleteDrink(drinkRecord);
 
+        return id;
     }
 
     public List<LambdaDrink> getAllDrinks() {
@@ -85,7 +76,7 @@ public class DrinkService {
     }
     @ExcludeFromJacocoGeneratedReport
     private LambdaDrink toDrink(DrinkRecord record){
-        LambdaDrink rec = new LambdaDrink();
+        final LambdaDrink rec = new LambdaDrink();
         rec.setId(record.getId());
         rec.setName(record.getName());
         rec.setIngredients(record.getIngredients());

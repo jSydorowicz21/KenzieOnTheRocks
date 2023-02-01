@@ -14,7 +14,6 @@ public class UserUpdateRequest {
     @JsonProperty("drinks")
     private List<Drink> drinks;
 
-
     public String getUserId() {
         return userId;
     }

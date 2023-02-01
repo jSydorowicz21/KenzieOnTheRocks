@@ -1,7 +1,7 @@
 import BaseClass from "./baseClass";
 
 /**
- * Stores all of the data across the state. When the state changes in any way, execute all of the listeners registered
+ * Stores all the data across the state. When the state changes in any way, execute all the listeners registered
  * with the DataStore. This way pages can listen to changes for specific data and refresh the page accordingly.
  */
 export default class DataStore extends BaseClass {
@@ -14,7 +14,7 @@ export default class DataStore extends BaseClass {
     }
 
     /**
-     * Get all of the data.
+     * Get all the data.
      */
     getState() {
         return this.state;
@@ -31,18 +31,18 @@ export default class DataStore extends BaseClass {
 
     /**
      * Merge the current state of the DataStore with the new state. If there are any overlapping keys, overwrite the
-     * values with the new state. Then execute all of the registered listeners, so they can react to any potential data
+     * values with the new state. Then execute all the registered listeners, so they can react to any potential data
      * updates.
      */
     setState(newState) {
-        // ... is the spread operator. This allows us to pull out all of the keys and values of the existing state and
+        // ... is the spread operator. This allows us to pull out all the keys and values of the existing state and
         // the new state and combine them into one new object.
         this.state = {...this.state, ...newState};
         this.listeners.forEach(listener => listener());
     }
 
     /**
-     * Set or update the state of a specific attribute. Then execute all of the registered listeners, so they can react
+     * Set or update the state of a specific attribute. Then execute all the registered listeners, so they can react
      * to any potential data updates.
      * @param attribute The attribute to set or update.
      * @param value The value to give the attribute.
@@ -53,7 +53,7 @@ export default class DataStore extends BaseClass {
     }
 
     /**
-     * Add a listener. Whenever the state is changed in the DataStore all of the listeners will be executed.
+     * Add a listener. Whenever the state is changed in the DataStore all the listeners will be executed.
      */
     addChangeListener(listener) {
         this.listeners.push(listener);

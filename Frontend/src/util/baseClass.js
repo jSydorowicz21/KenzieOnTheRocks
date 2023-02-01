@@ -1,9 +1,8 @@
 import Toastify from "toastify-js";
-import * as bootstrap from 'bootstrap';
 
 export default class BaseClass {
     /**
-     * Binds all of the methods to "this" object. These methods will now have the state of the instance object.
+     * Binds all the methods to "this" object. These methods will now have the state of the instance object.
      * @param methods The name of each method to bind.
      * @param classInstance The instance of the class to bind the methods to.
      */
