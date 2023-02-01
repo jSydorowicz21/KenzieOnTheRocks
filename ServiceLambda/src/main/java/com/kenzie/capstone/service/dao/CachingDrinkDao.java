@@ -38,13 +38,7 @@ public class CachingDrinkDao implements DrinkDao{
             return cacheToRecord(cacheClient.getValue(keyMaker(id)).get());
         }
 
-        final DrinkRecord drink = drinkDao.getDrink(id);
-
-        if (drink != null) {
-            addToCache(drink);
-        }
-
-        return drink;
+        return null;
     }
 
     @Override
@@ -55,9 +49,9 @@ public class CachingDrinkDao implements DrinkDao{
     }
 
     @Override
-    public void deleteDrink(DrinkRecord drink) {
+    public String deleteDrink(DrinkRecord drink) {
         cacheClient.invalidate(keyMaker(drink.getId()));
-        drinkDao.deleteDrink(drink);
+        return drinkDao.deleteDrink(drink);
     }
 
     @Override
@@ -70,6 +64,11 @@ public class CachingDrinkDao implements DrinkDao{
 
         return drinkDao.getAllDrinks();
     }
+
+    public Optional<List<String>> getAllDrinksFast(){
+        return cacheClient.getAll();
+    }
+
     public void populateCache() {
         drinkDao.getAllDrinks().forEach(this::addToCache);
     }

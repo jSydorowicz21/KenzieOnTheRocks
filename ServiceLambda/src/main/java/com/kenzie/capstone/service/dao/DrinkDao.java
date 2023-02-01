@@ -12,7 +12,7 @@ public interface DrinkDao {
 
     DrinkRecord updateDrink(DrinkRecord drink);
 
-    void deleteDrink(DrinkRecord drink);
+    String deleteDrink(DrinkRecord drink);
 
     List<DrinkRecord> getAllDrinks();
 

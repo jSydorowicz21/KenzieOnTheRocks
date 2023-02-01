@@ -103,7 +103,7 @@ public class EndpointUtility {
         return handleRequest(client, request);
     }
 
-    public void deleteEndpoint(String endpoint) {
+    public String deleteEndpoint(String endpoint) {
         String api = getApiEndpint();
         String url = api + endpoint;
 
@@ -114,7 +114,8 @@ public class EndpointUtility {
                 .header("Accept", "application/json")
                 .DELETE()
                 .build();
-        handleRequest(client, request);
+
+        return handleRequest(client, request);
     }
 
     private String handleRequest(HttpClient client, HttpRequest request) {
