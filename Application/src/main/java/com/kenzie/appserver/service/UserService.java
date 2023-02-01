@@ -25,7 +25,7 @@ public class UserService {
             throw new IllegalArgumentException("No user Id entered");
         }
 
-        UserRecord record = new UserRecord();
+        final UserRecord record = new UserRecord();
         record.setUserId(userId);
         record.setDrinks(Collections.emptyList());
 
@@ -72,7 +72,7 @@ public class UserService {
 
         checkUserIsInDB(user);
 
-        UserRecord record = new UserRecord();
+        final UserRecord record = new UserRecord();
         record.setUserId(user.getUserId());
         record.setDrinks(drinks);
 
@@ -98,7 +98,7 @@ public class UserService {
 
         checkUserIsInDB(user);
 
-        List<Drink> drinks = new ArrayList<>(user.getDrinks());
+        final List<Drink> drinks = new ArrayList<>(user.getDrinks());
 
         drinks.add(drink);
 
@@ -112,7 +112,7 @@ public class UserService {
     }
 
     private UserRecord createRecordFromUser(User user){
-        UserRecord record = new UserRecord();
+        final UserRecord record = new UserRecord();
         record.setUserId(user.getUserId());
         record.setDrinks(user.getDrinks());
 

@@ -38,7 +38,7 @@ public class CachingDrinkDao implements DrinkDao{
             return cacheToRecord(cacheClient.getValue(keyMaker(id)).get());
         }
 
-        DrinkRecord drink = drinkDao.getDrink(id);
+        final DrinkRecord drink = drinkDao.getDrink(id);
 
         if (drink != null) {
             addToCache(drink);
@@ -62,7 +62,7 @@ public class CachingDrinkDao implements DrinkDao{
 
     @Override
     public List<DrinkRecord> getAllDrinks() {
-        Optional<List<String>> cacheRecords = cacheClient.getAll();
+        final Optional<List<String>> cacheRecords = cacheClient.getAll();
 
         if (cacheRecords != null && cacheRecords.isPresent()) {
             return cacheRecords.get().stream().filter(Objects::nonNull).map(this::cacheToRecord).collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class CachingDrinkDao implements DrinkDao{
 
     @Override
     public List<DrinkRecord> getDrinksByUserId(String userId) {
-        List<DrinkRecord> cachedDrinks = getAllDrinks();
+        final List<DrinkRecord> cachedDrinks = getAllDrinks();
         if (cachedDrinks != null) {
             return cachedDrinks.stream().filter(drink -> drink.getUserId().equals(userId)).collect(Collectors.toList());
         }

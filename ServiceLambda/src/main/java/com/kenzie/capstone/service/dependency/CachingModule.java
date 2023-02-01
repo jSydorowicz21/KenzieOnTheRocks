@@ -22,13 +22,13 @@ public class CachingModule {
      */
     @Provides
     public static Jedis provideJedis() {
-        String redisUrl = System.getenv("JEDIS_URL");
+        final String redisUrl = System.getenv("JEDIS_URL");
         if (redisUrl != null && redisUrl.length() > 0) {
             // Connect to AWS
             return new Jedis(redisUrl, 6379, 20000);
         } else if ("true".equals(System.getenv("AWS_SAM_LOCAL"))) {
             // Connect to local Docker redis
-            JedisPool pool = new JedisPool(new JedisPoolConfig(), "redis-stack", 6379, 20000);
+            final JedisPool pool = new JedisPool(new JedisPoolConfig(), "redis-stack", 6379, 20000);
             try {
                 return pool.getResource();
             } catch (Exception e) {

@@ -21,7 +21,7 @@ public class DynamoDbInitializer  implements ApplicationContextInitializer<Confi
     public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
         if (System.getenv("STACK_NAME") == null && System.getenv("ARTIFACT_BUCKET") == null) {
             getDynamoDbInstance().start();
-            String dynamoDbEndpoint = "http://localhost:" + getDynamoDbInstance().getMappedPort(8000);
+            final String dynamoDbEndpoint = "http://localhost:" + getDynamoDbInstance().getMappedPort(8000);
             configurableApplicationContext.getEnvironment()
                     .getPropertySources()
                     .addFirst(new MockPropertySource("dynamodb-initializer-properties")

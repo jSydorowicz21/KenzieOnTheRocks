@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
@@ -20,16 +19,15 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        DrinkRequest drinkRequest;
+        final Gson gson = new Gson();
+        final DrinkRequest drinkRequest;
 
         log.info(gson.toJson(input));
 
-        ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        DrinkService drinkService = serviceComponent.provideDrinkService();
+        final ServiceComponent serviceComponent = DaggerServiceComponent.create();
+        final DrinkService drinkService = serviceComponent.provideDrinkService();
 
-        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+        final APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 
         try {
             drinkRequest = this.convert(input.getBody());
@@ -38,7 +36,7 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
                     .withStatusCode(400)
                     .withBody(gson.toJson(e.errorPayload()));
         }
-        LambdaDrink lambdaDrink = drinkService.addDrink(drinkRequest);
+        final LambdaDrink lambdaDrink = drinkService.addDrink(drinkRequest);
         return response
                 .withStatusCode(200)
                 .withBody(gson.toJson(lambdaDrink));
@@ -46,8 +44,7 @@ public class AddDrink implements RequestHandler<APIGatewayProxyRequestEvent, API
 
     public DrinkRequest convert(String body) {
         try {
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
+            final Gson gson = new Gson();
             return gson.fromJson(body, DrinkRequest.class);
         } catch (Exception e) {
             throw new InvalidDataException("Referral could not be deserialized");

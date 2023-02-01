@@ -20,17 +20,17 @@ public class CacheClient {
     public Optional<String> getValue(String key) {
         this.jedis = DaggerServiceComponent.create().provideJedis();
         checkNullKey(key);
-        Optional<String> value = Optional.ofNullable(jedis.get(key));
+        final Optional<String> value = Optional.ofNullable(jedis.get(key));
         jedis.close();
         return value;
     }
 
     public Optional<List<String>> getAll() {
         this.jedis = DaggerServiceComponent.create().provideJedis();
-        Set<String> keys = jedis.keys("*");
+        final Set<String> keys = jedis.keys("*");
 
         try {
-            List<String> values = jedis.mget(keys.toArray(new String[keys.size()]));
+            final List<String> values = jedis.mget(keys.toArray(new String[keys.size()]));
             jedis.close();
             return Optional.ofNullable(values);
         } catch (Exception e) {

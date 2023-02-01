@@ -35,20 +35,20 @@ class LambdaServiceTest {
     @Test
     void addDrinkTest() {
         //GIVEN
-        String id = "drink_Id";
-        String name = "drink_name";
+        final String id = "drink_Id";
+        final String name = "drink_name";
 
-        DrinkRequest request = new DrinkRequest();
+        final DrinkRequest request = new DrinkRequest();
         request.setId(id);
         request.setName(name);
 
         //WHEN
-        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
-        LambdaDrink response = this.drinkService.addDrink(request);
+        final ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
+        final LambdaDrink response = this.drinkService.addDrink(request);
 
         //THEN
         verify(cachingDrinkDao, times(1)).addDrink(drinkCaptor.capture());
-        DrinkRecord record = drinkCaptor.getValue();
+        final DrinkRecord record = drinkCaptor.getValue();
 
         assertNotNull(record, "The record is valid");
         assertEquals(id, record.getId(), "The drink id should match");
@@ -63,10 +63,10 @@ class LambdaServiceTest {
     @Test
     void addDrinkTest_no_drink_id() {
         // GIVEN
-        String id = "";
-        String name ="";
+        final String id = "";
+        final String name ="";
 
-        DrinkRequest request = new DrinkRequest();
+        final DrinkRequest request = new DrinkRequest();
         request.setId(id);
         request.setName(name);
 
@@ -77,22 +77,22 @@ class LambdaServiceTest {
     @Test
     void updateDrinkTest() {
         //GIVEN
-        String id = "drink_Id";
-        String name = "drink_name";
-        List<String>ingredients = new ArrayList<>();
+        final String id = "drink_Id";
+        final String name = "drink_name";
+        final List<String>ingredients = new ArrayList<>();
 
-        LambdaDrink request = new LambdaDrink();
+        final LambdaDrink request = new LambdaDrink();
         request.setId(id);
         request.setName(name);
         request.setIngredients(ingredients);
 
         //WHEN
-        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
-        LambdaDrink response = this.drinkService.updateDrink(request);
+        final ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
+        final LambdaDrink response = this.drinkService.updateDrink(request);
 
         //THEN
         verify(cachingDrinkDao, times(1)).updateDrink(drinkCaptor.capture());
-        DrinkRecord record = drinkCaptor.getValue();
+        final DrinkRecord record = drinkCaptor.getValue();
 
         assertNotNull(record, "The record is valid");
         assertEquals(id, record.getId(), "The drink id should match");
@@ -108,13 +108,13 @@ class LambdaServiceTest {
     @Test
     void deleteDrinkTest() {
         //GIVEN
-        String id = "drink_Id";
-        LambdaDrink request = new LambdaDrink();
+        final String id = "drink_Id";
+        final LambdaDrink request = new LambdaDrink();
         request.setId(id);
 
         //WHEN
-        ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
-        String returnedID = drinkService.deleteDrink(id);
+        final ArgumentCaptor<DrinkRecord> drinkCaptor = ArgumentCaptor.forClass(DrinkRecord.class);
+        final String returnedID = drinkService.deleteDrink(id);
         //THEN
         verify(cachingDrinkDao, times(1)).deleteDrink(drinkCaptor.capture());
         assertEquals(id, returnedID);
@@ -122,21 +122,21 @@ class LambdaServiceTest {
     @Test
     void getAllDrinksTest() {
         //GIVEN
-        List<DrinkRecord> record = new ArrayList<>();
+        final List<DrinkRecord> record = new ArrayList<>();
 
-        DrinkRecord record1 = new DrinkRecord();
+        final DrinkRecord record1 = new DrinkRecord();
         record1.setId("drink1");
         record1.setName("drink_n1");
         record.add(record1);
 
-        DrinkRecord record2 = new DrinkRecord();
+        final DrinkRecord record2 = new DrinkRecord();
         record2.setId("drink2");
         record2.setName("drink_n2");
         record.add(record2);
 
         //WHEN
         when(cachingDrinkDao.getAllDrinks()).thenReturn(record);
-        List<LambdaDrink> drinks = this.drinkService.getAllDrinks();
+        final List<LambdaDrink> drinks = this.drinkService.getAllDrinks();
 
         //THEN
         verify(cachingDrinkDao,times(1)).getAllDrinks();
@@ -146,22 +146,22 @@ class LambdaServiceTest {
     @Test
     void getDrinkByUserId() {
         //GIVEN
-        String userId = "userId";
-        List<DrinkRecord> recordList = new ArrayList<>();
+        final String userId = "userId";
+        final List<DrinkRecord> recordList = new ArrayList<>();
 
-        DrinkRecord record1 = new DrinkRecord();
+        final DrinkRecord record1 = new DrinkRecord();
         record1.setId("drink1");
         record1.setName("drink_n1");
         record1.setUserId(userId);
 
-        DrinkRecord record2 = new DrinkRecord();
+        final DrinkRecord record2 = new DrinkRecord();
         record2.setId("drink2");
         record2.setName("drink_n2");
         record2.setUserId(userId);
 
         //WHEN
         when(cachingDrinkDao.getDrinksByUserId(userId)).thenReturn(recordList);
-        List<LambdaDrink> drinks = this.drinkService.getDrinksByUserId(userId);
+        final List<LambdaDrink> drinks = this.drinkService.getDrinksByUserId(userId);
 
         //THEN
         verify(cachingDrinkDao,times(1)).getDrinksByUserId(userId);

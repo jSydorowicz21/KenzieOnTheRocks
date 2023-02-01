@@ -57,28 +57,27 @@ class DrinkControllerTest {
     @Test
     public void getFilteredDrinks() throws Exception{
         //GIVEN
-        String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        String userId = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
+        final String name = mockNeat.strings().valStr();
+        final String userId = UUID.randomUUID().toString();
 
-        Drink drink = new Drink(id, name, ingredients, userId);
-        Drink drink2 = new Drink(UUID.randomUUID().toString(), "name2", List.of("nothing", "More nothing"), userId);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        final  Drink drink = new Drink(id, name, ingredients, userId);
+        final Drink drink2 = new Drink(UUID.randomUUID().toString(), "name2", List.of("nothing", "More nothing"), userId);
+        final Drink persistedDrink = drinkService.addDrink(drink);
         drinkService.addDrink(drink2);
 
         idsToBeDeleted.add(id);
         idsToBeDeleted.add(drink2.getId());
 
         //WHEN
-        ResultActions actions = mvc.perform(get("/drinks")
+        final ResultActions actions = mvc.perform(get("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(String.valueOf(gson.toJson(ingredients)))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
-        String responseBody = actions.andReturn().getResponse().getContentAsString();
-        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
-        });
+        final String responseBody = actions.andReturn().getResponse().getContentAsString();
+        final List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {});
 
         //THEN
         assertThat(responses.size() == 1).as("There are responses");
@@ -92,12 +91,12 @@ class DrinkControllerTest {
     @Test
     public void getById_Exists() throws Exception {
         //GIVEN
-        String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        String userId = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
+        final String name = mockNeat.strings().valStr();
+        final String userId = UUID.randomUUID().toString();
 
-        Drink drink = new Drink(id, name, ingredients, userId);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        final Drink drink = new Drink(id, name, ingredients, userId);
+        final Drink persistedDrink = drinkService.addDrink(drink);
 
         idsToBeDeleted.add(id);
 
@@ -114,23 +113,23 @@ class DrinkControllerTest {
     @Test
     public void filteredSearch_returns_matching_drink() throws Exception {
         //GIVEN
-        String id = UUID.randomUUID().toString();
-        String userId = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
+        final String userId = UUID.randomUUID().toString();
 
-        Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
+        final Drink drink2 = new Drink("new Id", "new Name", List.of("Whiskey", "Coke", "Ice"), userId);
 
         idsToBeDeleted.add(id);
         idsToBeDeleted.add(drink2.getId());
 
         //WHEN
-        ResultActions actions = mvc.perform(get("/drinks")
+        final ResultActions actions = mvc.perform(get("/drinks")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(String.valueOf(ingredients))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
-        String responseBody = actions.andReturn().getResponse().getContentAsString();
-        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<List<DrinkResponse>>() {
+        final String responseBody = actions.andReturn().getResponse().getContentAsString();
+        final List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
         });
 
         //THEN
@@ -145,7 +144,7 @@ class DrinkControllerTest {
     @Test
     public void getDrink_DrinkDoesNotExist() throws Exception {
         //GIVEN
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
         //WHEN
         mvc.perform(get("/drinks/{id}", id)
                         .accept(MediaType.APPLICATION_JSON))
@@ -156,11 +155,11 @@ class DrinkControllerTest {
     @Test
     public void createDrink_CreateSuccessful() throws Exception {
         //GIVEN
-        String userId = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        String id = UUID.randomUUID().toString();
+        final String userId = UUID.randomUUID().toString();
+        final String name = mockNeat.strings().valStr();
+        final String id = UUID.randomUUID().toString();
 
-        DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
+        final DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setIngredients(ingredients);
         drinkCreateRequest.setName(name);
@@ -180,19 +179,19 @@ class DrinkControllerTest {
     @Test
     public void updateDrink_PutSuccessful() throws Exception {
         //GIVEN
-        String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        String userId = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
+        final String name = mockNeat.strings().valStr();
+        final String userId = UUID.randomUUID().toString();
 
-        DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
+        final DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
         drinkCreateRequest.setId(id);
         drinkCreateRequest.setIngredients(ingredients);
-        Drink drink = new Drink(id, name, ingredients, userId);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        final Drink drink = new Drink(id, name, ingredients, userId);
+        final Drink persistedDrink = drinkService.addDrink(drink);
 
-        DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
+        final DrinkUpdateRequest drinkUpdateRequest = new DrinkUpdateRequest();
 
         drinkUpdateRequest.setUserId(persistedDrink.getUserId());
         drinkUpdateRequest.setName("new Name");
@@ -219,16 +218,16 @@ class DrinkControllerTest {
     @Test
     public void deleteDrink_DeleteSuccessful() throws Exception {
         //GIVEN
-        String id = UUID.randomUUID().toString();
-        String name = mockNeat.strings().valStr();
-        String userId = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
+        final String name = mockNeat.strings().valStr();
+        final String userId = UUID.randomUUID().toString();
 
-        DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
+        final DrinkCreateRequest drinkCreateRequest = new DrinkCreateRequest();
         drinkCreateRequest.setUserId(userId);
         drinkCreateRequest.setName(name);
         drinkCreateRequest.setIngredients(ingredients);
-        Drink drink = new Drink(id, name, ingredients, userId);
-        Drink persistedDrink = drinkService.addDrink(drink);
+        final Drink drink = new Drink(id, name, ingredients, userId);
+        final Drink persistedDrink = drinkService.addDrink(drink);
 
         //WHEN
         mvc.perform(delete("/drinks/" + persistedDrink.getId())

@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("userId") String userId) {
-        User user = userService.getUserById(userId);
+        final User user = userService.getUserById(userId);
 
         if (user == null) {
             return ResponseEntity.notFound().build();
@@ -42,7 +42,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.addNewUser(userCreateRequest.getUserId());
+        final User user = userService.addNewUser(userCreateRequest.getUserId());
 
         return ResponseEntity.ok(createUserResponse(user));
     }
@@ -55,7 +55,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Drink> drinks = userService.addDrinkToList(userService.getUserById(addDrinkRequest.getUserId()), addDrinkRequest.getDrink());
+        final List<Drink> drinks = userService.addDrinkToList(userService.getUserById(addDrinkRequest.getUserId()), addDrinkRequest.getDrink());
 
         for (Drink drink : drinks){
             drinkResponses.add(createDrinkResponse(drink));
@@ -70,7 +70,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.updateUser(new User(userUpdateRequest.getUserId(), userUpdateRequest.getDrinks()));
+        final User user = userService.updateUser(new User(userUpdateRequest.getUserId(), userUpdateRequest.getDrinks()));
 
         return ResponseEntity.ok(createUserResponse(user));
     }
@@ -82,7 +82,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        User user = userService.getUserById(userUpdateRequest.getUserId());
+        final User user = userService.getUserById(userUpdateRequest.getUserId());
 
         if (user == null || user.getUserId() == null){
             return ResponseEntity.badRequest().build();
@@ -97,9 +97,10 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        List<Drink> drinks = userService.getUsersDrinks(userService.getUserById(userId));
+        final List<Drink> drinks = userService.getUsersDrinks(userService.getUserById(userId));
 
-        List<DrinkResponse> drinkResponses = new ArrayList<>();
+        final List<DrinkResponse> drinkResponses = new ArrayList<>();
+
         for (Drink drink : drinks){
             drinkResponses.add(createDrinkResponse(drink));
         }
@@ -112,7 +113,7 @@ public class UserController {
     }
 
     private UserResponse createUserResponse(User user) {
-        UserResponse userResponse = new UserResponse();
+        final UserResponse userResponse = new UserResponse();
         userResponse.setUserId(user.getUserId());
         userResponse.setDrinks(user.getDrinks());
 
@@ -120,7 +121,7 @@ public class UserController {
     }
 
     private DrinkResponse createDrinkResponse(Drink drink) {
-        DrinkResponse drinkResponse = new DrinkResponse();
+        final DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
         drinkResponse.setName(drink.getName());
         drinkResponse.setUserId(drink.getUserId());

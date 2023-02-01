@@ -2,7 +2,6 @@ package com.kenzie.appserver.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.*;
 import com.kenzie.appserver.service.UserService;
@@ -29,8 +28,6 @@ class UserControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    private final Gson gson = new Gson();
-
     @Autowired
     UserService userService;
 
@@ -39,18 +36,18 @@ class UserControllerTest {
     @Test
     public void addUser() throws Exception {
         //GIVEN
-        UserCreateRequest userCreateRequest = new UserCreateRequest();
+        final UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
         //WHEN
-        ResultActions actions = mvc.perform(post("/users")
+        final ResultActions actions = mvc.perform(post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(userCreateRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().is2xxSuccessful());
 
-        String responseBody = actions.andReturn().getResponse().getContentAsString();
-        UserResponse response = mapper.readValue(responseBody, UserResponse.class);
+        final String responseBody = actions.andReturn().getResponse().getContentAsString();
+        final UserResponse response = mapper.readValue(responseBody, UserResponse.class);
         //THEN
         assertThat(response.getUserId()).isNotEmpty().as("The ID is populated");
     }
@@ -58,12 +55,12 @@ class UserControllerTest {
     @Test
     public void addNewDrink() throws Exception {
         //GIVEN
-        UserCreateRequest userCreateRequest = new UserCreateRequest();
+        final UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
-        User userResponse = userService.addNewUser(userCreateRequest.getUserId());
-        Drink drink = new Drink("id", "somethng", List.of("new", "new"), userResponse.getUserId());
-        AddDrinkRequest addDrinkRequest = new AddDrinkRequest(userResponse.getUserId(), drink);
+        final User userResponse = userService.addNewUser(userCreateRequest.getUserId());
+        final Drink drink = new Drink("id", "somethng", List.of("new", "new"), userResponse.getUserId());
+        final AddDrinkRequest addDrinkRequest = new AddDrinkRequest(userResponse.getUserId(), drink);
 
         userService.addDrinkToList(userResponse, addDrinkRequest.getDrink());
 
@@ -79,12 +76,12 @@ class UserControllerTest {
     @Test
     public void updateUser() throws Exception{
         //GIVEN
-        UserCreateRequest userCreateRequest = new UserCreateRequest();
+        final UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
-        User userResponse = userService.addNewUser(userCreateRequest.getUserId());
+        final User userResponse = userService.addNewUser(userCreateRequest.getUserId());
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest();
+        final UserUpdateRequest updateRequest = new UserUpdateRequest();
         updateRequest.setUserId(userResponse.getUserId());
 
         // WHEN
@@ -104,10 +101,10 @@ class UserControllerTest {
 
     @Test
     public void getUser() throws Exception{
-        UserCreateRequest userCreateRequest = new UserCreateRequest();
+        final UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
-        User userResponse = userService.addNewUser(userCreateRequest.getUserId());
+        final User userResponse = userService.addNewUser(userCreateRequest.getUserId());
 
         mvc.perform(get("/users/{userId}", userResponse.getUserId())
                         .accept(MediaType.APPLICATION_JSON)
@@ -118,22 +115,21 @@ class UserControllerTest {
     @Test
     public void getUsersDrinks() throws Exception{
         //GIVEN
-        UserCreateRequest userCreateRequest = new UserCreateRequest();
+        final UserCreateRequest userCreateRequest = new UserCreateRequest();
         userCreateRequest.setUserId(UUID.randomUUID().toString());
 
-        User userResponse = userService.addNewUser(userCreateRequest.getUserId());
+        final User userResponse = userService.addNewUser(userCreateRequest.getUserId());
 
-        List<Drink> drinks = userService.addDrinkToList(userResponse, new Drink("test", "test", List.of("test"), userResponse.getUserId()));
+        final List<Drink> drinks = userService.addDrinkToList(userResponse, new Drink("test", "test", List.of("test"), userResponse.getUserId()));
         //WHEN
-        ResultActions actions = mvc.perform(get("/users/drinks/{userId}", userResponse.getUserId())
+        final ResultActions actions = mvc.perform(get("/users/drinks/{userId}", userResponse.getUserId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 //THEN
                 .andExpect(status().isOk());
 
-        String responseBody = actions.andReturn().getResponse().getContentAsString();
-        List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {
-        });
+        final String responseBody = actions.andReturn().getResponse().getContentAsString();
+        final List<DrinkResponse> responses = mapper.readValue(responseBody, new TypeReference<>() {});
 
         assertThat(responses).isNotEmpty();
         assertThat(responses).containsAll(convertToResponses(drinks));
@@ -141,9 +137,9 @@ class UserControllerTest {
 
     @ExcludeFromJacocoGeneratedReport
     private List<DrinkResponse> convertToResponses(List<Drink> drinks){
-        List<DrinkResponse> drinkResponses = new ArrayList<>();
+        final List<DrinkResponse> drinkResponses = new ArrayList<>();
         for (Drink drink : drinks){
-            DrinkResponse drinkResponse = new DrinkResponse();
+            final DrinkResponse drinkResponse = new DrinkResponse();
             drinkResponse.setId(drink.getId());
             drinkResponse.setName(drink.getName());
             drinkResponse.setIngredients(drink.getIngredients());

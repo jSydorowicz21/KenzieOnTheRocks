@@ -20,7 +20,7 @@ public class DrinkService {
 
     @ExcludeFromJacocoGeneratedReport
     public LambdaDrink getDrink(String id) {
-        DrinkRecord drinkRecord = DrinkDao.getDrink(id);
+        final DrinkRecord drinkRecord = DrinkDao.getDrink(id);
 
         if (drinkRecord == null){
             return null;
@@ -30,7 +30,7 @@ public class DrinkService {
     }
 
     public LambdaDrink addDrink(DrinkRequest drinkRequest) {
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(drinkRequest.getId());
         drinkRecord.setName(drinkRequest.getName());
         drinkRecord.setIngredients(drinkRequest.getIngredients());
@@ -41,7 +41,7 @@ public class DrinkService {
     }
 
     public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(lambdaDrink.getId());
         drinkRecord.setName(lambdaDrink.getName());
         drinkRecord.setIngredients(lambdaDrink.getIngredients());
@@ -53,7 +53,7 @@ public class DrinkService {
     }
 
     public String deleteDrink(String id) {
-        DrinkRecord drinkRecord = new DrinkRecord();
+        final DrinkRecord drinkRecord = new DrinkRecord();
         drinkRecord.setId(id);
 
         DrinkDao.deleteDrink(drinkRecord);
@@ -76,7 +76,7 @@ public class DrinkService {
     }
     @ExcludeFromJacocoGeneratedReport
     private LambdaDrink toDrink(DrinkRecord record){
-        LambdaDrink rec = new LambdaDrink();
+        final LambdaDrink rec = new LambdaDrink();
         rec.setId(record.getId());
         rec.setName(record.getName());
         rec.setIngredients(record.getIngredients());

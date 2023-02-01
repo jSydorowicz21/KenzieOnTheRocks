@@ -24,7 +24,7 @@ public class DrinkService {
     }
 
     public Drink findById(String id) {
-        LambdaDrink drink = lambdaServiceClient.getDrink(id);
+        final LambdaDrink drink = lambdaServiceClient.getDrink(id);
 
         if (id == null || drink == null) {
             throw new IllegalArgumentException("Invalid drink id");
@@ -46,7 +46,8 @@ public class DrinkService {
             throw new IllegalArgumentException("Invalid drink name or user id");
         }
 
-        Drink drink = getAllDrinks().stream().filter(d -> d.getName().equals(name) && d.getUserId().equals(userId)).findFirst().orElse(null);
+        final Drink drink = getAllDrinks().stream().filter(d -> d.getName().equals(name)
+                && d.getUserId().equals(userId)).findFirst().orElse(null);
 
         if (drink == null){
             throw new IllegalArgumentException("Drink not found");
@@ -75,7 +76,7 @@ public class DrinkService {
     }
 
     public Drink updateDrink(Drink request) {
-        Drink drinkFromLambda;
+        final Drink drinkFromLambda;
 
         try {
             drinkFromLambda = findById(request.getId());
@@ -85,7 +86,7 @@ public class DrinkService {
 
         drinkFromLambda.setIngredients(request.getIngredients());
 
-        LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(drinkFromLambda.getId(), request.getName(),
+        final LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(drinkFromLambda.getId(), request.getName(),
                 request.getIngredients(), drinkFromLambda.getUserId()));
 
         return createDrinkFromLambda(updatedDrink);

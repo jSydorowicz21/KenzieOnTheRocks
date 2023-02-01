@@ -11,9 +11,7 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName = "Drinks")
 public class DrinkRecord {
-
     public static final String USER_ID_INDEX = "UserIdIndex";
-
     private String id;
     private String name;
     private List<String> ingredients;

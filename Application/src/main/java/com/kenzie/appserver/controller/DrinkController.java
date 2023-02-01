@@ -33,7 +33,7 @@ public class DrinkController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DrinkResponse> get(@PathVariable("id") String id) {
-        Drink drink;
+        final Drink drink;
 
         try {
              drink = drinkService.findById(id);
@@ -50,13 +50,14 @@ public class DrinkController {
 
     @PostMapping("/filter")
     public ResponseEntity<List<DrinkResponse>> getFilteredDrinks(@RequestBody List<String> ingredients) {
-        List<Drink> filteredDrinks = drinkService.getFilteredDrinks(ingredients);
+        final List<Drink> filteredDrinks = drinkService.getFilteredDrinks(ingredients);
 
         if (filteredDrinks == null ||  filteredDrinks.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        List<DrinkResponse> response = new ArrayList<>();
+        final List<DrinkResponse> response = new ArrayList<>();
+
         for (Drink drink : filteredDrinks) {
             response.add(this.createDrinkResponse(drink));
         }
@@ -66,13 +67,14 @@ public class DrinkController {
 
     @GetMapping("/all")
     public ResponseEntity<List<DrinkResponse>> getAllDrinks() {
-        List<Drink> drinks = drinkService.getAllDrinks();
+        final List<Drink> drinks = drinkService.getAllDrinks();
 
         if (drinks == null ||  drinks.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        List<DrinkResponse> response = new ArrayList<>();
+        final List<DrinkResponse> response = new ArrayList<>();
+
         for (Drink drink : drinks) {
             response.add(this.createDrinkResponse(drink));
         }
@@ -86,7 +88,7 @@ public class DrinkController {
             drinkCreateRequest.setId(UUID.randomUUID().toString());
         }
 
-        Drink drink = drinkService.addDrink(new Drink(drinkCreateRequest.getId(), drinkCreateRequest.getName(),
+        final Drink drink = drinkService.addDrink(new Drink(drinkCreateRequest.getId(), drinkCreateRequest.getName(),
                 drinkCreateRequest.getIngredients(), drinkCreateRequest.getUserId()));
 
         return ResponseEntity.created(URI.create("/drinks/" + drink.getId())).body(this.createDrinkResponse(drink));
@@ -105,20 +107,20 @@ public class DrinkController {
 
     @PutMapping
     public ResponseEntity<DrinkResponse> updateDrink(@RequestBody DrinkUpdateRequest drinkUpdateRequest) {
-        Drink drink = new Drink(
+        final Drink drink = new Drink(
                 drinkUpdateRequest.getId(),
                 drinkUpdateRequest.getName(),
                 drinkUpdateRequest.getIngredients(),
                 drinkUpdateRequest.getUserId());
         drinkService.updateDrink(drink); // user DB
 
-        DrinkResponse drinkResponse = createDrinkResponse(drink);
+        final DrinkResponse drinkResponse = createDrinkResponse(drink);
 
         return ResponseEntity.ok(drinkResponse);
     }
 
     private DrinkResponse createDrinkResponse(Drink drink) {
-        DrinkResponse drinkResponse = new DrinkResponse();
+        final DrinkResponse drinkResponse = new DrinkResponse();
         drinkResponse.setId(drink.getId());
         drinkResponse.setName(drink.getName());
         drinkResponse.setUserId(drink.getUserId());

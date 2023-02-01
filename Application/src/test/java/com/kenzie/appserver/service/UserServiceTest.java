@@ -38,17 +38,17 @@ public class UserServiceTest {
     @Test
     void addNewUser_addsUser(){
         // GIVEN
-        String id = randomUUID().toString();
+        final String id = randomUUID().toString();
 
         // WHEN
-        ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
+        final ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
         when(userRepository.save(any(UserRecord.class))).then(i -> i.getArgumentAt(0, UserRecord.class));
-        User returnedUser = userService.addNewUser(id);
+        final User returnedUser = userService.addNewUser(id);
 
         // THEN
         verify(userRepository).save(userRecordCaptor.capture());
 
-        UserRecord capturedRecord = userRecordCaptor.getValue();
+        final UserRecord capturedRecord = userRecordCaptor.getValue();
 
         Assertions.assertNotNull(returnedUser, "The object is returned");
         Assertions.assertEquals(returnedUser.getUserId(), id, "The id matches");
@@ -76,17 +76,18 @@ public class UserServiceTest {
     @Test
     void getUserById_ReturnsCorrectUser() {
         // GIVEN
-        String id = randomUUID().toString();
+        final String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
+                new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
-        UserRecord record = new UserRecord();
+        final UserRecord record = new UserRecord();
         record.setUserId(id);
         record.setDrinks(drinks);
 
         // WHEN
         when(userRepository.findById(id)).thenReturn(Optional.of(record));
-        User user = userService.getUserById(id);
+        final User user = userService.getUserById(id);
 
         // THEN
         Assertions.assertNotNull(user, "The object is returned");
@@ -111,27 +112,28 @@ public class UserServiceTest {
     @Test
     void updateUser_UpdatesUser(){
         // GIVEN
-        String id = randomUUID().toString();
+        final String id = randomUUID().toString();
 
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
+                new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
 
-        User user = new User(id, drinks);
+        final  User user = new User(id, drinks);
 
-        UserRecord userRecord = new UserRecord();
+        final UserRecord userRecord = new UserRecord();
 
         userRecord.setUserId(id);
         userRecord.setDrinks(drinks);
 
         // WHEN
-        ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
+        final ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
         when(userRepository.findById(id)).thenReturn(Optional.of(userRecord));
         when(userRepository.save(any(UserRecord.class))).then(i -> i.getArgumentAt(0, UserRecord.class));
-        User returnedUser = userService.updateUser(user);
+        final User returnedUser = userService.updateUser(user);
 
         // THEN
         verify(userRepository).save(userRecordCaptor.capture());
 
-        UserRecord capturedRecord = userRecordCaptor.getValue();
+        final UserRecord capturedRecord = userRecordCaptor.getValue();
 
         Assertions.assertNotNull(returnedUser, "The object is returned");
         Assertions.assertEquals(returnedUser.getUserId(), id, "The id matches");
@@ -145,11 +147,11 @@ public class UserServiceTest {
     @Test
     void updateUser_UserNotInDB_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
+        final String id = randomUUID().toString();
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
                 new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
-        User user = new User(id, drinks);
-        UserRecord userRecord = new UserRecord();
+        final User user = new User(id, drinks);
+        final UserRecord userRecord = new UserRecord();
 
         userRecord.setUserId(id);
         userRecord.setDrinks(drinks);
@@ -163,9 +165,9 @@ public class UserServiceTest {
     @Test
     void updateUser_NullID_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(),  "Drink2", List.of("Ingredient"), id));
-        User user = new User(id, drinks);
+        final String id = randomUUID().toString();
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id), new Drink(UUID.randomUUID().toString(),  "Drink2", List.of("Ingredient"), id));
+        final User user = new User(id, drinks);
 
         // WHEN
 
@@ -176,8 +178,8 @@ public class UserServiceTest {
     @Test
     void updateUser_NullDrinks_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        User user = new User(id, null);
+        final String id = randomUUID().toString();
+        final User user = new User(id, null);
 
         // WHEN
 
@@ -188,9 +190,9 @@ public class UserServiceTest {
     @Test
     void updateUser_EmptyDrinks_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = Collections.emptyList();
-        User user = new User(id, drinks);
+        final String id = randomUUID().toString();
+        final List<Drink> drinks = Collections.emptyList();
+        final User user = new User(id, drinks);
 
         // WHEN
 
@@ -205,25 +207,25 @@ public class UserServiceTest {
     @Test
     void updateUserDrinks_UpdatesUsersDrinks(){
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
+        final String id = randomUUID().toString();
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
                 new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
-        List<Drink> newDrinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink3", List.of("Ingredient"), id));
-        User user = new User(id, drinks);
-        UserRecord userRecord = new UserRecord();
+        final List<Drink> newDrinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink3", List.of("Ingredient"), id));
+        final User user = new User(id, drinks);
+        final UserRecord userRecord = new UserRecord();
 
         userRecord.setUserId(id);
         userRecord.setDrinks(drinks);
 
         // WHEN
-        ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
+        final ArgumentCaptor<UserRecord> userRecordCaptor = ArgumentCaptor.forClass(UserRecord.class);
         when(userRepository.findById(id)).thenReturn(Optional.of(userRecord));
         when(userRepository.save(any(UserRecord.class))).then(i -> i.getArgumentAt(0, UserRecord.class));
-        User returnedUser = userService.updateUserDrinks(user, newDrinks);
+        final User returnedUser = userService.updateUserDrinks(user, newDrinks);
 
         // THEN
         verify(userRepository).save(userRecordCaptor.capture());
-        UserRecord capturedRecord = userRecordCaptor.getValue();
+        final UserRecord capturedRecord = userRecordCaptor.getValue();
 
         Assertions.assertNotNull(returnedUser, "The object is returned");
         Assertions.assertEquals(returnedUser.getUserId(), id, "The id matches");
@@ -237,7 +239,7 @@ public class UserServiceTest {
     @Test
     void updateUserDrinks_NullUser_ThrowsException() {
         // GIVEN
-        List<Drink> drinks = Collections.emptyList();
+        final List<Drink> drinks = Collections.emptyList();
 
         // WHEN
 
@@ -248,8 +250,8 @@ public class UserServiceTest {
     @Test
     void updateUserDrinks_NullDrinks_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        User user = new User(id, null);
+        final String id = randomUUID().toString();
+        final User user = new User(id, null);
 
         // WHEN
 
@@ -261,9 +263,9 @@ public class UserServiceTest {
     @Test
     void updateUserDrinks_EmptyDrinks_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = Collections.emptyList();
-        User user = new User(id, drinks);
+        final String id = randomUUID().toString();
+        final List<Drink> drinks = Collections.emptyList();
+        final User user = new User(id, drinks);
 
         // WHEN
 
@@ -274,11 +276,11 @@ public class UserServiceTest {
     @Test
     void updateUserDrinks_UserNotInDB_ThrowsException(){
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
+        final  String id = randomUUID().toString();
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
                 new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
-        User user = new User(id, drinks);
-        UserRecord userRecord = new UserRecord();
+        final User user = new User(id, drinks);
+        final UserRecord userRecord = new UserRecord();
 
         userRecord.setUserId(id);
         userRecord.setDrinks(drinks);
@@ -296,18 +298,18 @@ public class UserServiceTest {
     @Test
     void getUsersDrinks_ReturnsCorrectDrinks() {
         // GIVEN
-        String id = randomUUID().toString();
-        List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
+        final String id = randomUUID().toString();
+        final List<Drink> drinks = List.of(new Drink(UUID.randomUUID().toString(), "Drink1", List.of("Ingredient"), id),
                 new Drink(UUID.randomUUID().toString(), "Drink2", List.of("Ingredient"), id));
-        UserRecord record = new UserRecord();
+        final UserRecord record = new UserRecord();
 
         record.setUserId(id);
         record.setDrinks(drinks);
-        User user = new User(id, drinks);
+        final User user = new User(id, drinks);
 
         // WHEN
         when(userRepository.findById(id)).thenReturn(Optional.of(record));
-        List<Drink> returnedDrinks = userService.getUsersDrinks(user);
+        final List<Drink> returnedDrinks = userService.getUsersDrinks(user);
 
         // THEN
         Assertions.assertNotNull(returnedDrinks, "The object is returned");

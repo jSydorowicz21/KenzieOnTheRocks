@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
@@ -23,22 +22,21 @@ public class GetAllDrinks implements RequestHandler<APIGatewayProxyRequestEvent,
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        String output;
+        final Gson gson = new Gson();
+        final String output;
 
         log.info(gson.toJson(input));
 
-        ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        DrinkService lambdaService = serviceComponent.provideDrinkService();
-        Map<String, String> headers = new HashMap<>();
+        final ServiceComponent serviceComponent = DaggerServiceComponent.create();
+        final DrinkService lambdaService = serviceComponent.provideDrinkService();
+        final Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
+        final APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
         try {
-            List<LambdaDrink> drinksFromLambda = lambdaService.getAllDrinks();
+            final List<LambdaDrink> drinksFromLambda = lambdaService.getAllDrinks();
             output = gson.toJson(drinksFromLambda);
 
         } catch (NullPointerException | JsonIOException e) {
