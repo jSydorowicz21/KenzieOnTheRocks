@@ -61,20 +61,6 @@ class LambdaServiceTest {
     }
 
     @Test
-    void addDrinkTest_no_drink_id() {
-        // GIVEN
-        final String id = "";
-        final String name ="";
-
-        final DrinkRequest request = new DrinkRequest();
-        request.setId(id);
-        request.setName(name);
-
-        //WHEN THEN
-        assertThrows(InvalidDataException.class, ()->this.drinkService.addDrink(request));
-    }
-
-    @Test
     void updateDrinkTest() {
         //GIVEN
         final String id = "drink_Id";

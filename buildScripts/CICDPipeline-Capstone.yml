@@ -231,7 +231,7 @@ Resources:
               Configuration:
                 Repo: !Ref Repo
                 Branch: !Ref Branch
-                Owner: 'KenzieAcademy-SoftwareEngineering'
+                Owner: 'jSydorowicz21'
                 OAuthToken: !Ref GithubToken
                 PollForSourceChanges: false
               OutputArtifacts:
