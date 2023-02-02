@@ -8,6 +8,7 @@ import com.kenzie.capstone.service.model.LambdaDrink;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DrinkService {
@@ -18,7 +19,6 @@ public class DrinkService {
         this.DrinkDao = DrinkDao;
     }
 
-    @ExcludeFromJacocoGeneratedReport
     public LambdaDrink getDrink(String id) {
         final DrinkRecord drinkRecord = DrinkDao.getDrink(id);
 
@@ -30,42 +30,47 @@ public class DrinkService {
     }
 
     public LambdaDrink addDrink(DrinkRequest drinkRequest) {
-        final DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(drinkRequest.getId());
-        drinkRecord.setName(drinkRequest.getName());
-        drinkRecord.setIngredients(drinkRequest.getIngredients());
-        drinkRecord.setUserId(drinkRequest.getUserId());
+        if (!checkIfExists(drinkRequest.getId())) {
+            final DrinkRecord drinkRecord = new DrinkRecord();
+            drinkRecord.setId(drinkRequest.getId());
+            drinkRecord.setName(drinkRequest.getName());
+            drinkRecord.setIngredients(drinkRequest.getIngredients());
+            drinkRecord.setUserId(drinkRequest.getUserId());
 
-        DrinkDao.addDrink(drinkRecord);
-        return toDrink(drinkRecord);
+            DrinkDao.addDrink(drinkRecord);
+            return toDrink(drinkRecord);
+        }
+        return null;
     }
 
     public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {
-        final DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(lambdaDrink.getId());
-        drinkRecord.setName(lambdaDrink.getName());
-        drinkRecord.setIngredients(lambdaDrink.getIngredients());
-        drinkRecord.setUserId(lambdaDrink.getUserId());
+        if (checkIfExists(lambdaDrink.getId())) {
+            final DrinkRecord drinkRecord = new DrinkRecord();
+            drinkRecord.setId(lambdaDrink.getId());
+            drinkRecord.setName(lambdaDrink.getName());
+            drinkRecord.setIngredients(lambdaDrink.getIngredients());
+            drinkRecord.setUserId(lambdaDrink.getUserId());
 
-        DrinkDao.updateDrink(drinkRecord);
+            DrinkDao.updateDrink(drinkRecord);
 
-        return lambdaDrink;
+            return lambdaDrink;
+        }
+        return null;
     }
 
     public String deleteDrink(String id) {
-        final DrinkRecord drinkRecord = new DrinkRecord();
-        drinkRecord.setId(id);
+        if (checkIfExists(id)) {
+            final DrinkRecord drinkRecord = new DrinkRecord();
+            drinkRecord.setId(id);
 
-        DrinkDao.deleteDrink(drinkRecord);
-
-        return id;
+            return DrinkDao.deleteDrink(drinkRecord);
+        }
+        return null;
     }
 
-    public List<LambdaDrink> getAllDrinks() {
-        return DrinkDao.getAllDrinks().stream()
-                .map(drinkRecord ->
-                    new LambdaDrink(drinkRecord.getId(), drinkRecord.getName(), drinkRecord.getIngredients(), drinkRecord.getUserId()))
-                .collect(Collectors.toList());
+    public List<String> getAllDrinks() {
+        Optional<List<String>> drinks = DrinkDao.getAllDrinksFast();
+        return drinks.orElse(null);
     }
 
     public List<LambdaDrink> getDrinksByUserId(String userId) {
@@ -82,5 +87,10 @@ public class DrinkService {
         rec.setIngredients(record.getIngredients());
         rec.setUserId(record.getId());
         return rec;
+    }
+
+    @ExcludeFromJacocoGeneratedReport
+    private boolean checkIfExists(String id){
+        return getDrink(id) != null;
     }
 }

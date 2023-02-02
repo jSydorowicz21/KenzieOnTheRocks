@@ -77,10 +77,9 @@ public class NonCachingDrinkDao implements DrinkDao {
         return mapper.query(DrinkRecord.class, queryExpression);
     }
 
-    public void deleteDrink(DrinkRecord  drink) {
-
+    public String deleteDrink(DrinkRecord  drink) {
         mapper.delete(drink);
-
+        return drink.getId();
     }
 
 

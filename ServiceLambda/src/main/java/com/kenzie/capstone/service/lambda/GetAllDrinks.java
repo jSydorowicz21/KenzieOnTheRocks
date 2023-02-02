@@ -9,7 +9,6 @@ import com.google.gson.JsonIOException;
 import com.kenzie.capstone.service.DrinkService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.LambdaDrink;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +35,7 @@ public class GetAllDrinks implements RequestHandler<APIGatewayProxyRequestEvent,
                 .withHeaders(headers);
 
         try {
-            final List<LambdaDrink> drinksFromLambda = lambdaService.getAllDrinks();
+            final List<String> drinksFromLambda = lambdaService.getAllDrinks();
             output = gson.toJson(drinksFromLambda);
 
         } catch (NullPointerException | JsonIOException e) {
