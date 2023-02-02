@@ -185,8 +185,6 @@
     right: 200px;
     width: 30%;
     position: absolute;
-
-
 }
 
 #create-name-field{
@@ -208,21 +206,20 @@
     width: 100%;
 }
 
-.drink {
+.drink, .side-drink {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 100%;
-    float: left;
+    height: fit-content;
     cursor: pointer;
-
+    opacity: 85%;
+    background-color: tan;
+    border: 3px gray solid;
+    margin: 3px;
 }
 
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 200px;
-  column-gap: 40px;
-  row-gap: 1em;
+.wrapper{
+    display: inline-block;
 }
 
 .anchor {

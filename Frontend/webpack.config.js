@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {defaults} = require("autoprefixer");
 
 module.exports = {
   optimization: {
@@ -11,6 +12,49 @@ module.exports = {
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
     loginPage: path.resolve(__dirname, 'src', 'pages', 'loginPage.js'),
     drinkPage: path.resolve(__dirname, 'src', 'pages', 'drinkPage.js'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            "presets": [
+                ["@babel/preset-react", {targets: "defaults"}]
+            ]
+          }
+        }
+      },
+      {
+        test: /\.(scss)$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: () => [
+                  require('autoprefixer')
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      }
+    ]
+  },
+  resolve: {
+    extensions: ['*', '.js']
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -22,7 +66,7 @@ module.exports = {
     open: 'http://localhost:8080/index.html',
     // disableHostChecks, otherwise we get an error about headers and the page won't render
     allowedHosts: "all",
-    static: 'packaging_additional_published_artifacts',
+    static: path.resolve(__dirname, './dist'),
     // overlay shows a full-screen overlay in the browser when there are compiler errors or warnings
     client: {
       overlay: true
@@ -71,33 +115,5 @@ module.exports = {
       ]
     }),
     new CleanWebpackPlugin()
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.(scss)$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: () => [
-                  require('autoprefixer')
-                ]
-              }
-            }
-          },
-          {
-            loader: 'sass-loader'
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }
