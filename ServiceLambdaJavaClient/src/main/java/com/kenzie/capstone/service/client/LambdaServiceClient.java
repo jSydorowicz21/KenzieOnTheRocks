@@ -3,12 +3,10 @@ package com.kenzie.capstone.service.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.kenzie.capstone.service.model.LambdaDrink;
-
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 public class LambdaServiceClient {
-
     private static final String DRINKS_ENDPOINT = "drinks";
     private static final String DRINKS_ID_ENDPOINT = "drinks/{id}";
 
@@ -74,13 +72,13 @@ public class LambdaServiceClient {
     public List<LambdaDrink> getAllDrinks() {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(DRINKS_ENDPOINT);
-        List<LambdaDrink> lambdaDrinks;
+        List<String> lambdaDrinks;
         try {
-            lambdaDrinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, LambdaDrink.class));
+            lambdaDrinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+            return lambdaDrinks.stream().map(drink -> gson.fromJson(drink, LambdaDrink.class)).collect(Collectors.toList());
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
-        return lambdaDrinks;
     }
 
 
