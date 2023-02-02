@@ -11,8 +11,6 @@ public class LambdaServiceClient {
 
     private static final String DRINKS_ENDPOINT = "drinks";
     private static final String DRINKS_ID_ENDPOINT = "drinks/{id}";
-    //possible endpoint for search filter??
-    private static final String DRINKS_INGREDIENTS_ENDPOINT = "drinks/{ingredients}";
 
     private static final String DRINKS_USER_ENDPOINT = "drinks/user/{id}";
 
@@ -42,6 +40,9 @@ public class LambdaServiceClient {
     public LambdaDrink addDrink(LambdaDrink lambdaDrink) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.postEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
+        if (response == null){
+            throw new ApiGatewayException("Drink already exists!");
+        }
         try {
             lambdaDrink = mapper.readValue(response, LambdaDrink.class);
         } catch (Exception e) {
@@ -61,10 +62,13 @@ public class LambdaServiceClient {
         return lambdaDrink;
     }
 
-    public void deleteDrink(String id) {
+    public String deleteDrink(String id) {
         EndpointUtility endpointUtility = new EndpointUtility();
-
-        endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
+        final String response = endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
+        if (response == null){
+            throw new ApiGatewayException("Failed to delete drink with ID: " + id);
+        }
+        return response;
     }
 
     public List<LambdaDrink> getAllDrinks() {

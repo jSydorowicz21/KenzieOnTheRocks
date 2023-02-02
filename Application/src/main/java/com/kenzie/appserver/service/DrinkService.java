@@ -1,7 +1,6 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.service.model.Drink;
-import com.kenzie.appserver.service.model.UserHasExistingDrinkException;
 import com.kenzie.ata.ExcludeFromJacocoGeneratedReport;
 import com.kenzie.capstone.service.client.LambdaServiceClient;
 import com.kenzie.capstone.service.model.LambdaDrink;
@@ -58,17 +57,6 @@ public class DrinkService {
 
     //add drink
     public Drink addDrink(Drink request) {
-        LambdaDrink drinkExists = null;
-        try {
-            drinkExists = lambdaServiceClient.getDrink(request.getId());
-        } catch (IllegalArgumentException e){{
-            // do nothing
-        }}
-
-        if(drinkExists != null) {
-            throw new UserHasExistingDrinkException("Drink should be updated instead");
-        }
-
         LambdaDrink drink = new LambdaDrink(request.getId(), request.getName(), request.getIngredients(), request.getUserId());
         lambdaServiceClient.addDrink(drink);
 
@@ -76,18 +64,8 @@ public class DrinkService {
     }
 
     public Drink updateDrink(Drink request) {
-        final Drink drinkFromLambda;
-
-        try {
-            drinkFromLambda = findById(request.getId());
-        } catch (IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid drink id");
-        }
-
-        drinkFromLambda.setIngredients(request.getIngredients());
-
-        final LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(drinkFromLambda.getId(), request.getName(),
-                request.getIngredients(), drinkFromLambda.getUserId()));
+        final LambdaDrink updatedDrink = lambdaServiceClient.updateDrink(new LambdaDrink(request.getId(), request.getName(),
+                request.getIngredients(), request.getUserId()));
 
         return createDrinkFromLambda(updatedDrink);
     }
@@ -99,14 +77,15 @@ public class DrinkService {
                 .collect(Collectors.toList());
     }
 
-    public void delete(String id){
+    public String delete(String id){
+        final String response;
         try{
-            findById(id);
-            lambdaServiceClient.deleteDrink(id);
+            response = lambdaServiceClient.deleteDrink(id);
         } catch (IllegalArgumentException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no matching drink");
         }
+        return response;
     }
 
     public Drink createDrinkFromLambda(LambdaDrink drink){
