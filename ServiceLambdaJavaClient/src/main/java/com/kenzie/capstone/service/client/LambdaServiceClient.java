@@ -9,9 +9,8 @@ import java.util.stream.Collectors;
 public class LambdaServiceClient {
     private static final String DRINKS_ENDPOINT = "drinks";
     private static final String DRINKS_ID_ENDPOINT = "drinks/{id}";
-
     private static final String DRINKS_USER_ENDPOINT = "drinks/user/{id}";
-
+    final EndpointUtility endpointUtility = new EndpointUtility();
     private final ObjectMapper mapper;
 
     public LambdaServiceClient() {
@@ -21,7 +20,6 @@ public class LambdaServiceClient {
     private final Gson gson = new Gson();
 
     public LambdaDrink getDrink(String id) {
-        final EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.getEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
         final LambdaDrink lambdaDrink;
 
@@ -35,7 +33,6 @@ public class LambdaServiceClient {
     }
 
     public LambdaDrink addDrink(LambdaDrink lambdaDrink) {
-        final EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.postEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
         if (response == null){
             throw new ApiGatewayException("Drink already exists!");
@@ -49,7 +46,6 @@ public class LambdaServiceClient {
     }
 
     public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {
-        final EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.putEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
         try {
             lambdaDrink = mapper.readValue(response, LambdaDrink.class);
@@ -60,7 +56,6 @@ public class LambdaServiceClient {
     }
 
     public String deleteDrink(String id) {
-        final EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
         if (response == null){
             throw new ApiGatewayException("Failed to delete drink with ID: " + id);
@@ -69,7 +64,6 @@ public class LambdaServiceClient {
     }
 
     public List<LambdaDrink> getAllDrinks() {
-        final EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.getEndpoint(DRINKS_ENDPOINT);
         final List<String> lambdaDrinks;
         try {
@@ -82,7 +76,6 @@ public class LambdaServiceClient {
 
 
     public List<LambdaDrink> getDrinksByUserId(String id) {
-        final EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.getEndpoint(DRINKS_USER_ENDPOINT.replace("{id}", id));
         final List<LambdaDrink> lambdaDrinks;
         try {
