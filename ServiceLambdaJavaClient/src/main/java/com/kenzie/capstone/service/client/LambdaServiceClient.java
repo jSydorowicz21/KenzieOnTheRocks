@@ -3,17 +3,14 @@ package com.kenzie.capstone.service.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.kenzie.capstone.service.model.LambdaDrink;
-
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 public class LambdaServiceClient {
-
     private static final String DRINKS_ENDPOINT = "drinks";
     private static final String DRINKS_ID_ENDPOINT = "drinks/{id}";
-
     private static final String DRINKS_USER_ENDPOINT = "drinks/user/{id}";
-
+    final EndpointUtility endpointUtility = new EndpointUtility();
     private final ObjectMapper mapper;
 
     public LambdaServiceClient() {
@@ -23,10 +20,8 @@ public class LambdaServiceClient {
     private final Gson gson = new Gson();
 
     public LambdaDrink getDrink(String id) {
-
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
-        LambdaDrink lambdaDrink;
+        final String response = endpointUtility.getEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
+        final LambdaDrink lambdaDrink;
 
         try {
             lambdaDrink = mapper.readValue(response, LambdaDrink.class);
@@ -38,8 +33,7 @@ public class LambdaServiceClient {
     }
 
     public LambdaDrink addDrink(LambdaDrink lambdaDrink) {
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.postEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
+        final String response = endpointUtility.postEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
         if (response == null){
             throw new ApiGatewayException("Drink already exists!");
         }
@@ -52,8 +46,7 @@ public class LambdaServiceClient {
     }
 
     public LambdaDrink updateDrink(LambdaDrink lambdaDrink) {
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.putEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
+        final String response = endpointUtility.putEndpoint(DRINKS_ENDPOINT, gson.toJson(lambdaDrink));
         try {
             lambdaDrink = mapper.readValue(response, LambdaDrink.class);
         } catch (Exception e) {
@@ -63,7 +56,6 @@ public class LambdaServiceClient {
     }
 
     public String deleteDrink(String id) {
-        EndpointUtility endpointUtility = new EndpointUtility();
         final String response = endpointUtility.deleteEndpoint(DRINKS_ID_ENDPOINT.replace("{id}", id));
         if (response == null){
             throw new ApiGatewayException("Failed to delete drink with ID: " + id);
@@ -72,22 +64,20 @@ public class LambdaServiceClient {
     }
 
     public List<LambdaDrink> getAllDrinks() {
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(DRINKS_ENDPOINT);
-        List<LambdaDrink> lambdaDrinks;
+        final String response = endpointUtility.getEndpoint(DRINKS_ENDPOINT);
+        final List<String> lambdaDrinks;
         try {
-            lambdaDrinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, LambdaDrink.class));
+            lambdaDrinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+            return lambdaDrinks.stream().map(drink -> gson.fromJson(drink, LambdaDrink.class)).collect(Collectors.toList());
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
-        return lambdaDrinks;
     }
 
 
     public List<LambdaDrink> getDrinksByUserId(String id) {
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(DRINKS_USER_ENDPOINT.replace("{id}", id));
-        List<LambdaDrink> lambdaDrinks;
+        final String response = endpointUtility.getEndpoint(DRINKS_USER_ENDPOINT.replace("{id}", id));
+        final List<LambdaDrink> lambdaDrinks;
         try {
             lambdaDrinks = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, LambdaDrink.class));
         } catch (Exception e) {
