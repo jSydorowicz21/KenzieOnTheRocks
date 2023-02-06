@@ -10,7 +10,7 @@ module.exports = {
   },
   entry: {
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
-    loginPage: path.resolve(__dirname, 'src', 'pages', 'loginPage.js'),
+    loginPage: path.resolve(__dirname, 'src', 'pages', 'loginPage.jsx'),
     drinkPage: path.resolve(__dirname, 'src', 'pages', 'drinkPage.js'),
   },
   module: {
