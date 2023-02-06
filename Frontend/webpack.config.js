@@ -28,6 +28,18 @@ module.exports = {
         }
       },
       {
+        test: /\.(jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            "presets": [
+              ["@babel/preset-react", {targets: "defaults"}]
+            ]
+          }
+        }
+      },
+      {
         test: /\.(scss)$/,
         use: [
           {
@@ -63,7 +75,8 @@ module.exports = {
   devServer: {
     https: false,
     port: 8080,
-    open: 'http://localhost:8080/index.html',
+    open: true,
+    openPage: './dist/index.html',
     // disableHostChecks, otherwise we get an error about headers and the page won't render
     allowedHosts: "all",
     static: path.resolve(__dirname, './dist'),
