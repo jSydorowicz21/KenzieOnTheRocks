@@ -3,6 +3,7 @@ import UserClient from "../api/userClient";
 import {createRoot} from "react-dom/client";
 import App from "../App.js";
 import React from "react";
+import {Auth} from "@aws-amplify/auth";
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -13,60 +14,56 @@ class LoginPage extends BaseClass {
         super();
         this.bindClassMethods(['login', 'create'], this);
         this.userClient = new UserClient();
-
     }
 
     /**
      * Once the page has loaded, set up the event handlers and fetch the restaurant/review list.
      */
     mount() {
-        document.getElementById('get-userId-form').addEventListener('submit', this.login);
-        document.getElementById('create-button').addEventListener('click', this.create);
-
         const root = createRoot(document.getElementById("root"));
         console.log("Rendering App");
-        root.render(App);
+        root.render(new App);
     }
 
     async login(event) {
-        event.preventDefault();
-
-        let userId = document.getElementById("username").value;
-
-        let result = await this.userClient.getUserById(userId);
-
-        if(result) {
-            sessionStorage.setItem("userId", userId);
-            this.showMessage('Logged in successfully, redirecting to home page...');
-            await new Promise(r => setTimeout(r, 3000))
-            window.location.href = "index.html"
-        }
-
-        if (sessionStorage.getItem("userId") != null) {
-            this.showMessage(`Welcome ${sessionStorage.getItem("userId")}!`)
-            window.location.href = "index.html";
-        } else {
-            this.errorHandler("Error logging in!  Try again...");
-        }
+        // event.preventDefault();
+        //
+        // let userId = document.getElementById("username").value;
+        //
+        // let result = await this.userClient.getUserById(userId);
+        //
+        // if(result) {
+        //     sessionStorage.setItem("userId", userId);
+        //     this.showMessage('Logged in successfully, redirecting to home page...');
+        //     await new Promise(r => setTimeout(r, 3000))
+        //     window.location.href = "index.html"
+        // }
+        //
+        // if (sessionStorage.getItem("userId") != null) {
+        //     this.showMessage(`Welcome ${sessionStorage.getItem("userId")}!`)
+        //     window.location.href = "index.html";
+        // } else {
+        //     this.errorHandler("Error logging in!  Try again...");
+        // }
     }
 
     async create(event) {
-        event.preventDefault();
-
-        let userId = document.getElementById("username").value;
-
-        let result = await this.userClient.createUser(userId);
-
-        if(result) {
-            console.log("User created");
-            sessionStorage.setItem("userId", userId);
-            this.showMessage('Created account successfully, redirecting to home page...');
-            await new Promise(r => setTimeout(r, 3000))
-            window.location.href = "index.html"
-        }
-        else {
-            this.errorHandler("Error creating user!  Try again...");
-        }
+        // event.preventDefault();
+        //
+        // let userId = document.getElementById("username").value;
+        //
+        // let result = await this.userClient.createUser(userId);
+        //
+        // if(result) {
+        //     console.log("User created");
+        //     sessionStorage.setItem("userId", userId);
+        //     this.showMessage('Created account successfully, redirecting to home page...');
+        //     await new Promise(r => setTimeout(r, 3000))
+        //     window.location.href = "index.html"
+        // }
+        // else {
+        //     this.errorHandler("Error creating user!  Try again...");
+        // }
 
     }
 

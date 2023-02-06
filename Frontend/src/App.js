@@ -7,7 +7,6 @@ import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 
 export default function App() {
-    console.log('App');
     return (
         <Authenticator>
             {({ signOut, user }) => (
