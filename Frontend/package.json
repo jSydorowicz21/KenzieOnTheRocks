@@ -11,7 +11,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "webpack --mode=production --devtool=source-map",
-    "start": "webpack-dev-server --mode=development --hot"
+    "start": "webpack-dev-server --mode=development --hot --open"
   },
   "babel": {
     "presets": [
@@ -44,7 +44,13 @@
     "@aws-amplify/core": "^5.0.12",
     "@aws-amplify/auth": "^5.0.12",
     "@aws-amplify/geo": "^2.0.12",
-    "react-native": "^0.71.2"
+    "react-native": "^0.71.2",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "style-loader": "^3.3.1",
+    "css-loader": "^6.5.1",
+    "postcss-loader": "^6.2.0",
+    "sass-loader": "^12.4.0",
+    "sass": "^1.43.5"
   },
   "devDependencies": {
     "@webpack-cli/serve": "^2.0.1",

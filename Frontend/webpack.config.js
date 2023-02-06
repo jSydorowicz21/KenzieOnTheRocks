@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const {defaults} = require("autoprefixer");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
   optimization: {
@@ -10,7 +11,7 @@ module.exports = {
   },
   entry: {
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
-    loginPage: path.resolve(__dirname, 'src', 'App.js'),
+    loginPage: path.resolve(__dirname, 'src', 'pages', 'loginPage.js'),
     drinkPage: path.resolve(__dirname, 'src', 'pages', 'drinkPage.js'),
   },
   module: {
@@ -39,30 +40,54 @@ module.exports = {
         }
       }
     },
-      {
-        test: /\.(scss)$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: () => [
-                  require('autoprefixer')
-                ]
-              }
+    {
+      test: /\.(scss)$/,
+      use: [
+        {
+          loader: 'style-loader'
+        },
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: () => [
+                require('autoprefixer')
+              ]
             }
-          },
-          {
-            loader: 'sass-loader'
           }
-        ]
-      }
+        },
+        {
+          loader: 'sass-loader'
+        }
+      ]
+    },
+    {
+      test: /\.(css)$/,
+      use: [
+        {
+          loader: 'style-loader'
+        },
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: () => [
+                require('autoprefixer')
+              ]
+            }
+          }
+        },
+        {
+          loader: 'sass-loader'
+        }
+      ]
+    }
     ]
   },
   resolve: {
@@ -126,6 +151,7 @@ module.exports = {
         }
       ]
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new NodePolyfillPlugin(), // Polyfill Node.js globals (e.g. global, process, etc)
   ]
 }

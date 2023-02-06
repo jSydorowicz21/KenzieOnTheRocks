@@ -1,6 +1,8 @@
 import BaseClass from "../util/baseClass";
-import DataStore from "../util/DataStore";
 import UserClient from "../api/userClient";
+import {createRoot} from "react-dom/client";
+import App from "../App.js";
+import React from "react";
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -10,7 +12,6 @@ class LoginPage extends BaseClass {
     constructor() {
         super();
         this.bindClassMethods(['login', 'create'], this);
-        this.dataStore = new DataStore();
         this.userClient = new UserClient();
 
     }
@@ -22,6 +23,9 @@ class LoginPage extends BaseClass {
         document.getElementById('get-userId-form').addEventListener('submit', this.login);
         document.getElementById('create-button').addEventListener('click', this.create);
 
+        const root = createRoot(document.getElementById("root"));
+        console.log("Rendering App");
+        root.render(App);
     }
 
     async login(event) {
