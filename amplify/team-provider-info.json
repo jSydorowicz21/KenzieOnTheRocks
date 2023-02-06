@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kenzieonrocks-dev-204754-authRole",
+      "UnauthRoleArn": "arn:aws:iam::139323093562:role/amplify-kenzieonrocks-dev-204754-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::139323093562:role/amplify-kenzieonrocks-dev-204754-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-kenzieonrocks-dev-204754-deployment",
+      "UnauthRoleName": "amplify-kenzieonrocks-dev-204754-unauthRole",
+      "StackName": "amplify-kenzieonrocks-dev-204754",
+      "StackId": "arn:aws:cloudformation:us-east-1:139323093562:stack/amplify-kenzieonrocks-dev-204754/6ca125e0-a5d9-11ed-a404-0e49b356150b",
+      "AmplifyAppId": "d2ufmuc6q7oh79"
+    },
+    "categories": {
+      "auth": {
+        "kenzieonrocks95f3ee3c": {}
+      }
+    }
+  }
+}
