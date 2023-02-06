@@ -1,49 +1,32 @@
-$black: #282828;
-$point: salmon;
-$point-light: lighten($point, 5%);
-
-$ratio: 1.618;
-$card_width: 250px;
-$card_height: $card_width * $ratio;
-$card_padding: 20px;
-$card-bgcolor: white;
-$card_margin: 5px;
-$card_round: 10px;
-$card-shadow: -20px -20px 0px 0px $point-light;
-
-$card-padding-basis: 15px;
-$card_head_padding: 0px 0px $card-padding-basis 0px;
-
 *{
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body{
-      background-image: url("https://media.gq-magazine.co.uk/photos/5d13aea693d83fba05f8611d/master/pass/The-Vault-01-GQ-6Dec16_b.jpg");
-
+    background-image: url("https://media.gq-magazine.co.uk/photos/5d13aea693d83fba05f8611d/master/pass/The-Vault-01-GQ-6Dec16_b.jpg");
 }
 /*code cite from codepen user HJB for centering help*/
 .container{
-  width: 80%;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+    width: 80%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
 
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .center{
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 
 .card {
@@ -60,16 +43,15 @@ body{
 }
 
 #update-card {
-
     width: 40%;
 }
 
-  hr{
+hr{
     display: block;
     border: none;
     height: 3px;
-    background-color: $point;
-    margin: 0px;
+    background-color: salmon;
+    margin: 0;
 
     -webkit-animation-name: line-show; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 0.3s; /* Safari 4.0 - 8.0 */
@@ -78,10 +60,10 @@ body{
     -webkit-transition-timing-function: cubic-bezier(0.795, 0.000, 0.165, 1.000);
     -o-transition-timing-function: cubic-bezier(0.795, 0.000, 0.165, 1.000);
     transition-timing-function: cubic-bezier(0.795, 0.000, 0.165, 1.000); /* custom */
-  }
+}
 
-  p{
-    margin: $card-padding-basis 0px 0px 0px;
+p{
+    margin: 15px 0 0 0;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 100;
     letter-spacing: -0.25px;
@@ -89,67 +71,65 @@ body{
     font-size: 16px;
     word-break: break-all;
     word-wrap: pre-wrap;
-    color: $black;
+    color:brown;
 
     -webkit-animation-name: p-show; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 1.5s; /* Safari 4.0 - 8.0 */
     animation-name: p-show;
     animation-duration: 1.5s;
-  }
+}
 
-  button{
+button{
     border: 2px;
-    background-color: $point;
-    width: 50%;
+    background-color: tan;
+    width: 20%;
     margin: 10px auto;
     padding: 10px 30px;
     color: brown;
     font-family: 'Noto Sans KR', sans-serif;
     text-transform: uppercase;
-  }
-
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes line-show {
-  from {margin: 0px 100px;}
-  to {margin: 0px;}
+    from {margin: 0 100px;}
+    to {margin: 0;}
 }
 
 /* Standard syntax */
 @keyframes line-show {
-  from {margin: 0px 100px;}
-  to {margin: 0px;}
+    from {margin: 0 100px;}
+    to {margin: 0;}
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes p-show {
-  from {color: white;}
-  to {color: $black;}
+    from {color: white;}
+    to {color: black;}
 }
 
 /* Standard syntax */
 @keyframes p-show {
-  from {color: white;}
-  to {color: $black;}
+    from {color: white;}
+    to {color: black;}
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes shadow-show {
   from {
-    -webkit-box-shadow: 0px 0px 0px 0px #e0e0e0;
-    box-shadow: 0px 0px 0px 0px #e0e0e0;
+    -webkit-box-shadow: 0 0 0 0 #e0e0e0;
+    box-shadow: 0 0 0 0 #e0e0e0;
   }
   to {
-    -webkit-box-shadow: $card-shadow;
-    box-shadow: $card-shadow;
+    -webkit-box-shadow: -20px -20px 0 0;
+    box-shadow: -20px -20px 0 0;
   }
 }
 
 /* Standard syntax */
 @keyframes shadow-show {
-  from {-webkit-box-shadow: 0px 0px 0px 0px #e0e0e0;box-shadow: 0px 0px 0px 0px #e0e0e0;}
-  to {-webkit-box-shadow: $card-shadow;box-shadow: $card-shadow;}
+  from {-webkit-box-shadow: 0 0 0 0 #e0e0e0;box-shadow: 0 0 0 0 #e0e0e0;}
+  to {-webkit-box-shadow: -20px -20px 0 0;box-shadow:  -20px -20px 0 0;}
 }
 .dropdown-check-list {
   display: inline-block;
