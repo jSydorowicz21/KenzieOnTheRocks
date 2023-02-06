@@ -10,7 +10,7 @@ module.exports = {
   },
   entry: {
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
-    loginPage: path.resolve(__dirname, 'src', 'pages', 'loginPage.js'),
+    loginPage: path.resolve(__dirname, 'src', 'App.js'),
     drinkPage: path.resolve(__dirname, 'src', 'pages', 'drinkPage.js'),
   },
   module: {
@@ -27,6 +27,18 @@ module.exports = {
           }
         }
       },
+      {
+          test: /.(jsx)$/,
+          exclude: /node_modules/,
+          use: {
+        loader: 'babel-loader',
+        options: {
+          "presets": [
+            ["@babel/preset-react", {targets: "defaults"}]
+          ]
+        }
+      }
+    },
       {
         test: /\.(scss)$/,
         use: [
