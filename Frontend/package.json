@@ -40,7 +40,11 @@
     "aws-amplify": "^5.0.12",
     "amazon-cognito-identity-js": "^5.0.12",
     "json-loader": "^0.5.4",
-    "aws-sdk": "^2.1309.0"
+    "aws-sdk": "^2.1309.0",
+    "@aws-amplify/core": "^5.0.12",
+    "@aws-amplify/auth": "^5.0.12",
+    "@aws-amplify/geo": "^2.0.12",
+    "react-native": "^0.71.2"
   },
   "devDependencies": {
     "@webpack-cli/serve": "^2.0.1",
