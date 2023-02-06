@@ -1,7 +1,7 @@
 import React from 'react';
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
-import {AmplifySignOut , withAuthenticator } from '@aws-amplify/ui-react';
+import {Authenticator , withAuthenticator } from '@aws-amplify/ui-react';
 
 Amplify.configure(awsconfig)
 
@@ -9,7 +9,7 @@ function App(){
     return (
     <div className = "App">
         <header className = "App-header">
-            <AmplifySignOut />
+            <Authenticator />
             <h2>My App Content</h2>
         </header>
     </div>
