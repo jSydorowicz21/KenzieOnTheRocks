@@ -1,0 +1,55 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kenzionrocks-dev-125718-authRole",
+      "UnauthRoleArn": "arn:aws:iam::139323093562:role/amplify-kenzionrocks-dev-125718-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::139323093562:role/amplify-kenzionrocks-dev-125718-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-kenzionrocks-dev-125718-deployment",
+      "UnauthRoleName": "amplify-kenzionrocks-dev-125718-unauthRole",
+      "StackName": "amplify-kenzionrocks-dev-125718",
+      "StackId": "arn:aws:cloudformation:us-east-1:139323093562:stack/amplify-kenzionrocks-dev-125718/5b8a9e30-9f4e-11ed-bb70-0acaf8f95c47",
+      "AmplifyAppId": "d3odbdodi7umty"
+    }
+  },
+  "auth": {
+    "kenzionrockse3b68a90": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "us-east-1_Cc1yTGvKL",
+        "UserPoolName": "kenzieOnRocks",
+        "AppClientID": "7pdv1pqbqq7o4kl146bjnd15ea",
+        "AppClientIDWeb": "7pdv1pqbqq7o4kl146bjnd15ea",
+        "HostedUIDomain": "kenzie"
+      },
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "NAME",
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      }
+    }
+  }
+}
