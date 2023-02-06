@@ -1,5 +1,4 @@
 import BaseClass from "../util/baseClass";
-import DataStore from "../util/DataStore";
 import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
 import getAndRenderDrinks from "../util/helperMethods";
@@ -14,7 +13,6 @@ class LandingPage extends BaseClass {
     constructor() {
         super();
         this.bindClassMethods(['onGet', 'onGetAllDrinks', 'onCreate',  'onGetUserDrinks', 'onGetFiltered'], this);
-        this.dataStore = new DataStore();
     }
 
     /**
@@ -27,7 +25,6 @@ class LandingPage extends BaseClass {
 
         this.client = new DrinkClient();
         this.userClient = new UserClient();
-
         this.onGetAllDrinks();
         this.onGetUserDrinks();
     }
