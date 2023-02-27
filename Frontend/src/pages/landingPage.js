@@ -1,7 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
-import getAndRenderDrinks from "../util/helperMethods";
+import {getAndRenderDrinks, renderDrinkMenu} from "../util/helperMethods";
 import { createRoot } from "react-dom/client";
 
 'use strict';
@@ -22,6 +22,7 @@ class LandingPage extends BaseClass {
         document.getElementById('createButton').addEventListener('click', this.onCreate);
         document.getElementById('homeButton').addEventListener('click', this.onGetAllDrinks);
         document.getElementById('filterButton').addEventListener('click', this.onGetFiltered);
+        createRoot(document.getElementById("drink-list")).render(renderDrinkMenu());
 
         this.client = new DrinkClient();
         this.userClient = new UserClient();
