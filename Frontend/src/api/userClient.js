@@ -1,5 +1,9 @@
 import BaseClass from "../util/baseClass";
 import axios from 'axios'
+import { Auth } from 'aws-amplify';
+import awsExports from '../aws-exports';
+
+Auth.configure(awsExports);
 
 /**
  * Client to call the MusicPlaylistService.
@@ -119,4 +123,3 @@ export default class UserClient extends BaseClass {
         }
     }
 }
-

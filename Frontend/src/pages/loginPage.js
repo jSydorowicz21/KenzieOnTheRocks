@@ -73,13 +73,10 @@ class LoginPage extends BaseClass {
  */
 const main = async () => {
     const loginPage = new LoginPage();
-
-    if (sessionStorage.getItem("userId") != null){
-        window.location.href = "index.html";
-    }
-
+//    if (sessionStorage.getItem("userId") != null){
+//        window.location.href = "index.html";
+//    }
     loginPage.mount();
-
 };
 
 window.addEventListener('DOMContentLoaded', main);

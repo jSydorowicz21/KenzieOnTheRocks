@@ -3,7 +3,10 @@ import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
 import getAndRenderDrinks from "../util/helperMethods";
 import { createRoot } from "react-dom/client";
+import { Auth } from 'aws-amplify';
+import awsExports from '../aws-exports';
 
+Auth.configure(awsExports);
 'use strict';
 
 /**
@@ -27,6 +30,10 @@ class LandingPage extends BaseClass {
         this.userClient = new UserClient();
         this.onGetAllDrinks();
         this.onGetUserDrinks();
+        const user = await Auth.currentAuthenticatedUser();
+        console.log(user);
+        const { attributes } = user;
+        console.log(attributes);
     }
 
     // Event Handlers --------------------------------------------------------------------------------------------------
@@ -52,10 +59,11 @@ class LandingPage extends BaseClass {
     }
 
     async onGetUserDrinks() {
-        console.log("Started getting drinks for user: " + sessionStorage.getItem("userId"));
+        const user = await Auth.currentAuthenticatedUser();
+        console.log("Started getting drinks for user: " + user.username);
         const className = 'side-drink';
 
-        let drinks = await this.userClient.getUsersDrinks(sessionStorage.getItem("userId"));
+        let drinks = await this.userClient.getUsersDrinks(user);
         const sidebar = createRoot(document.getElementById("sidebar"));
 
         if (drinks == null){
@@ -71,7 +79,7 @@ class LandingPage extends BaseClass {
         console.log("Starting drink creation");
 
         let name = document.getElementById("create-name-field").value;
-        let userId = sessionStorage.getItem("userId");
+        let userId = await Auth.currentAuthenticatedUser();
         let ingredients = document.getElementById("create-form").querySelectorAll('input:checked');
         let ingredientsArray = [];
 
@@ -119,17 +127,11 @@ class LandingPage extends BaseClass {
  */
 const main = async () => {
     const landingPage = new LandingPage();
-
-    if (sessionStorage.getItem("userId") == null) {
-        window.location.href = "login.html";
-    }
-
     if (sessionStorage.getItem("drinkId") != null){
         sessionStorage.removeItem("drinkId");
         sessionStorage.removeItem("drinkName");
         sessionStorage.removeItem("ingredients");
     }
-
     await landingPage.mount();
 };
 
