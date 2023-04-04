@@ -1,5 +1,6 @@
 import { ListViewComponent } from '@syncfusion/ej2-react-lists';
 import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
+import React from "react";
 
 function createDropDown(list, id) {
     const alcohols = ["rum", "vodka", "gin", "tequila", "whiskey", "brandy", "liqueur", "beer", "wine", "cider", "sake", "shochu", "mead", "vermouth", "absinthe", "bitters", "cordial", "aperitif", "cocktail", "schnapps", "champagne"];

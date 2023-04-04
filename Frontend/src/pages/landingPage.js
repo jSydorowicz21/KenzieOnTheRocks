@@ -1,7 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
-import {getAndRenderDrinks, renderDrinkMenu} from "../util/helperMethods";
+import { getAndRenderDrinks, renderDrinkMenu } from "../util/helperMethods";
 import { createRoot } from "react-dom/client";
 
 'use strict';
