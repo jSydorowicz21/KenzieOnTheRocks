@@ -72,7 +72,7 @@ class LandingPage extends BaseClass {
 
         let name = document.getElementById("create-name-field").value;
         let userId = sessionStorage.getItem("userId");
-        let ingredients = document.getElementById("create-form").querySelectorAll('input:checked');
+        let ingredients = document.getElementById("create-form").querySelectorAll('select');//input:checked
         let ingredientsArray = [];
 
         for (let i = 0; i < ingredients.length; i++) {
@@ -93,7 +93,7 @@ class LandingPage extends BaseClass {
     async onGetFiltered(event) {
         event.preventDefault();
         console.log("Started filtering drinks")
-        let ingredients = document.getElementById("filter-form").querySelectorAll('input:checked');
+        let ingredients = document.getElementById("filter-form").querySelectorAll('select'); //input:checked
         const className = 'drink';
         let ingredientsArray = [];
 

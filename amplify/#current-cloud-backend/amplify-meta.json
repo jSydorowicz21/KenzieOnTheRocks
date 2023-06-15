@@ -1,0 +1,154 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kenzieonrocks-kenziedev-144137-authRole",
+      "UnauthRoleArn": "arn:aws:iam::139323093562:role/amplify-kenzieonrocks-kenziedev-144137-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::139323093562:role/amplify-kenzieonrocks-kenziedev-144137-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-kenzieonrocks-kenziedev-144137-deployment",
+      "UnauthRoleName": "amplify-kenzieonrocks-kenziedev-144137-unauthRole",
+      "StackName": "amplify-kenzieonrocks-kenziedev-144137",
+      "StackId": "arn:aws:cloudformation:us-east-1:139323093562:stack/amplify-kenzieonrocks-kenziedev-144137/c88511a0-ec56-11ed-8629-0a4f1311caad",
+      "AmplifyAppId": "dwx2b6q7vdhxz"
+    }
+  },
+  "api": {
+    "kenzieonrocks": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "kenzieonrocks95f3ee3c"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authkenzieonrocks95f3ee3c"
+              }
+            }
+          ],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        },
+        "GraphQLAPIIdOutput": "nougzuxofjhqjgh2owtfahd5bu",
+        "GraphQLAPIEndpointOutput": "https://kmp2lktuqbf4hgwvrm7fmicrve.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-43ougi572fhmvmo5kisppzmq5y"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-kenzieonrocks-kenziedev-144137-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apikenzieonrocks"
+      },
+      "lastPushTimeStamp": "2023-05-06T21:49:53.148Z",
+      "lastPushDirHash": "pHgotuLCmbl9/tNwpB4tGydHZJs="
+    }
+  },
+  "auth": {
+    "kenzieonrocks95f3ee3c": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "PHONE_NUMBER"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-kenzieonrocks-kenziedev-144137-deployment/amplify-cfn-templates/auth/kenzieonrocks95f3ee3c-cloudformation-template.json",
+        "logicalId": "authkenzieonrocks95f3ee3c"
+      },
+      "lastPushTimeStamp": "2023-05-06T21:49:53.148Z",
+      "output": {
+        "CreatedSNSRole": "arn:aws:iam::139323093562:role/sns95f3ee3c144137-kenziedev",
+        "UserPoolId": "us-east-1_lF2iAPMtK",
+        "AppClientIDWeb": "6up9uhptrb35ftfskbf823nc7n",
+        "AppClientID": "3jlj4ddbcvabeolst3213pndkr",
+        "IdentityPoolId": "us-east-1:f6753159-2260-416a-aecb-c37f691ddbf7",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:139323093562:userpool/us-east-1_lF2iAPMtK",
+        "IdentityPoolName": "kenzieonrocks95f3ee3c_identitypool_95f3ee3c__kenziedev",
+        "UserPoolName": "kenzieonrocks95f3ee3c_userpool_95f3ee3c"
+      },
+      "lastPushDirHash": "XM8Bvb8CAyZ8jze0D6+5UxtyOj0="
+    },
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "kenzieonrocks95f3ee3c",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ]
+        }
+      ],
+      "service": "Cognito-UserPool-Groups",
+      "lastPushTimeStamp": "2023-05-06T21:49:53.148Z",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-kenzieonrocks-kenziedev-144137-deployment/amplify-cfn-templates/auth/userPoolGroups-cloudformation-template.json",
+        "logicalId": "authuserPoolGroups"
+      },
+      "output": {
+        "AdminGroupRole": "arn:aws:iam::139323093562:role/us-east-1_lF2iAPMtK-AdminGroupRole"
+      },
+      "lastPushDirHash": "5G4uAlMxN8rsFD1jyeLTya9ahFM="
+    }
+  },
+  "function": {
+    "myLambda": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2023-05-06T21:44:25.812Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2023-05-06T21:44:25.851Z",
+      "distZipFilename": "myLambda-446c47447373794d5879-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-kenzieonrocks-kenziedev-144137-deployment",
+        "s3Key": "amplify-builds/myLambda-446c47447373794d5879-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-kenzieonrocks-kenziedev-144137-deployment/amplify-cfn-templates/function/myLambda-cloudformation-template.json",
+        "logicalId": "functionmyLambda"
+      },
+      "lastPushTimeStamp": "2023-05-06T21:49:53.148Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::139323093562:role/kenzieonrocksLambdaRolec05c20a8-kenziedev",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:139323093562:function:myLambda-kenziedev",
+        "Name": "myLambda-kenziedev",
+        "LambdaExecutionRole": "kenzieonrocksLambdaRolec05c20a8-kenziedev"
+      },
+      "lastPushDirHash": "Rx3g6nLU04qo1ZxdO7ZzPRaNOwo="
+    }
+  }
+}

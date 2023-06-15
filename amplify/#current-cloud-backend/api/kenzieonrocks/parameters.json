@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "kenzieonrocks",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authkenzieonrocks95f3ee3c",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
