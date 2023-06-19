@@ -3,14 +3,13 @@ import DrinkClient from "../api/drinkClient";
 import UserClient from "../api/userClient";
 import {createRoot} from "react-dom/client";
 import React from "react";
-
 /**
  * Logic needed for the view playlist page of the website.
  */
 class DrinkPage extends BaseClass {
     constructor() {
         super();
-        this.bindClassMethods(['update', 'delete', 'addToList'], this);
+        this.bindClassMethods(['onGet','update', 'erase', 'addToList'], this);
         this.drinkClient = new DrinkClient();
         this.userClient = new UserClient();
     }
@@ -32,17 +31,24 @@ class DrinkPage extends BaseClass {
         this.render(drink, root);
 
         document.getElementById('update').addEventListener('click', this.update);
-        document.getElementById('delete').addEventListener('click', this.delete);
+        document.getElementById('erase').addEventListener('click', this.erase);
         document.getElementById('add').addEventListener('click', this.addToList);
     }
 
-    async update(event) {
+     async onGet() {
+            console.log("Getting a drink");
+            const className = 'drink';
+            const root = createRoot(document.getElementById("drink-info"));
+            getAndRenderDrinks(root, drinks, className);
+        }
+
+     async update(event) {
         event.preventDefault();
 
-        let userId = sessionStorage.getItem('userId');
-        let drinkId = sessionStorage.getItem('drinkId');
-        let drinkName = document.getElementById('update-name-field').value;
-        let ingredients = document.querySelectorAll('input:checked');
+        let userId = sessionStorage.getItem("userId");
+        let drinkId = sessionStorage.getItem("drinkId");
+        let drinkName = document.getElementById("update-name-field").value;
+        let ingredients = document.querySelectorAll("select");
 
         //toggle the update window
 
@@ -65,10 +71,11 @@ class DrinkPage extends BaseClass {
         }
     }
 
-    async delete(event) {
+    async erase(event) {
         event.preventDefault();
         this.showMessage("Attempting to delete drink please wait...");
-        let drinkId = sessionStorage.getItem('drinkId');
+        let drinkId = sessionStorage.getItem("drinkId");
+        console.log("drinkId");
         let result = await this.drinkClient.deleteDrink(drinkId);
 
         if(result != null) {
@@ -83,10 +90,10 @@ class DrinkPage extends BaseClass {
 
     async addToList(event) {
         event.preventDefault();
-        let userId = sessionStorage.getItem('userId');
-        let drinkId = sessionStorage.getItem('drinkId');
-        let drinkName = sessionStorage.getItem('drinkName');
-        let ingredients = sessionStorage.getItem('ingredients');
+        let userId = sessionStorage.getItem("userId");
+        let drinkId = sessionStorage.getItem("drinkId");
+        let drinkName = sessionStorage.getItem("drinkName");
+        let ingredients = sessionStorage.getItem("ingredients");
 
         const drink = {
             userId: userId,
@@ -109,12 +116,12 @@ class DrinkPage extends BaseClass {
     }
 
     render(drink, root) {
-        let html = (<div class = "drink"> <h1>Drink Name</h1>
-        <h1>{drink.name}</h1>
-        <p><label>Ingredients</label></p>
-        <div id="drinkvalues">{drink.ingredients}</div>
-        <button id="update"> Edit</button>
-        <button id="delete">Delete</button> </div>);
+        let html = (
+        <div class = "drink">
+            <h1>Drink Name: {drink.name}</h1>
+            <h3>Ingredients: </h3>
+            <div id="drinkvalues">{drink.ingredients}</div>
+        </div>);
         root.render(html);
     }
 }
